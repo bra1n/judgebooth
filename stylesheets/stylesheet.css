@@ -70,6 +70,7 @@ h1 {
   border-radius: 10px;
   box-shadow: 0 0 8px #888;
   margin-bottom: 10px;
+  max-width: 225px;
 }
 
 div.question, div.answer { 
