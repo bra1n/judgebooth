@@ -85,6 +85,7 @@ h1 {
   vertical-align: middle;
   text-align: center;
   font-weight: bold;
+  line-height: 250%;
 }
 
 .card img { 
@@ -92,7 +93,6 @@ h1 {
   max-height: 90%;
   border-radius: 10px;
   box-shadow: 0 0 8px #888;
-  margin-bottom: 10px;
   display: block;
   margin: auto;
   cursor: pointer;
