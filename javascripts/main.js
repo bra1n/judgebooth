@@ -45,6 +45,17 @@ $(function(){
   $('button.next').on('click',function(){
     showQuestion(Math.round(Math.random()*(questions.length-1))+1);
   });
+  $('.cards').on('click','img',function(){
+    if($(this).width()>=220) return false;
+    $(this).clone().appendTo('body').addClass('fullcard').css({
+      left: $(this).offset().left - (223 - $(this).width())/2,
+      top: $(this).offset().top - (310 - $(this).height())/2
+    }).fadeIn().on('click',function(){
+      $(this).fadeOut(function(){
+        $(this).remove();
+      });
+    });;
+  });
   $('.menu .print').on('click',function(){
     if(confirm("Are you sure? This will take several seconds per sheet to generate!")) {
       $('.buttons,.menu').hide();
@@ -79,6 +90,7 @@ var showQuestion = function(index) {
     index = current+1;
   }
   if(index != current && questions[index] != null) {
+    $('.fullcard').remove();
     $('.content').fadeOut(400, function(){
       current = parseInt(index,10);
       window.location.hash = index;

@@ -28,6 +28,12 @@ html { height: 100%; }
   padding: 20px 0;
 }
 
+.fullcard {
+  position: absolute;
+  display: none;
+  cursor: pointer;
+}
+
 hr {
   border-top: 4px solid silver;
   border-bottom: none;
@@ -86,6 +92,7 @@ h1 {
   margin-bottom: 10px;
   display: block;
   margin: auto;
+  cursor: pointer;
 }
 
 div.question, div.answer { 
