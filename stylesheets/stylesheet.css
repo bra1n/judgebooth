@@ -49,8 +49,6 @@ hr.bottom {
   position: absolute;
   top: -38px;
   left: 30px;
-  padding: 0 10px;
-  background: white;
   margin-top: 4%;
 }
 h1 { 
@@ -66,8 +64,11 @@ h1 {
 
 .cards { 
   text-align: center; 
-  height: 50%;
+  height: 45%;
   white-space: nowrap;
+  transition: height 500ms; 
+  -moz-transition: height 500ms;
+  -webkit-transition: height 500ms;
 }
 
 .valign {
@@ -79,6 +80,7 @@ h1 {
 
 .card {
   width: 20%;
+  max-height: 100%;
   display: inline-block;
   vertical-align: middle;
   text-align: center;
@@ -87,12 +89,21 @@ h1 {
 
 .card img { 
   max-width: 90%;
+  max-height: 90%;
   border-radius: 10px;
   box-shadow: 0 0 8px #888;
   margin-bottom: 10px;
   display: block;
   margin: auto;
   cursor: pointer;
+}
+
+div.text {
+  max-height: 32%;
+  overflow: hidden;
+  transition: all 500ms; 
+  -moz-transition: all 500ms;
+  -webkit-transition: all 500ms;
 }
 
 div.question, div.answer { 
@@ -105,12 +116,23 @@ div.question, div.answer {
 .question b, .answer b { color:red; }
 div.answer { 
   color: green; 
-  display: none; 
+  opacity: 0;
+  transition: all 500ms; 
+  -moz-transition: all 500ms;
+  -webkit-transition: all 500ms;
 }
+.content.show-answer div.text { max-height: 50%; }
+.content.show-answer div.answer { opacity: 1; }
+.content.show-answer div.cards { height: 30%; }
 
 .author { 
-  font-style: italic; 
   color: silver;
+  position: absolute;
+  bottom: -13px;
+  left: 30px;
+  margin-bottom: 3%;
+  padding:5px;
+  background: white;
 }
 
 .buttons {

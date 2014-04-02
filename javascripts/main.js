@@ -40,7 +40,7 @@ $(function(){
     }
   });
   $('button.answer').on('click',function(){
-    $('div.answer').slideToggle();
+    $('.content').toggleClass('show-answer');
   });
   $('button.next').on('click',function(){
     showQuestion(Math.round(Math.random()*(questions.length-1))+1);
@@ -95,7 +95,7 @@ var showQuestion = function(index) {
       current = parseInt(index,10);
       window.location.hash = index;
       renderQuestion(index);
-      $('.content').fadeIn();
+      $('.content').removeClass('show-answer').fadeIn();
     });
   } else {
     console.log("invalid",index);
@@ -127,7 +127,7 @@ function renderQuestion(index) {
     }
   }
   $('.content .question').html(q['Questions']);
-  $('.content div.answer').hide().html(q['Answers']);
+  $('.content div.answer').html(q['Answers']);
 }
 
 function escapeRegExp(str) {
