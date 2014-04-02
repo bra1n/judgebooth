@@ -14,10 +14,21 @@ $(function(){
         }
         temp[cell['gs$cell'].row][cell['gs$cell'].col] = cell['gs$cell']['$t'];
       }
-      // filter invalid
+      // create questions table and filter invalid
+      var map = [];
       for(var x = 0, y = temp.length; x < y; x++) {
-        if(temp[x] != undefined && temp[x][2] != null && temp[x][2].toLowerCase().replace(/ /g,"") == "done") {
-          questions.push(temp[x]);
+        if(x == 1) {
+          for(var column = 0; column < temp[x].length; column++) {
+            if(temp[x][column] != undefined) map[column] = temp[x][column];
+          }
+        } else if(temp[x] != undefined) {
+          var question = {};
+          for(var column = 0; column < temp[x].length; column++) {
+            if(temp[x][column] != undefined) question[map[column]] = temp[x][column];
+          }
+          if(question.Sheeted != null && question.Sheeted.toLowerCase().replace(/ /g,"") == "done") {
+            questions.push(question);  
+          }
         }
       }
       $('.loading').fadeOut();
@@ -29,11 +40,34 @@ $(function(){
     }
   });
   $('button.answer').on('click',function(){
-    $(this).addClass('hidden');
-    $('div.answer').slideDown();
+    $('div.answer').slideToggle();
   });
   $('button.next').on('click',function(){
     showQuestion(Math.round(Math.random()*(questions.length-1))+1);
+  });
+  $('.menu .print').on('click',function(){
+    if(confirm("Are you sure? This will take several seconds per sheet to generate!")) {
+      $('.buttons,.menu').hide();
+      $('.loading').fadeIn();
+      var last = 0;
+      for(var x=0;x<questions.length;x++) {
+        if(questions[x]) {
+          last = x;
+          (function(x) {
+            setTimeout(function(){
+              $('.loading').text("Rendering question "+(x+1)+" of "+(questions.length)+"...");
+              renderQuestion(x);
+              $('.content').clone().toggleClass('content copy').appendTo('body');  
+              if(x == last) {
+                $('.content').remove();
+                $('.loading').fadeOut();
+                alert("Done! You can print the sheets now...");
+              }
+            },x*1000);
+          })(x);
+        }
+      }  
+    }
   });
   $(window).on('hashchange', function(){
     showQuestion(window.location.hash.substr(1));
@@ -48,35 +82,40 @@ var showQuestion = function(index) {
     $('.content').fadeOut(400, function(){
       current = parseInt(index,10);
       window.location.hash = index;
-      var q = questions[index];
-      $('h1').text("Judge Booth: Question "+q[1]);
-      $('button.answer').removeClass('hidden');
-      if(q[11] != null) {
-        $('.author').show().text("Written by: "+q[11]);  
-      } else {
-        $('.author').hide();
-      }
-      $('.cards').empty();
-      for(var x=0;x<5;x++) {
-        if(q[4+x]) {
-          var code = "<div class='card'>"; 
-          if(q[4+x].match(/([a-z]+) token/i) != null) {
-            code += "<img src='images/"+q[4+x].match(/([a-z]+) token/i)[1].toLowerCase()+".jpg'>";
-          } else {
-            code += "<img src='http://gatherer.wizards.com/Handlers/Image.ashx?type=card&size=small&name="+escape(q[4+x])+"'>";
-          }
-          code += q[4+x];
-          code += "</div>";
-          $('.cards').append(code);
-          q[9] = q[9].replace(new RegExp('('+escapeRegExp(q[4+x])+')','gi'),'<b>$1</b>');
-          q[10] = q[10].replace(new RegExp('('+escapeRegExp(q[4+x])+')','gi'),'<b>$1</b>');
-        }
-      }
-      $('.question').html(q[9]);
-      $('div.answer').hide().html(q[10]);
+      renderQuestion(index);
       $('.content').fadeIn();
     });
-  } else console.log("invalid",index);
+  } else {
+    console.log("invalid",index);
+  }
+}
+
+function renderQuestion(index) {
+  var q = questions[index];
+  $('.content h1').text("Judge Booth: Question "+q['Number']);
+  if(q['Author'] != null) {
+    $('.content .author').show().text("Written by: "+q['Author']);  
+  } else {
+    $('.content .author').hide();
+  }
+  $('.content .cards .card').remove();
+  for(var x=1;x<=5;x++) {
+    if(q['Card '+x]) {
+      var code = "<div class='card'>"; 
+      if(q['Card '+x].match(/([a-z]+) token/i) != null) {
+        code += "<img src='images/"+q['Card '+x].match(/([a-z]+) token/i)[1].toLowerCase()+".jpg'>";
+      } else {
+        code += "<img src='http://gatherer.wizards.com/Handlers/Image.ashx?type=card&size=small&name="+escape(q['Card '+x])+"'>";
+      }
+      code += q['Card '+x];
+      code += "</div>";
+      $('.content .cards').append(code);
+      q['Questions'] = q['Questions'].replace(new RegExp('('+escapeRegExp(q['Card '+x])+')','gi'),'<b>$1</b>');
+      q['Answers'] = q['Answers'].replace(new RegExp('('+escapeRegExp(q['Card '+x])+')','gi'),'<b>$1</b>');
+    }
+  }
+  $('.content .question').html(q['Questions']);
+  $('.content div.answer').hide().html(q['Answers']);
 }
 
 function escapeRegExp(str) {

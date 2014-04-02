@@ -7,7 +7,7 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
     <script type="text/javascript" src="javascripts/main.js"></script>
     <link href='http://fonts.googleapis.com/css?family=Oswald:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+    <link rel="stylesheet" type="text/css" media="screen, print" href="stylesheets/stylesheet.css">
     <title>Interactive Judgebooth</title>
   </head>
   <body>
@@ -16,15 +16,20 @@
       <hr>
       <img class="logo" src="images/logo.jpg" alt="">
 	  	<h1></h1>
-	  	<div class="cards"></div>
+	  	<div class="cards">
+        <div class="valign"></div>  
+      </div>
       <div class="question"></div>
 	  	<div class="answer"></div>
 	  	<div class="author"></div>
-      <hr>
+      <hr class="bottom">
       <div class="buttons">
 	  	  <button class="answer">Answer</button>
 	  	  <button class="next">Next</button>
       </div>
+			<div class="menu">
+				<span class="print">Print</span>
+				<span class="Offline">Offline</span>
   	</div>
   </body>
 </html>
