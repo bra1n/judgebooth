@@ -72,7 +72,7 @@ $(function(){
               if(x == last) {
                 $('.content').remove();
                 $('.loading').fadeOut();
-                alert("Done! You can print the sheets now...");
+                window.print();
               }
             },x*1000);
           })(x);
