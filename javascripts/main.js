@@ -1,6 +1,7 @@
 var spreadsheet = 'https://spreadsheets.google.com/feeds/cells/0Aig7p68d7NwYdFdhVVNHXzdDQ0Qwd0U3R0FNbkd6Ync/oda/public/values?alt=json-in-script&callback=?',
-    temp = []
-    questions = []
+    temp = [],
+    questions = [],
+    questionMap = [],
     current = 0;
 $(function(){
   var cell;
@@ -27,13 +28,14 @@ $(function(){
             if(temp[x][column] != undefined) question[map[column]] = temp[x][column];
           }
           if(question.Sheeted != null && question.Sheeted.toLowerCase().replace(/ /g,"") == "done") {
-            questions.push(question);  
+            questionMap[question['Number']] = questions.length;
+            questions.push(question);
           }
         }
       }
       $('.loading').fadeOut();
-      if(window.location.hash) {
-        showQuestion(window.location.hash.substr(1));
+      if(window.location.hash && questionMap[window.location.hash.substr(1)] != undefined) {
+        showQuestion(questionMap[window.location.hash.substr(1)]);
       } else {
         $('button.next').click();
       }
@@ -46,10 +48,9 @@ $(function(){
     showQuestion(Math.round(Math.random()*(questions.length-1))+1);
   });
   $('.cards').on('click','img',function(){
-    if($(this).width()>=220) return false;
     $(this).clone().appendTo('body').addClass('fullcard').css({
-      left: $(this).offset().left - (223 - $(this).width())/2,
-      top: $(this).offset().top - (310 - $(this).height())/2
+      left: $(this).offset().left - (480 - $(this).width())/2,
+      top: $(this).offset().top - (680 - $(this).height())/2
     }).fadeIn().on('click',function(){
       $(this).fadeOut(function(){
         $(this).remove();
@@ -81,7 +82,9 @@ $(function(){
     }
   });
   $(window).on('hashchange', function(){
-    showQuestion(window.location.hash.substr(1));
+    if(questionMap[window.location.hash.substr(1)] != undefined) {
+      showQuestion(questionMap[window.location.hash.substr(1)]);  
+    }
   });
 });
 
@@ -93,7 +96,7 @@ var showQuestion = function(index) {
     $('.fullcard').remove();
     $('.content').fadeOut(400, function(){
       current = parseInt(index,10);
-      window.location.hash = index;
+      window.location.hash = questions[index]['Number'];
       renderQuestion(index);
       $('.content').removeClass('show-answer').fadeIn();
     });
@@ -117,7 +120,7 @@ function renderQuestion(index) {
       if(q['Card '+x].match(/([a-z]+) token/i) != null) {
         code += "<img src='images/"+q['Card '+x].match(/([a-z]+) token/i)[1].toLowerCase()+".jpg'>";
       } else {
-        code += "<img src='http://gatherer.wizards.com/Handlers/Image.ashx?type=card&size=small&name="+escape(q['Card '+x])+"'>";
+        code += "<img src='http://mtgimage.com/card/"+escape(q['Card '+x].replace(/\/\/ /,''))+".jpg'>";
       }
       code += q['Card '+x];
       code += "</div>";
