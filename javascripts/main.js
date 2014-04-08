@@ -49,8 +49,8 @@ $(function(){
   });
   $('.cards').on('click','img',function(){
     $(this).clone().appendTo('body').addClass('fullcard').css({
-      left: $(this).offset().left - (480 - $(this).width())/2,
-      top: $(this).offset().top - (680 - $(this).height())/2
+      left: $(this).offset().left - (400 - $(this).width())/2,
+      top: Math.max(10,$(this).offset().top - (567 - $(this).height())/2)
     }).fadeIn().on('click',function(){
       $(this).fadeOut(function(){
         $(this).remove();
