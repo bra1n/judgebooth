@@ -1,43 +1,51 @@
-var spreadsheet = 'https://spreadsheets.google.com/feeds/cells/0Aig7p68d7NwYdFdhVVNHXzdDQ0Qwd0U3R0FNbkd6Ync/oda/public/values?alt=json-in-script&callback=?',
+var spreadsheet = 'javascripts/questions.js',
     temp = [],
     questions = [],
     questionMap = [],
-    current = 0;
+    current = 0,
+    offline = !navigator.onLine;
 $(function(){
   var cell;
-	$.getJSON(spreadsheet, function(data){
-    if(data.feed.entry.length > 0) {
-      // parse questions
-      for(var x = 0, y = data.feed.entry.length; x < y; x++) {
-        cell = data.feed.entry[x];
-        if(temp[cell['gs$cell'].row] == null) {
-          temp[cell['gs$cell'].row] = [];
+	$.ajax({
+    url: offline ? spreadsheet : 'https://spreadsheets.google.com/feeds/cells/0Aig7p68d7NwYdFdhVVNHXzdDQ0Qwd0U3R0FNbkd6Ync/oda/public/values?alt=json-in-script&callback=?',
+    dataType: "jsonp",
+    jsonp: "callback",
+    cache: "true",
+    jsonpCallback: 'jsoncallback',
+    success: function(data){
+      if(data.feed.entry.length > 0) {
+        // parse questions
+        for(var x = 0, y = data.feed.entry.length; x < y; x++) {
+          cell = data.feed.entry[x];
+          if(temp[cell['gs$cell'].row] == null) {
+            temp[cell['gs$cell'].row] = [];
+          }
+          temp[cell['gs$cell'].row][cell['gs$cell'].col] = cell['gs$cell']['$t'].trim();
         }
-        temp[cell['gs$cell'].row][cell['gs$cell'].col] = cell['gs$cell']['$t'];
-      }
-      // create questions table and filter invalid
-      var map = [];
-      for(var x = 0, y = temp.length; x < y; x++) {
-        if(x == 1) {
-          for(var column = 0; column < temp[x].length; column++) {
-            if(temp[x][column] != undefined) map[column] = temp[x][column];
-          }
-        } else if(temp[x] != undefined) {
-          var question = {};
-          for(var column = 0; column < temp[x].length; column++) {
-            if(temp[x][column] != undefined) question[map[column]] = temp[x][column];
-          }
-          if(question.Sheeted != null && question.Sheeted.toLowerCase().replace(/ /g,"") == "done") {
-            questionMap[question['Number']] = questions.length;
-            questions.push(question);
+        // create questions table and filter invalid
+        var map = [];
+        for(var x = 0, y = temp.length; x < y; x++) {
+          if(x == 1) {
+            for(var column = 0; column < temp[x].length; column++) {
+              if(temp[x][column] != undefined) map[column] = temp[x][column];
+            }
+          } else if(temp[x] != undefined) {
+            var question = {};
+            for(var column = 0; column < temp[x].length; column++) {
+              if(temp[x][column] != undefined) question[map[column]] = temp[x][column];
+            }
+            if(question.Sheeted != null && question.Sheeted.toLowerCase().replace(/ /g,"") == "done") {
+              questionMap[question['Number']] = questions.length;
+              questions.push(question);
+            }
           }
         }
-      }
-      $('.loading').fadeOut();
-      if(window.location.hash && questionMap[window.location.hash.substr(1)] != undefined) {
-        showQuestion(questionMap[window.location.hash.substr(1)]);
-      } else {
-        $('button.next').click();
+        $('.loading').fadeOut();
+        if(window.location.hash && questionMap[window.location.hash.substr(1)] != undefined) {
+          showQuestion(questionMap[window.location.hash.substr(1)]);
+        } else {
+          $('button.next').click();
+        }
       }
     }
   });
@@ -55,8 +63,9 @@ $(function(){
       $(this).fadeOut(function(){
         $(this).remove();
       });
-    });;
+    });
   });
+  // print mode
   $('.menu .print').on('click',function(){
     if(confirm("Are you sure? This will take several seconds per sheet to generate!")) {
       $('.buttons,.menu').hide();
@@ -81,12 +90,53 @@ $(function(){
       }  
     }
   });
+  // offline mode
+  /*$('.menu .offline').on('click', function(){
+    if(!$(this).hasClass('active') && confirm("Are you sure? This can take some minutes to download all data!")) {
+      var cards = [];
+      for(var x=0;x<questions.length;x++) {
+        if(questions[x]) {
+          for(var y=1;y<=5;y++) {
+            if(questions[x]['Card '+y]) {
+              var card = questions[x]['Card '+y].replace(/\/\/ /,'').toLowerCase();
+              if(card.match(/([a-z]+) token/i) === null && cards.indexOf(card) == -1) {
+                cards.push(card);
+              }              
+            }
+          }
+        }
+      }
+      if(cards.length) {
+        cards.sort();
+        var container = $("<div></div>").appendTo('body');
+        for(var x=0;x<cards.length;x++) {
+          container.append('<div>http://mtgimage.com/card/'+escape(cards[x].replace(/\/\/ /,''))+'.jpg</div>');
+        }
+      }
+    }
+  });*/
+  updateOfflineStatus();
+  applicationCache.addEventListener('progress', function(e) {
+    $('.menu .offline').text("Offline ("+Math.round(e.loaded/ e.total*100)+"%)");
+  }, false);
+  applicationCache.addEventListener("error", function(e) { offline = true; updateOfflineStatus(); });
+  applicationCache.addEventListener('cached', updateOfflineStatus, false);
+  applicationCache.addEventListener('updateready', updateOfflineStatus, false);
+  applicationCache.addEventListener('noupdate', updateOfflineStatus, false);
+
+
+  // hash logic
   $(window).on('hashchange', function(){
-    if(questionMap[window.location.hash.substr(1)] != undefined) {
+    if(questionMap[window.location.hash.substr(1)] != undefined && questionMap[window.location.hash.substr(1)] != current) {
       showQuestion(questionMap[window.location.hash.substr(1)]);  
     }
   });
 });
+
+var updateOfflineStatus = function() {
+  $('.menu .offline').attr('class','offline').toggleClass('active',offline).addClass('cache-'+applicationCache.status);
+  if(applicationCache.status == applicationCache.IDLE) $('.menu .offline').text("Offline (100%)");
+};
 
 var showQuestion = function(index) {
   if(index == null) {
@@ -103,7 +153,7 @@ var showQuestion = function(index) {
   } else {
     console.log("invalid",index);
   }
-}
+};
 
 function renderQuestion(index) {
   var q = questions[index];
@@ -120,7 +170,7 @@ function renderQuestion(index) {
       if(q['Card '+x].match(/([a-z]+) token/i) != null) {
         code += "<img src='images/"+q['Card '+x].match(/([a-z]+) token/i)[1].toLowerCase()+".jpg'>";
       } else {
-        code += "<img src='http://mtgimage.com/card/"+escape(q['Card '+x].replace(/\/\/ /,''))+".jpg'>";
+        code += "<img crossorigin='anonymous' src='http://mtgimage.com/card/"+escape(q['Card '+x].replace(/\/\/ /,'').toLowerCase())+".jpg'>";
       }
       code += q['Card '+x];
       code += "</div>";

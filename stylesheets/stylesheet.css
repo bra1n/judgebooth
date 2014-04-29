@@ -176,6 +176,14 @@ button.hidden { opacity: 0; }
   color: silver;
 }
 
+.menu span.offline.cache-4,
+.menu span.offline.cache-1 { color: green; }
+.menu span.offline.cache-3 { color: orange; }
+.menu span.offline.cache-0,
+.menu span.offline.active { color: red; }
+.menu span.offline.active.cache-1,
+.menu span.offline.active.cache-4 { color: blue; }
+
 @media print {
   @page {
     size: landscape; 
