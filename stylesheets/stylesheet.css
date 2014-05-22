@@ -184,6 +184,13 @@ button.hidden { opacity: 0; }
 .menu span.offline.active.cache-1,
 .menu span.offline.active.cache-4 { color: blue; }
 
+iframe {
+  height: 0;
+  width: 0;
+  border: none;
+  visibility: hidden;
+}
+
 @media print {
   @page {
     size: landscape; 

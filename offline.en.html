@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html manifest="manifest.appcache">
+  <head>
+    <title></title>
+    <script language="JavaScript" type="text/javascript">
+      applicationCache.addEventListener('progress', parent.cacheProgress, false);
+      applicationCache.addEventListener("error", parent.updateOfflineStatus );
+      applicationCache.addEventListener('cached', parent.updateOfflineStatus, false);
+      applicationCache.addEventListener('updateready', parent.updateOfflineStatus, false);
+      applicationCache.addEventListener('noupdate', parent.updateOfflineStatus, false);
+    </script>
+  </head>
+  <body></body>
+</html>

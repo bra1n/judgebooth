@@ -1,6 +1,13 @@
 CACHE MANIFEST
-# Version 1.24
+# Version 1.26
 CACHE:
+index.html
+javascripts/main.js
+javascripts/jquery-2.1.1.min.js
+stylesheets/stylesheet.css
+http://fonts.googleapis.com/css?family=Oswald:400,700
+http://themes.googleusercontent.com/static/fonts/oswald/v8/-g5pDUSRgvxvOl5u-a_WHw.woff
+http://themes.googleusercontent.com/static/fonts/oswald/v8/bH7276GfdCjMjApa_dkG6T8E0i7KZn-EPnyo3HZu7kw.woff
 images/angel.jpg
 images/beast.jpg
 images/card.jpg
@@ -12,22 +19,20 @@ images/spirit.jpg
 images/vampire.jpg
 images/wolf.jpg
 images/wurm.jpg
-javascripts/main.js
-stylesheets/stylesheet.css
-http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js
-http://fonts.googleapis.com/css?family=Oswald:400,700
-http://themes.googleusercontent.com/static/fonts/oswald/v8/-g5pDUSRgvxvOl5u-a_WHw.woff
-http://themes.googleusercontent.com/static/fonts/oswald/v8/bH7276GfdCjMjApa_dkG6T8E0i7KZn-EPnyo3HZu7kw.woff
+images/soldier.jpg
 # question list
 javascripts/questions.js?callback=jsoncallback
 # card images
 http://mtgimage.com/card/academy%20raider.jpg
+http://mtgimage.com/card/aerial%20formation.jpg
 http://mtgimage.com/card/aetherling.jpg
 http://mtgimage.com/card/aggravate.jpg
 http://mtgimage.com/card/agoraphobia.jpg
 http://mtgimage.com/card/ajani%27s%20sunstriker.jpg
 http://mtgimage.com/card/ajani%2C%20caller%20of%20the%20pride.jpg
+http://mtgimage.com/card/ajani%2C%20mentor%20of%20heroes.jpg
 http://mtgimage.com/card/akroan%20crusader.jpg
+http://mtgimage.com/card/akroan%20skyguard.jpg
 http://mtgimage.com/card/alchemist%27s%20refuge.jpg
 http://mtgimage.com/card/alms%20beast.jpg
 http://mtgimage.com/card/alpha%20authority.jpg
@@ -38,6 +43,7 @@ http://mtgimage.com/card/angel%27s%20tomb.jpg
 http://mtgimage.com/card/angelic%20accord.jpg
 http://mtgimage.com/card/annihilating%20fire.jpg
 http://mtgimage.com/card/annul.jpg
+http://mtgimage.com/card/aqueous%20form.jpg
 http://mtgimage.com/card/arbor%20elf.jpg
 http://mtgimage.com/card/archangel%20of%20thune.jpg
 http://mtgimage.com/card/archdemon%20of%20greed.jpg
@@ -47,15 +53,19 @@ http://mtgimage.com/card/arrest.jpg
 http://mtgimage.com/card/artful%20dodge.jpg
 http://mtgimage.com/card/artisan%20of%20forms.jpg
 http://mtgimage.com/card/ashiok%2C%20nightmare%20weaver.jpg
+http://mtgimage.com/card/athreos%2C%20god%20of%20passage.jpg
 http://mtgimage.com/card/auger%20spree.jpg
 http://mtgimage.com/card/aurelia%27s%20fury.jpg
 http://mtgimage.com/card/avacyn%27s%20collar.jpg
 http://mtgimage.com/card/aven%20squire.jpg
+http://mtgimage.com/card/azorius%20charm.jpg
 http://mtgimage.com/card/azorius%20keyrune.jpg
 http://mtgimage.com/card/baleful%20eidolon.jpg
 http://mtgimage.com/card/bane%20alley%20blackguard.jpg
 http://mtgimage.com/card/bane%20alley%20broker.jpg
+http://mtgimage.com/card/banishing%20light.jpg
 http://mtgimage.com/card/battering%20krasis.jpg
+http://mtgimage.com/card/battlefield%20thaumaturge.jpg
 http://mtgimage.com/card/battleflight%20eagle.jpg
 http://mtgimage.com/card/battlewise%20hoplite.jpg
 http://mtgimage.com/card/battlewise%20valor.jpg
@@ -63,6 +73,7 @@ http://mtgimage.com/card/bear%20cub.jpg
 http://mtgimage.com/card/beckon%20apparition.jpg
 http://mtgimage.com/card/beguiler%20of%20wills.jpg
 http://mtgimage.com/card/blaze%20commando.jpg
+http://mtgimage.com/card/blind%20obedience.jpg
 http://mtgimage.com/card/blood%20baron%20of%20vizkopa.jpg
 http://mtgimage.com/card/blood%20moon.jpg
 http://mtgimage.com/card/blood%20scrivener.jpg
@@ -70,6 +81,7 @@ http://mtgimage.com/card/bloodline%20keeper.jpg
 http://mtgimage.com/card/blur%20sliver.jpg
 http://mtgimage.com/card/boneyard%20wurm.jpg
 http://mtgimage.com/card/bonfire%20of%20the%20damned.jpg
+http://mtgimage.com/card/boon%20satyr.jpg
 http://mtgimage.com/card/boros%20charm.jpg
 http://mtgimage.com/card/boros%20guildgate.jpg
 http://mtgimage.com/card/boros%20reckoner.jpg
@@ -87,6 +99,7 @@ http://mtgimage.com/card/cathedral%20of%20war.jpg
 http://mtgimage.com/card/cavern%20of%20souls.jpg
 http://mtgimage.com/card/chained%20to%20the%20rocks.jpg
 http://mtgimage.com/card/chandra%27s%20outrage.jpg
+http://mtgimage.com/card/charging%20badger.jpg
 http://mtgimage.com/card/chronicler%20of%20heroes.jpg
 http://mtgimage.com/card/cinder%20elemental.jpg
 http://mtgimage.com/card/circle%20of%20protection%3A%20red.jpg
@@ -102,7 +115,9 @@ http://mtgimage.com/card/cremate.jpg
 http://mtgimage.com/card/crippling%20chill.jpg
 http://mtgimage.com/card/crocanura.jpg
 http://mtgimage.com/card/crowned%20ceratok.jpg
+http://mtgimage.com/card/cruel%20feeding.jpg
 http://mtgimage.com/card/crypt%20incursion.jpg
+http://mtgimage.com/card/crystalline%20nautilus.jpg
 http://mtgimage.com/card/culling%20mark.jpg
 http://mtgimage.com/card/curse%20of%20bloodletting.jpg
 http://mtgimage.com/card/curse%20of%20the%20swine.jpg
@@ -114,7 +129,9 @@ http://mtgimage.com/card/death%20cultist.jpg
 http://mtgimage.com/card/deathbellow%20raider.jpg
 http://mtgimage.com/card/delver%20of%20secrets.jpg
 http://mtgimage.com/card/desperate%20ravings.jpg
+http://mtgimage.com/card/desperate%20stand.jpg
 http://mtgimage.com/card/devour%20flesh.jpg
+http://mtgimage.com/card/dictate%20of%20the%20twin%20gods.jpg
 http://mtgimage.com/card/dimir%20keyrune.jpg
 http://mtgimage.com/card/dinrova%20horror.jpg
 http://mtgimage.com/card/dismiss%20into%20dream.jpg
@@ -130,6 +147,8 @@ http://mtgimage.com/card/druid%27s%20familiar.jpg
 http://mtgimage.com/card/dryad%20militant.jpg
 http://mtgimage.com/card/duskmantle%20seer.jpg
 http://mtgimage.com/card/dying%20wish.jpg
+http://mtgimage.com/card/eidolon%20of%20blossoms.jpg
+http://mtgimage.com/card/eidolon%20of%20the%20great%20revel.jpg
 http://mtgimage.com/card/elbrus%2C%20the%20binding%20blade.jpg
 http://mtgimage.com/card/elderscale%20wurm.jpg
 http://mtgimage.com/card/elite%20inquisitor.jpg
@@ -147,8 +166,10 @@ http://mtgimage.com/card/exquisite%20blood.jpg
 http://mtgimage.com/card/fabled%20hero.jpg
 http://mtgimage.com/card/faith%27s%20reward.jpg
 http://mtgimage.com/card/falkenrath%20torturer.jpg
+http://mtgimage.com/card/fate%20unraveler.jpg
 http://mtgimage.com/card/fathom%20mage.jpg
 http://mtgimage.com/card/felhide%20minotaur.jpg
+http://mtgimage.com/card/felhide%20spiritbinder.jpg
 http://mtgimage.com/card/feral%20animist.jpg
 http://mtgimage.com/card/fiend%20of%20the%20shadows.jpg
 http://mtgimage.com/card/fire%20servant.jpg
@@ -163,6 +184,7 @@ http://mtgimage.com/card/flitterstep%20eidolon.jpg
 http://mtgimage.com/card/floodtide%20serpent.jpg
 http://mtgimage.com/card/fluxcharger.jpg
 http://mtgimage.com/card/forest.jpg
+http://mtgimage.com/card/forsaken%20drifters.jpg
 http://mtgimage.com/card/fortify.jpg
 http://mtgimage.com/card/frightful%20delusion.jpg
 http://mtgimage.com/card/frontline%20medic.jpg
@@ -183,6 +205,7 @@ http://mtgimage.com/card/glorious%20charge.jpg
 http://mtgimage.com/card/goblin%20arsonist.jpg
 http://mtgimage.com/card/goblin%20electromancer.jpg
 http://mtgimage.com/card/godless%20shrine.jpg
+http://mtgimage.com/card/gods%20willing.jpg
 http://mtgimage.com/card/gore-house%20chainwalker.jpg
 http://mtgimage.com/card/gray%20merchant%20of%20asphodel.jpg
 http://mtgimage.com/card/gridlock.jpg
@@ -217,6 +240,9 @@ http://mtgimage.com/card/hound%20of%20griselbrand.jpg
 http://mtgimage.com/card/howlpack%20alpha.jpg
 http://mtgimage.com/card/humility.jpg
 http://mtgimage.com/card/huntmaster%20of%20the%20fells.jpg
+http://mtgimage.com/card/hydra%20broodmaster.jpg
+http://mtgimage.com/card/hypnotic%20siren.jpg
+http://mtgimage.com/card/ill-tempered%20cyclops.jpg
 http://mtgimage.com/card/illusionist%27s%20bracers.jpg
 http://mtgimage.com/card/incinerate.jpg
 http://mtgimage.com/card/infinite%20reflection.jpg
@@ -254,12 +280,14 @@ http://mtgimage.com/card/loyal%20cathar.jpg
 http://mtgimage.com/card/loyal%20pegasus.jpg
 http://mtgimage.com/card/madcap%20skills.jpg
 http://mtgimage.com/card/magma%20jet.jpg
+http://mtgimage.com/card/magma%20spray.jpg
 http://mtgimage.com/card/march%20of%20the%20returned.jpg
 http://mtgimage.com/card/master%20biomancer.jpg
 http://mtgimage.com/card/master%20of%20cruelties.jpg
 http://mtgimage.com/card/mausoleum%20guard.jpg
 http://mtgimage.com/card/mayor%20of%20avabruck.jpg
 http://mtgimage.com/card/melek%2C%20izzet%20paragon.jpg
+http://mtgimage.com/card/melira%2C%20sylvok%20outcast.jpg
 http://mtgimage.com/card/merciless%20predator.jpg
 http://mtgimage.com/card/messenger%20drake.jpg
 http://mtgimage.com/card/mikaeus%2C%20the%20unhallowed.jpg
@@ -268,21 +296,25 @@ http://mtgimage.com/card/mistcutter%20hydra.jpg
 http://mtgimage.com/card/mogg%20flunkies.jpg
 http://mtgimage.com/card/moonmist.jpg
 http://mtgimage.com/card/moorland%20haunt.jpg
+http://mtgimage.com/card/mortal%20obstinacy.jpg
 http://mtgimage.com/card/mountain.jpg
 http://mtgimage.com/card/mulch.jpg
 http://mtgimage.com/card/murder.jpg
+http://mtgimage.com/card/murderous%20redcap.jpg
 http://mtgimage.com/card/mutavault.jpg
 http://mtgimage.com/card/mwonvuli%20beast%20tracker.jpg
 http://mtgimage.com/card/mystic%20genesis.jpg
 http://mtgimage.com/card/naturalize.jpg
 http://mtgimage.com/card/nearheath%20pilgrim.jpg
 http://mtgimage.com/card/negate.jpg
+http://mtgimage.com/card/nessian%20asp.jpg
 http://mtgimage.com/card/nessian%20demolok.jpg
 http://mtgimage.com/card/nicol%20bolas%2C%20planeswalker.jpg
 http://mtgimage.com/card/nihil%20spellbomb.jpg
 http://mtgimage.com/card/nivmagus%20elemental.jpg
 http://mtgimage.com/card/norn%27s%20annex.jpg
 http://mtgimage.com/card/notion%20thief.jpg
+http://mtgimage.com/card/nylea%27s%20emissary.jpg
 http://mtgimage.com/card/oblivion%20ring.jpg
 http://mtgimage.com/card/observant%20alseid.jpg
 http://mtgimage.com/card/obzedat%27s%20aid.jpg
@@ -290,6 +322,8 @@ http://mtgimage.com/card/obzedat%2C%20ghost%20council.jpg
 http://mtgimage.com/card/odric%2C%20master%20tactician.jpg
 http://mtgimage.com/card/opalescence.jpg
 http://mtgimage.com/card/opportunity.jpg
+http://mtgimage.com/card/oracle%20of%20bones.jpg
+http://mtgimage.com/card/ordeal%20of%20purphoros.jpg
 http://mtgimage.com/card/ordeal%20of%20thassa.jpg
 http://mtgimage.com/card/overgrown%20tomb.jpg
 http://mtgimage.com/card/oversold%20cemetery.jpg
@@ -297,12 +331,16 @@ http://mtgimage.com/card/pacifism.jpg
 http://mtgimage.com/card/pain%20seer.jpg
 http://mtgimage.com/card/pandemonium.jpg
 http://mtgimage.com/card/perplexing%20chimera.jpg
+http://mtgimage.com/card/phalanx%20leader.jpg
 http://mtgimage.com/card/phantasmal%20bear.jpg
 http://mtgimage.com/card/phantasmal%20image.jpg
 http://mtgimage.com/card/phantom%20general.jpg
 http://mtgimage.com/card/pillarfield%20ox.jpg
+http://mtgimage.com/card/plains.jpg
 http://mtgimage.com/card/planar%20cleansing.jpg
 http://mtgimage.com/card/plasm%20capture.jpg
+http://mtgimage.com/card/polukranos%2C%20world%20eater.jpg
+http://mtgimage.com/card/polymorphous%20rush.jpg
 http://mtgimage.com/card/portent%20of%20betrayal.jpg
 http://mtgimage.com/card/possibility%20storm.jpg
 http://mtgimage.com/card/power%20conduit.jpg
@@ -312,6 +350,7 @@ http://mtgimage.com/card/prime%20speaker%20zegana.jpg
 http://mtgimage.com/card/primordial%20hydra.jpg
 http://mtgimage.com/card/progenitor%20mimic.jpg
 http://mtgimage.com/card/prophet%20of%20kruphix.jpg
+http://mtgimage.com/card/prophetic%20flamespeaker.jpg
 http://mtgimage.com/card/punish%20the%20enemy.jpg
 http://mtgimage.com/card/purify%20the%20grave.jpg
 http://mtgimage.com/card/quirion%20dryad.jpg
@@ -322,6 +361,7 @@ http://mtgimage.com/card/ravager%20of%20the%20fells.jpg
 http://mtgimage.com/card/ravenous%20demon.jpg
 http://mtgimage.com/card/redirect.jpg
 http://mtgimage.com/card/replenish.jpg
+http://mtgimage.com/card/reprisal.jpg
 http://mtgimage.com/card/rescue%20from%20the%20underworld.jpg
 http://mtgimage.com/card/rest%20in%20peace.jpg
 http://mtgimage.com/card/restoration%20angel.jpg
@@ -331,6 +371,8 @@ http://mtgimage.com/card/riders%20of%20gavony.jpg
 http://mtgimage.com/card/riot%20control.jpg
 http://mtgimage.com/card/rise%20of%20the%20dark%20realms.jpg
 http://mtgimage.com/card/roaring%20primadox.jpg
+http://mtgimage.com/card/rotted%20hulk.jpg
+http://mtgimage.com/card/rubblebelt%20maaka.jpg
 http://mtgimage.com/card/rubblehulk.jpg
 http://mtgimage.com/card/ruination%20wurm.jpg
 http://mtgimage.com/card/runeclaw%20bear.jpg
@@ -371,6 +413,7 @@ http://mtgimage.com/card/stitcher%27s%20apprentice.jpg
 http://mtgimage.com/card/stony%20silence.jpg
 http://mtgimage.com/card/stuffy%20doll.jpg
 http://mtgimage.com/card/sudden%20disappearance.jpg
+http://mtgimage.com/card/supply-line%20cranes.jpg
 http://mtgimage.com/card/supreme%20verdict.jpg
 http://mtgimage.com/card/sword%20of%20war%20and%20peace.jpg
 http://mtgimage.com/card/syndic%20of%20tithes.jpg
@@ -386,6 +429,7 @@ http://mtgimage.com/card/thragtusk.jpg
 http://mtgimage.com/card/thrashing%20mossdog.jpg
 http://mtgimage.com/card/threaten.jpg
 http://mtgimage.com/card/time%20warp.jpg
+http://mtgimage.com/card/titan%27s%20strength.jpg
 http://mtgimage.com/card/torch%20fiend.jpg
 http://mtgimage.com/card/tormod%27s%20crypt.jpg
 http://mtgimage.com/card/trading%20post.jpg
@@ -397,6 +441,7 @@ http://mtgimage.com/card/trusted%20forcemage.jpg
 http://mtgimage.com/card/tundra.jpg
 http://mtgimage.com/card/turn%20burn.jpg
 http://mtgimage.com/card/turn%20to%20frog.jpg
+http://mtgimage.com/card/twinflame.jpg
 http://mtgimage.com/card/typhoid%20rats.jpg
 http://mtgimage.com/card/unburial%20rites.jpg
 http://mtgimage.com/card/undead%20alchemist.jpg
@@ -414,7 +459,9 @@ http://mtgimage.com/card/vault%20of%20the%20archangel.jpg
 http://mtgimage.com/card/victim%20of%20night.jpg
 http://mtgimage.com/card/vile%20rebirth.jpg
 http://mtgimage.com/card/village%20survivors.jpg
+http://mtgimage.com/card/viscera%20seer.jpg
 http://mtgimage.com/card/vizkopa%20confessor.jpg
+http://mtgimage.com/card/voice%20of%20resurgence.jpg
 http://mtgimage.com/card/void%20stalker.jpg
 http://mtgimage.com/card/vraska%20the%20unseen.jpg
 http://mtgimage.com/card/walking%20corpse.jpg
@@ -428,10 +475,12 @@ http://mtgimage.com/card/wild%20ricochet.jpg
 http://mtgimage.com/card/wildwood%20geist.jpg
 http://mtgimage.com/card/wind%20drake.jpg
 http://mtgimage.com/card/windreader%20sphinx.jpg
+http://mtgimage.com/card/wingsteed%20rider.jpg
 http://mtgimage.com/card/witchstalker.jpg
 http://mtgimage.com/card/withengar%20unbound.jpg
 http://mtgimage.com/card/wolfbitten%20captive.jpg
 http://mtgimage.com/card/woodlot%20crawler.jpg
+http://mtgimage.com/card/worst%20fears.jpg
 http://mtgimage.com/card/xathrid%20gorgon.jpg
 http://mtgimage.com/card/young%20wolf.jpg
 http://mtgimage.com/card/zarichi%20tiger.jpg

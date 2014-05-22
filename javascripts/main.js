@@ -91,7 +91,12 @@ $(function(){
     }
   });
   // offline mode
-  /*$('.menu .offline').on('click', function(){
+  $('.menu .offline').on('click', function(){
+    if($(this).hasClass('clickable')) {
+      $('body').append("<iframe src='offline.en.html'></iframe>");
+      updateOfflineStatus();
+    }
+    /*
     if(!$(this).hasClass('active') && confirm("Are you sure? This can take some minutes to download all data!")) {
       var cards = [];
       for(var x=0;x<questions.length;x++) {
@@ -114,16 +119,14 @@ $(function(){
         }
       }
     }
-  });*/
-  updateOfflineStatus();
-  applicationCache.addEventListener('progress', function(e) {
-    $('.menu .offline').text("Offline ("+Math.round(e.loaded/ e.total*100)+"%)");
-  }, false);
+//    */
+  });
+  if(offline) updateOfflineStatus();
+  applicationCache.addEventListener('progress', cacheProgress, false);
   applicationCache.addEventListener("error", function(e) { offline = true; updateOfflineStatus(); });
   applicationCache.addEventListener('cached', updateOfflineStatus, false);
   applicationCache.addEventListener('updateready', updateOfflineStatus, false);
   applicationCache.addEventListener('noupdate', updateOfflineStatus, false);
-
 
   // hash logic
   $(window).on('hashchange', function(){
@@ -133,9 +136,14 @@ $(function(){
   });
 });
 
-var updateOfflineStatus = function() {
-  $('.menu .offline').attr('class','offline').toggleClass('active',offline).addClass('cache-'+applicationCache.status);
-  if(applicationCache.status == applicationCache.IDLE) $('.menu .offline').text("Offline (100%)");
+var updateOfflineStatus = function(e) {
+  cache = (e ? e.target:false) || applicationCache;
+  $('.menu .offline').attr('class','offline').toggleClass('active',offline).addClass('cache-'+cache.status);
+  if(cache.status == cache.IDLE) $('.menu .offline').text("Offline (100%)");
+};
+
+var cacheProgress = function(e) {
+  $('.menu .offline').text("Offline ("+Math.round(e.loaded/ e.total*100)+"%)");
 };
 
 var showQuestion = function(index) {
