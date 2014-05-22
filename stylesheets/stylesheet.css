@@ -52,16 +52,33 @@ hr.bottom {
   left: 30px;
   margin-top: 4%;
 }
-h1 { 
-  text-align: right;
+.right {
   position: absolute;
-  background: white;
-  display: inline-block;
   right: 30px;
   top: -20px;
   margin-top: 4%;
-  padding: 0 10px;
 }
+.right h1 {
+  text-align: right;
+  background: white;
+  margin: 0;
+  padding: 0 10px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.difficulty {
+  display: none;
+  width: 48px;
+  height: 48px;
+  vertical-align: middle;
+  cursor: pointer;
+  margin-top: -4px;
+  margin-left: 5px;
+}
+.difficulty.Easy { content:url("../images/easy.png"); display: inline-block; }
+.difficulty.Hard { content:url("../images/hard.png"); display: inline-block; }
+.difficulty.Medium { content:url("../images/medium.png"); display: inline-block; }
 
 .cards { 
   text-align: center; 

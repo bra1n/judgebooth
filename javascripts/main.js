@@ -3,6 +3,7 @@ var spreadsheet = 'javascripts/questions.js',
     questions = [],
     questionMap = [],
     current = 0,
+    difficulties = ["Easy", "Medium", "Hard"],
     offline = !navigator.onLine;
 $(function(){
   var cell;
@@ -49,12 +50,27 @@ $(function(){
       }
     }
   });
+  // answer button
   $('button.answer').on('click',function(){
     $('.content').toggleClass('show-answer');
   });
+  // next button
   $('button.next').on('click',function(){
     showQuestion(Math.round(Math.random()*(questions.length-1))+1);
   });
+  // difficulty button
+  $('.difficulty').on('click',function(){
+    if(questions[current]["Difficulty"]) {
+      var nextLevel = difficulties[(difficulties.indexOf(questions[current]["Difficulty"]) + 1) % difficulties.length],
+          nextQuestions = [];
+      for(var x=0; x<questions.length;x++) {
+        if(x == current || questions[x]["Difficulty"] != nextLevel) continue;
+        nextQuestions.push(x);
+      }
+      if(nextQuestions.length) showQuestion(nextQuestions[Math.floor(Math.random()*nextQuestions.length)]);
+    }
+  });
+  // clicking on a card
   $('.cards').on('click','img',function(){
     $(this).clone().appendTo('body').addClass('fullcard').css({
       left: $(this).offset().left - (400 - $(this).width())/2,
@@ -166,6 +182,7 @@ var showQuestion = function(index) {
 function renderQuestion(index) {
   var q = questions[index];
   $('.content h1').text("Judge Booth: Question "+q['Number']);
+  $('.content .difficulty').attr('class','difficulty').addClass(q['Difficulty']);
   if(q['Author'] != null) {
     $('.content .author').show().text("Written by: "+q['Author']);  
   } else {

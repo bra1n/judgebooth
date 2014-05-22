@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Version 1.26
+# Version 1.27
 CACHE:
 index.html
 javascripts/main.js
@@ -8,6 +8,9 @@ stylesheets/stylesheet.css
 http://fonts.googleapis.com/css?family=Oswald:400,700
 http://themes.googleusercontent.com/static/fonts/oswald/v8/-g5pDUSRgvxvOl5u-a_WHw.woff
 http://themes.googleusercontent.com/static/fonts/oswald/v8/bH7276GfdCjMjApa_dkG6T8E0i7KZn-EPnyo3HZu7kw.woff
+images/hard.png
+images/easy.png
+images/medium.png
 images/angel.jpg
 images/beast.jpg
 images/card.jpg
