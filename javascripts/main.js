@@ -1,4 +1,5 @@
-var spreadsheet = 'javascripts/questions.js',
+var spreadsheet,
+    language = location.pathname.split("/").pop().split(".").splice(1,1).pop(),
     temp = [],
     questions = [],
     questionMap = [],
@@ -7,8 +8,15 @@ var spreadsheet = 'javascripts/questions.js',
     offline = !navigator.onLine;
 $(function(){
   var cell;
+  switch(language) {
+    case "cn":
+      spreadsheet = offline ? 'javascripts/questions.cn.js' : 'https://spreadsheets.google.com/feeds/cells/0AqlIQacaL79AdDZoM0toVk5YTG9CWndTSldQODVuVlE/oda/public/values?alt=json-in-script&callback=?';
+      break;
+    default:
+      spreadsheet = offline ? 'javascripts/questions.en.js' : 'https://spreadsheets.google.com/feeds/cells/0Aig7p68d7NwYdFdhVVNHXzdDQ0Qwd0U3R0FNbkd6Ync/oda/public/values?alt=json-in-script&callback=?';
+  }
 	$.ajax({
-    url: offline ? spreadsheet : 'https://spreadsheets.google.com/feeds/cells/0Aig7p68d7NwYdFdhVVNHXzdDQ0Qwd0U3R0FNbkd6Ync/oda/public/values?alt=json-in-script&callback=?',
+    url: spreadsheet,
     dataType: "jsonp",
     jsonp: "callback",
     cache: "true",
@@ -108,10 +116,6 @@ $(function(){
   });
   // offline mode
   $('.menu .offline').on('click', function(){
-    if($(this).hasClass('clickable')) {
-      $('body').append("<iframe src='offline.en.html'></iframe>");
-      updateOfflineStatus();
-    }
     /*
     if(!$(this).hasClass('active') && confirm("Are you sure? This can take some minutes to download all data!")) {
       var cards = [];
@@ -135,6 +139,7 @@ $(function(){
         }
       }
     }
+    return false;
 //    */
   });
   if(offline) updateOfflineStatus();
@@ -159,6 +164,8 @@ var updateOfflineStatus = function(e) {
 };
 
 var cacheProgress = function(e) {
+  cache = (e ? e.target:false) || applicationCache;
+  $('.menu .offline').attr('class','offline').addClass('cache-'+cache.status);
   $('.menu .offline').text("Offline ("+Math.round(e.loaded/ e.total*100)+"%)");
 };
 

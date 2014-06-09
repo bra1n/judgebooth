@@ -1,6 +1,7 @@
 CACHE MANIFEST
-# Version 1.27
+# Version 1.29
 CACHE:
+/
 index.html
 javascripts/main.js
 javascripts/jquery-2.1.1.min.js
@@ -24,7 +25,7 @@ images/wolf.jpg
 images/wurm.jpg
 images/soldier.jpg
 # question list
-javascripts/questions.js?callback=jsoncallback
+javascripts/questions.cn.js?callback=jsoncallback
 # card images
 http://mtgimage.com/card/academy%20raider.jpg
 http://mtgimage.com/card/aerial%20formation.jpg

@@ -9,7 +9,7 @@ body {
 }
 html { height: 100%; }
 
-.content, .copy { 
+.content, .copy {
   display: inline-block;
   height: 90%;
   width: 90%;
@@ -17,7 +17,7 @@ html { height: 100%; }
   position: relative;
 }
 
-.loading { 
+.loading {
   font-size: 40px;
   top: 45%;
   position: absolute;
@@ -65,6 +65,7 @@ hr.bottom {
   padding: 0 10px;
   display: inline-block;
   vertical-align: top;
+  line-height: 40px;
 }
 
 .difficulty {
@@ -80,11 +81,11 @@ hr.bottom {
 .difficulty.Hard { content:url("../images/hard.png"); display: inline-block; }
 .difficulty.Medium { content:url("../images/medium.png"); display: inline-block; }
 
-.cards { 
-  text-align: center; 
+.cards {
+  text-align: center;
   height: 45%;
   white-space: nowrap;
-  transition: height 500ms; 
+  transition: height 500ms;
   -moz-transition: height 500ms;
   -webkit-transition: height 500ms;
 }
@@ -98,7 +99,6 @@ hr.bottom {
 
 .card {
   width: 20%;
-  max-height: 100%;
   display: inline-block;
   vertical-align: middle;
   text-align: center;
@@ -106,7 +106,7 @@ hr.bottom {
   line-height: 250%;
 }
 
-.card img { 
+.card img {
   max-width: 90%;
   max-height: 90%;
   border-radius: 5px;
@@ -119,23 +119,23 @@ hr.bottom {
 div.text {
   max-height: 32%;
   overflow: hidden;
-  transition: all 500ms; 
+  transition: all 500ms;
   -moz-transition: all 500ms;
   -webkit-transition: all 500ms;
 }
 
-div.question, div.answer { 
+div.question, div.answer {
   width: 90%;
   margin: 10px auto;
   font-size: 22px;
   text-align: justify;
-
 }
+.language_cn div.question, div.answer { font-size: 24px; }
 .question b, .answer b { color:red; }
-div.answer { 
-  color: green; 
+div.answer {
+  color: green;
   opacity: 0;
-  transition: all 500ms; 
+  transition: all 500ms;
   -moz-transition: all 500ms;
   -webkit-transition: all 500ms;
 }
@@ -143,7 +143,7 @@ div.answer {
 .content.show-answer div.answer { opacity: 1; }
 .content.show-answer div.cards { height: 30%; }
 
-.author { 
+.author {
   color: silver;
   position: absolute;
   bottom: -13px;
@@ -185,14 +185,17 @@ button.hidden { opacity: 0; }
   margin-bottom: 3%;
 }
 
-.menu span {
+.menu span, .menu a {
   display: inline-block;
   padding:5px;
   background: white;
   cursor: pointer;
   color: silver;
+  text-decoration: none;
+  line-height: 21px;
 }
 
+.menu span.offline { cursor: default; }
 .menu span.offline.cache-4,
 .menu span.offline.cache-1 { color: green; }
 .menu span.offline.cache-3 { color: orange; }
@@ -208,9 +211,20 @@ iframe {
   visibility: hidden;
 }
 
+@media screen and (max-width: 1000px) , screen and (max-height: 690px) {
+  body { font-size: 12px; }
+  div.question, div.answer { font-size: 18px }
+}
+
+@media screen and (max-width: 800px) , screen and (max-height: 590px) {
+  body { font-size: 10px; }
+  div.question, div.answer { font-size: 16px }
+  .logo { margin-top: 5%; height: 60px; }
+}
+
 @media print {
   @page {
-    size: landscape; 
+    size: landscape;
     margin: 0;
   }
   .content,.copy {
