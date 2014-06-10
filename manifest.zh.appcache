@@ -25,7 +25,7 @@ images/wolf.jpg
 images/wurm.jpg
 images/soldier.jpg
 # question list
-javascripts/questions.cn.js?callback=jsoncallback
+javascripts/questions.zh.js?callback=jsoncallback
 # card images
 http://mtgimage.com/card/academy%20raider.jpg
 http://mtgimage.com/card/aerial%20formation.jpg

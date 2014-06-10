@@ -3,14 +3,14 @@ var spreadsheet,
     temp = [],
     questions = [],
     questionMap = [],
-    current = 0,
+    current = -1,
     difficulties = ["Easy", "Medium", "Hard"],
     offline = !navigator.onLine;
 $(function(){
   var cell;
   switch(language) {
-    case "cn":
-      spreadsheet = offline ? 'javascripts/questions.cn.js' : 'https://spreadsheets.google.com/feeds/cells/0AqlIQacaL79AdDZoM0toVk5YTG9CWndTSldQODVuVlE/oda/public/values?alt=json-in-script&callback=?';
+    case "zh":
+      spreadsheet = offline ? 'javascripts/questions.zh.js' : 'https://spreadsheets.google.com/feeds/cells/0AqlIQacaL79AdDZoM0toVk5YTG9CWndTSldQODVuVlE/oda/public/values?alt=json-in-script&callback=?';
       break;
     default:
       spreadsheet = offline ? 'javascripts/questions.en.js' : 'https://spreadsheets.google.com/feeds/cells/0Aig7p68d7NwYdFdhVVNHXzdDQ0Qwd0U3R0FNbkd6Ync/oda/public/values?alt=json-in-script&callback=?';
