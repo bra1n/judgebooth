@@ -67,7 +67,7 @@ hr.bottom {
   vertical-align: top;
   line-height: 40px;
 }
-.language_zh .right h1 { font-weight: normal; }
+.language_zhs .right h1 { font-weight: normal; }
 
 .difficulty {
   display: none;
@@ -131,7 +131,7 @@ div.question, div.answer {
   font-size: 22px;
   text-align: justify;
 }
-.language_zh div.question, div.answer { font-size: 24px; }
+.language_zhs div.question, div.answer { font-size: 24px; }
 .question b, .answer b { color:red; }
 div.answer {
   color: green;
@@ -178,7 +178,7 @@ button {
 }
 button:hover { box-shadow: inset 0 0 5px #000; }
 button.hidden { opacity: 0; }
-.language_zh button { font-size: 25px; font-weight: normal; }
+.language_zhs button { font-size: 25px; font-weight: normal; }
 
 .menu {
   position: absolute;
