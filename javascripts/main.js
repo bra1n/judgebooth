@@ -160,13 +160,13 @@ $(function(){
 var updateOfflineStatus = function(e) {
   cache = (e ? e.target:false) || applicationCache;
   $('.menu .offline').attr('class','offline').toggleClass('active',offline).addClass('cache-'+cache.status);
-  if(cache.status == cache.IDLE) $('.menu .offline').text("Offline (100%)");
+  if(cache.status == cache.IDLE) $('.menu .offline span').text(100);
 };
 
 var cacheProgress = function(e) {
   cache = (e ? e.target:false) || applicationCache;
   $('.menu .offline').attr('class','offline').addClass('cache-'+cache.status);
-  $('.menu .offline').text("Offline ("+Math.round(e.loaded/ e.total*100)+"%)");
+  $('.menu .offline span').text(Math.round(e.loaded/ e.total*100));
 };
 
 var showQuestion = function(index) {
@@ -188,10 +188,10 @@ var showQuestion = function(index) {
 
 function renderQuestion(index) {
   var q = questions[index];
-  $('.content h1').text("Judge Booth: Question "+q['Number']);
+  $('.content h1 span').text(q['Number']);
   $('.content .difficulty').attr('class','difficulty').addClass(q['Difficulty']);
   if(q['Author'] != null) {
-    $('.content .author').show().text("Written by: "+q['Author']);  
+    $('.content .author').show().find('span').text(q['Author']);  
   } else {
     $('.content .author').hide();
   }

@@ -67,6 +67,7 @@ hr.bottom {
   vertical-align: top;
   line-height: 40px;
 }
+.language_cn .right h1 { font-weight: normal; }
 
 .difficulty {
   display: none;
@@ -177,6 +178,7 @@ button {
 }
 button:hover { box-shadow: inset 0 0 5px #000; }
 button.hidden { opacity: 0; }
+.language_cn button { font-size: 25px; font-weight: normal; }
 
 .menu {
   position: absolute;
@@ -185,7 +187,7 @@ button.hidden { opacity: 0; }
   margin-bottom: 3%;
 }
 
-.menu span, .menu a {
+.menu > span, .menu > a {
   display: inline-block;
   padding:5px;
   background: white;
