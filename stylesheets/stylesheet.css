@@ -160,9 +160,11 @@ div.answer {
   width: 100%;
   text-align: center;
   bottom: -18px;
+  z-index: 10;
 }
 button {
-  width: 140px;
+  width: 20%;
+  max-width: 140px;
   height: 40px;
   font-size: 16px;
   font-weight: bold;
@@ -211,6 +213,10 @@ iframe {
   width: 0;
   border: none;
   visibility: hidden;
+}
+
+@-moz-document url-prefix() {
+  .card { height: 100%; }
 }
 
 @media screen and (max-width: 1000px) , screen and (max-height: 690px) {
