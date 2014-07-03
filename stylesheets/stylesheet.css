@@ -187,6 +187,7 @@ button.hidden { opacity: 0; }
   bottom: -13px;
   right: 30px;
   margin-bottom: 3%;
+  z-index: 10;
 }
 
 .menu > span, .menu > a {
