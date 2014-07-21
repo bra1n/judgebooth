@@ -2,7 +2,7 @@ CACHE MANIFEST
 # Version 1.32
 CACHE:
 /
-index.zhs.html
+index.zht.html
 javascripts/main.js
 javascripts/jquery-2.1.1.min.js
 stylesheets/stylesheet.css
@@ -25,7 +25,7 @@ images/wolf.jpg
 images/wurm.jpg
 images/soldier.jpg
 # question list
-javascripts/questions.zhs.js?callback=jsoncallback
+javascripts/questions.zht.js?callback=jsoncallback
 # card images
 http://mtgimage.com/card/academy%20raider.jpg
 http://mtgimage.com/card/aerial%20formation.jpg

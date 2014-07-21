@@ -68,6 +68,7 @@ hr.bottom {
   line-height: 40px;
 }
 .language_zhs .right h1 { font-weight: normal; }
+.language_zht .right h1 { font-weight: normal; }
 
 .difficulty {
   display: none;
@@ -132,6 +133,7 @@ div.question, div.answer {
   text-align: justify;
 }
 .language_zhs div.question, div.answer { font-size: 24px; }
+.language_zht div.question, div.answer { font-size: 24px; }
 .question b, .answer b { color:red; }
 div.answer {
   color: green;
@@ -181,6 +183,7 @@ button {
 button:hover { box-shadow: inset 0 0 5px #000; }
 button.hidden { opacity: 0; }
 .language_zhs button { font-size: 25px; font-weight: normal; }
+.language_zht button { font-size: 25px; font-weight: normal; }
 
 .menu {
   position: absolute;

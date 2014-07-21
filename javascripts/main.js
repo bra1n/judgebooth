@@ -12,6 +12,9 @@ $(function(){
     case "zhs":
       spreadsheet = offline ? 'javascripts/questions.zhs.js' : 'https://spreadsheets.google.com/feeds/cells/0AqlIQacaL79AdDZoM0toVk5YTG9CWndTSldQODVuVlE/oda/public/values?alt=json-in-script&callback=?';
       break;
+    case "zht":
+      spreadsheet = offline ? 'javascripts/questions.zht.js' : 'https://spreadsheets.google.com/feeds/cells/0AvKY1T4Hb-_GdG1LZFhDNFpmcFNKZmt0LTZHcmllM2c/oda/public/values?alt=json-in-script&callback=?';
+      break;
     default:
       spreadsheet = offline ? 'javascripts/questions.en.js' : 'https://spreadsheets.google.com/feeds/cells/0Aig7p68d7NwYdFdhVVNHXzdDQ0Qwd0U3R0FNbkd6Ync/oda/public/values?alt=json-in-script&callback=?';
   }
