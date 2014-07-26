@@ -242,5 +242,5 @@ iframe {
   .content,.copy {
     page-break-after: always;
   }
-  .buttons, .menu { display: none; }
+  .loading, .buttons, .menu { display: none; }
 }
