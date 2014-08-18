@@ -79,9 +79,6 @@ hr.bottom {
   margin-top: -4px;
   margin-left: 5px;
 }
-.difficulty.Easy { content:url("../images/easy.png"); display: inline-block; }
-.difficulty.Hard { content:url("../images/hard.png"); display: inline-block; }
-.difficulty.Medium { content:url("../images/medium.png"); display: inline-block; }
 
 .cards {
   text-align: center;
@@ -219,6 +216,17 @@ iframe {
   visibility: hidden;
 }
 
+div.answers {
+  display: none;
+  text-align: left;
+  overflow: visible;
+}
+div.answers p { margin:0; padding: 10px; }
+.copy { display: none; }
+.copy:last-child { display: inline-block; }
+body.answers div.answers { display: block; }
+body.answers div.copy { display: none; }
+
 @-moz-document url-prefix() {
   .card { height: 100%; }
 }
@@ -239,8 +247,7 @@ iframe {
     size: landscape;
     margin: 0;
   }
-  .content,.copy {
-    page-break-after: always;
-  }
-  .loading, .buttons, .menu { display: none; }
+  .content,.copy,.answers { page-break-after: always; }
+  .copy { display: inline-block; }
+  .loading, .buttons, .menu { display: none !important; }
 }

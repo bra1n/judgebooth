@@ -9,7 +9,15 @@ This project provides a digital web-based version of the popular "Judge Booth" a
 * Chinese (simplified) offline version: http://booth.magicjudges.org/offline.zh.html
 * Chinese (traditional) version: http://booth.magicjudges.org/index.zht.html
 * Chinese (traditional) offline version: http://booth.magicjudges.org/offline.zht.html
+* Russian version: http://booth.magicjudges.org/index.ru.html
+* Russian offline version: http://booth.magicjudges.org/offline.ru.html
 
+Printing
+--------
+
+If you want to print the question sheets, you should make sure that your browser is able to handle rendering and printing
+250+ pages. Firefox or Chrome seem to be best suited for this task. Once the sheets have been generated, you can toggle
+the list of answers by clicking on the text in the middle. Question sheets should be printed in landscape mode without borders.
 
 License and Copyright
 ---------------------

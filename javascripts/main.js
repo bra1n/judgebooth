@@ -100,6 +100,7 @@ $(function(){
     if(confirm("Are you sure? This will take several seconds per sheet to generate!")) {
       $('.buttons,.menu').hide();
       $('.loading').fadeIn();
+      $('.content').css('display','');
       var last = 0;
       for(var x=0;x<questions.length;x++) {
         if(questions[x]) {
@@ -110,9 +111,19 @@ $(function(){
               renderQuestion(x);
               $('.content').clone().toggleClass('content copy').appendTo('body');  
               if(x == last) {
-                $('.content').remove();
-                $('.loading').fadeOut();
-                window.print();
+                var answers = $('.content').toggleClass('content answers').empty();
+                for(var y=0;y<questions.length;y++) {
+                  if(questions[y]) {
+                    answers.append('<p><b>'+questions[y]['Number']+':</b> '+questions[y]['Answers']+'</p>');
+                  }
+                }
+                $('.loading').text('Ready for printing. Click here to show answers').on('click', function(){
+                  $('body').toggleClass('answers');
+                  $('.loading').text($('body').hasClass('answers') ? 'Click here to show questions':'Click here to show answers')
+                });
+                setTimeout(function(){
+                  window.print();
+                }, 1000);
               }
             },x*1000);
           })(x);
@@ -195,7 +206,7 @@ var showQuestion = function(index) {
 function renderQuestion(index) {
   var q = questions[index];
   $('.content h1 span').text(q['Number']);
-  $('.content .difficulty').attr('class','difficulty').addClass(q['Difficulty']);
+  $('.content .difficulty').attr('src','images/'+q['Difficulty'].toLowerCase()+'.png').toggle(!!q['Difficulty']);
   if(q['Author'] != null) {
     $('.content .author').show().find('span').text(q['Author']);  
   } else {
