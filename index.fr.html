@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html manifest="manifest.appcache">
+<html>
 <head>
   <meta charset='utf-8' />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
@@ -16,15 +16,15 @@
     .card { height: 100%; }
   </style>
   <![endif]-->
-  <title>Интерактивный Judge Booth</title>
+  <title>Judgebooth Intéractif</title>
 </head>
-<body>
-<div class="loading">Загрузка вопросов...</div>
+<body class="language_fr">
+<div class="loading">Chargement des questions...</div>
 <div class="content">
   <hr>
   <img class="logo" src="images/logo.png" alt="Magic Judge">
   <div class="right">
-    <h1>Judge Booth: Вопрос <span></span></h1>
+    <h1>Judge Booth: Question <span></span></h1>
     <img src="" class="difficulty">
   </div>
   <div class="cards">
@@ -35,14 +35,15 @@
     <div class="answer"></div>
   </div>
   <hr class="bottom">
-  <div class="author">Автор: <span></span></div>
+  <div class="author">Ecrit par: <span></span></div>
   <div class="buttons">
-    <button class="answer">Ответ</button>
-    <button class="next">Дальше</button>
+    <button class="answer">Réponse</button>
+    <button class="next">Suivant</button>
   </div>
   <div class="menu">
-    <span class="print">Печать</span>
-    <span class="offline">Оффлайн (<span></span>%)</span>
+    <span class="print">Imprimer</span>
+    <a href="offline.fr.html" class="offline">En ligne</a>
+    <a href="http://github.com/bra1n/judgebooth">A propos</a>
   </div>
 </div>
 </body>

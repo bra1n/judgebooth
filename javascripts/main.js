@@ -18,6 +18,9 @@ $(function(){
     case "ru":
       spreadsheet = offline ? 'javascripts/questions.ru.js' : 'https://spreadsheets.google.com/feeds/cells/0AqlIQacaL79AdFlCV2dOaTdzYlhsaHF3UVk0b2JlVVE/oda/public/values?alt=json-in-script&callback=?';
       break;
+    case "fr":
+      spreadsheet = offline ? 'javascripts/questions.fr.js' : 'https://spreadsheets.google.com/feeds/cells/0AqlIQacaL79AdDdEYVNaYWt3LUo0emxWenhMakRvYXc/oda/public/values?alt=json-in-script&callback=?';
+      break;
     default:
       spreadsheet = offline ? 'javascripts/questions.en.js' : 'https://spreadsheets.google.com/feeds/cells/0Aig7p68d7NwYdFdhVVNHXzdDQ0Qwd0U3R0FNbkd6Ync/oda/public/values?alt=json-in-script&callback=?';
   }

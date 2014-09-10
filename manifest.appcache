@@ -2,7 +2,7 @@ CACHE MANIFEST
 # Version 1.35
 CACHE:
 /
-index.ru.html
+index.html
 javascripts/main.js
 javascripts/jquery-2.1.1.min.js
 stylesheets/stylesheet.css
@@ -25,6 +25,10 @@ images/wolf.jpg
 images/wurm.jpg
 images/soldier.jpg
 # question list
+javascripts/questions.en.js?callback=jsoncallback
+javascripts/questions.fr.js?callback=jsoncallback
+javascripts/questions.zhs.js?callback=jsoncallback
+javascripts/questions.zht.js?callback=jsoncallback
 javascripts/questions.ru.js?callback=jsoncallback
 # card images
 http://mtgimage.com/card/academy%20raider.jpg

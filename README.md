@@ -5,12 +5,14 @@ This project provides a digital web-based version of the popular "Judge Booth" a
 
 * Live version: http://booth.magicjudges.org
 * Offline version: http://booth.magicjudges.org/offline.en.html
+* French version: http://booth.magicjudges.org/index.fr.html
+* French offline version: http://booth.magicjudges.org/offline.fr.html
+* Russian version: http://booth.magicjudges.org/index.ru.html
+* Russian offline version: http://booth.magicjudges.org/offline.ru.html
 * Chinese (simplified) version: http://booth.magicjudges.org/index.zh.html
 * Chinese (simplified) offline version: http://booth.magicjudges.org/offline.zh.html
 * Chinese (traditional) version: http://booth.magicjudges.org/index.zht.html
 * Chinese (traditional) offline version: http://booth.magicjudges.org/offline.zht.html
-* Russian version: http://booth.magicjudges.org/index.ru.html
-* Russian offline version: http://booth.magicjudges.org/offline.ru.html
 
 Printing
 --------
