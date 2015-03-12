@@ -222,7 +222,7 @@ function renderQuestion(index) {
       if(q['Card '+x].match(/([a-z]+) token/i) != null) {
         code += "<img src='images/"+q['Card '+x].match(/([a-z]+) token/i)[1].toLowerCase()+".jpg'>";
       } else {
-        code += "<img crossorigin='anonymous' src='http://mtgimage.com/card/"+escape(q['Card '+x].replace(/\/\/ /,'').toLowerCase())+".jpg'>";
+        code += "<img crossorigin='anonymous' src='http://gatherer.wizards.com/Handlers/Image.ashx?type=card&name="+escape(q['Card '+x].toLowerCase())+"'>";
       }
       code += q['Card '+x];
       code += "</div>";
