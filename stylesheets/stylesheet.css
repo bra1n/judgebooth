@@ -103,6 +103,7 @@ hr.bottom {
   text-align: center;
   font-weight: bold;
   line-height: 250%;
+  height: 100%;
 }
 
 .card img {
@@ -227,9 +228,6 @@ div.answers p { margin:0; padding: 10px; }
 body.answers div.answers { display: block; }
 body.answers div.copy { display: none; }
 
-@-moz-document url-prefix() {
-  .card { height: 100%; }
-}
 
 @media screen and (max-width: 1000px) , screen and (max-height: 690px) {
   body { font-size: 12px; }
