@@ -1,6 +1,13 @@
-<ion-view title="Question 1">
+<ion-view title="Question {{question.metadata.id}}">
   <ion-content class="padding">
-    <a class="button" ui-sref="home">Home!</a>
-    <a class="button" ui-sref="question({id:2})">Question 2</a>
+    <ul class="cards">
+      <li ng-repeat="card in question.cards">
+        {{card.name}}
+      </li>
+    </ul>
+    <p class="question">{{question.question}}</p>
+    <p ng-show="answer" class="answer">{{question.answer}}</p>
+    {{question.metadata.author}} - {{question.metadata.difficulty}}<br>
+    <button class="button" ng-hide="answer" ng-click="showAnswer()">Show Answer</button>
   </ion-content>
 </ion-view>

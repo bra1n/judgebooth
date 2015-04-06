@@ -2,7 +2,7 @@
 (function() {
   var boothApp;
 
-  boothApp = angular.module('judgebooth', ['ionic']);
+  boothApp = angular.module('judgebooth', ['ionic', 'angular-cache', 'pascalprecht.translate']);
 
   boothApp.config([
     '$locationProvider', '$stateProvider', '$urlRouterProvider', function($locationProvider, $stateProvider, $urlRouterProvider) {
@@ -10,40 +10,131 @@
       $stateProvider.state('home', {
         url: '/',
         templateUrl: 'views/home.html',
-        controller: 'HomeCtrl'
+        controller: 'HomeCtrl',
+        resolve: {
+          questions: [
+            'questionsAPI', function(questionsAPI) {
+              return questionsAPI.questions();
+            }
+          ],
+          sets: [
+            'questionsAPI', function(questionsAPI) {
+              return questionsAPI.sets();
+            }
+          ]
+        }
       }).state('question', {
         url: '/question/:id',
         templateUrl: 'views/question.html',
-        controller: 'QuestionCtrl'
+        controller: 'QuestionCtrl',
+        resolve: {
+          question: [
+            'questionsAPI', '$stateParams', function(questionsAPI, $stateParams) {
+              return questionsAPI.question($stateParams.id);
+            }
+          ]
+        }
       });
       return $urlRouterProvider.otherwise('/');
     }
   ]);
 
-  boothApp.controller('MainCtrl', [
-    "$scope", "$ionicSideMenuDelegate", function($scope, $ionicSideMenuDelegate) {
-      console.log("MAIN; BABY");
-      return $scope.toggleLeft = function() {
-        return $ionicSideMenuDelegate.toggleLeft();
+  boothApp.run([
+    'questionsAPI', '$rootScope', '$state', function(questionsAPI, $rootScope, $state) {
+      $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+        return $rootScope.state = toState;
+      });
+      return $rootScope.next = function() {
+        return questionsAPI.questions().then(function(response) {
+          var questions;
+          questions = response.data;
+          return $state.go("question", {
+            id: questions[Math.floor(Math.random() * questions.length)].id
+          });
+        });
+      };
+    }
+  ]);
+
+  boothApp.service('questionsAPI', [
+    "$http", "CacheFactory", "$q", function($http, CacheFactory, $q) {
+      var apiURL, caches;
+      caches = {
+        persistent: CacheFactory('persistentCache', {
+          storageMode: 'localStorage'
+        }),
+        short: CacheFactory('shortCache', {
+          maxAge: 24 * 3600 * 1000,
+          storageMode: 'localStorage'
+        }),
+        memory: CacheFactory('memoryCache', {
+          maxAge: 3600 * 1000,
+          capacity: 20
+        })
+      };
+      apiURL = "http://" + window.location.host + "/api.php?action=";
+      return {
+        sets: function() {
+          return $http.get(apiURL + "sets", {
+            cache: caches.short
+          });
+        },
+        questions: function() {
+          return $http.get(apiURL + "questions", {
+            cache: caches.short
+          });
+        },
+        question: function(id) {
+          var deferred, questionPromise;
+          deferred = $q.defer();
+          questionPromise = $http.get(apiURL + "question&lang=1&id=" + id, {
+            cache: caches.memory
+          });
+          $q.all([this.questions(), questionPromise]).then(function(_arg) {
+            var metadata, question, questionResponse, questionsResponse, _i, _len, _ref;
+            questionsResponse = _arg[0], questionResponse = _arg[1];
+            question = questionResponse.data;
+            _ref = questionsResponse.data;
+            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+              metadata = _ref[_i];
+              if (metadata.id === id) {
+                question.metadata = metadata;
+              }
+            }
+            return deferred.resolve(question);
+          }, function() {
+            return deferred.reject();
+          });
+          return deferred.promise;
+        }
       };
     }
   ]);
 
   boothApp.controller('SideCtrl', [
-    "$scope", function($scope) {
-      return console.log("SIDE; BABY");
+    "$scope", "questionsAPI", function($scope, questionsAPI) {
+      questionsAPI.sets().then(function(response) {
+        return $scope.sets = response.data;
+      });
+      return questionsAPI.questions().then(function(response) {
+        return $scope.questions = response.data;
+      });
     }
   ]);
 
   boothApp.controller('HomeCtrl', [
-    "$scope", function($scope) {
-      return console.log("HOME; BABY");
+    "$scope", "questions", "sets", function($scope, questions, sets) {
+      $scope.questions = questions.data;
+      return $scope.sets = sets.data;
     }
   ]);
 
   boothApp.controller('QuestionCtrl', [
-    "$scope", function($scope) {
-      return console.log("QUESTION TIME; BABY");
+    "$scope", "question", function($scope, question) {
+      $scope.question = question;
+      return $scope.showAnswer = function() {
+        return $scope.answer = true;
+      };
     }
   ]);
 
