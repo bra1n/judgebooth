@@ -105,6 +105,7 @@ boothApp.controller 'QuestionCtrl', [
   "$scope", "question", "$state"
   ($scope, question, $state) ->
     $scope.question = question
+    console.log question
     $state.go "home" unless question.metadata?.id
     $scope.showAnswer = -> $scope.answer = true
 ]

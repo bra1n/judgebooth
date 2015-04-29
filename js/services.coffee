@@ -49,7 +49,6 @@ services.service 'questionsAPI', [
         sets: []
         difficulty: []
       if filter?
-        console.log "new filter"
         caches.persistent.put "filter", filter
         caches.memory.remove "filteredQuestions"
       caches.persistent.get("filter") or filterDefault
@@ -77,7 +76,7 @@ services.service 'questionsAPI', [
                 break if hasIllegalCard # we stop as soon as we find a single illegal card
               continue if hasIllegalCard
             filteredQuestions.push question.id
-          # shuffle questions
+          # shuffle questions - https://gist.github.com/ddgromit/859699
           i = filteredQuestions.length
           while --i > 0
             j = ~~(Math.random() * (i + 1))

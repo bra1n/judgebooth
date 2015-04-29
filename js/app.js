@@ -181,6 +181,7 @@
     "$scope", "question", "$state", function($scope, question, $state) {
       var _ref;
       $scope.question = question;
+      console.log(question);
       if (!((_ref = question.metadata) != null ? _ref.id : void 0)) {
         $state.go("home");
       }

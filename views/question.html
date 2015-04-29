@@ -1,10 +1,22 @@
 <ion-view title="Question {{question.metadata.id}}">
   <ion-content class="padding">
-    <ul class="cards">
-      <li ng-repeat="card in question.cards">
-        {{card.name}}
-      </li>
-    </ul>
+    <div class="cards row">
+      <div class="col" ng-repeat="card in question.cards">
+        <div class="scan">
+          {{card.name}}<br>
+          <img ng-src="{{card.url || 'http://gatherer.wizards.com/Handlers/Image.ashx?type=card&name='+card.name}}">
+        </div>
+        <div class="oracle">
+          <span class="right">{{card.manacost}}</span>
+          {{card.name}}<br>
+          {{card.type}}<br>
+          <span class="pre">{{card.text}}</span>
+          <span class="right" ng-if="card.toughness || card.power">{{card.power}} / {{card.toughness}}</span>
+          <span class="right">{{card.loyalty}}</span>
+        </div>
+
+      </div>
+    </div>
     <p class="question">{{question.question}}</p>
     <p ng-show="answer" class="answer">{{question.answer}}</p>
     {{question.metadata.author}} - {{question.metadata.difficulty}}<br>

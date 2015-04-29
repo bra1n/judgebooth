@@ -1,3 +1,4 @@
+/* Sidebar */
 div.sets {
   white-space: normal;
   margin-top: 0;
@@ -38,4 +39,28 @@ div.difficulty .button-bar {
 }
 div.difficulty .button-bar .button {
   padding: 0;
+}
+
+/* Question */
+div.cards {
+  flex-wrap: wrap;
+  text-align: center;
+}
+div.cards .col {
+  min-width: 225px;
+  font-weight: bold;
+}
+div.cards .col div.oracle {
+  margin: auto;
+  display: block;
+  text-align: left;
+  width: 200px;
+  font-size: 12px;
+  line-height: 120%;
+  font-weight: normal;
+}
+div.cards .col div.oracle .right { float: right; }
+div.cards .col div.oracle .pre { white-space: pre-wrap; }
+div.cards .col img {
+  width: 200px;
 }
