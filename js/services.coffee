@@ -34,38 +34,66 @@ services.service 'questionsAPI', [
     # get a single question with translations
     question: (id) ->
       deferred = $q.defer()
-      questionPromise = $http.get apiURL + "question&lang=1&id=" + id, cache: caches.memory
+      questionPromise = $http.get apiURL + "question&lang=" + @filter().language + "&id=" + id, cache: caches.memory
       $q.all([@questions(), questionPromise]).then ([questionsResponse, questionResponse]) ->
         question = questionResponse.data
-        question.metadata = metadata for metadata in questionsResponse.data when metadata.id is id
+        question.metadata = metadata for metadata in questionsResponse.data when metadata.id is parseInt(id, 10)
         deferred.resolve question
       , -> deferred.reject()
       deferred.promise
     # set or get the question filter
+    # purge cached filtered question lists when updating the filter
     filter: (filter) ->
-      caches.persistent.put "filter", filter if filter?
-      caches.persistent.get "filter"
+      filterDefault =
+        language: 1
+        sets: []
+        difficulty: []
+      if filter?
+        console.log "new filter"
+        caches.persistent.put "filter", filter
+        caches.memory.remove "filteredQuestions"
+      caches.persistent.get("filter") or filterDefault
     # filter all questions with the passed / cached filter
-    filterQuestions: (filter = @filter()) ->
-      console.log filter
+    # return an array of question IDs
+    filterQuestions: (filter, useCache = yes) ->
       deferred = $q.defer()
-      @questions().then (response) ->
-        questions = response.data
-        filteredQuestions = []
-        for question in questions
-          continue unless parseInt(filter.language, 10) in question.languages
-          continue if filter.difficulty.length and question.difficulty in filter.difficulty
-          if filter.sets.length
-            # super complicated check to make sure that the question only contains cards which are allowed by the filter
-            hasIllegalCard = no
-            for card in question.cards
-              isLegalCard = no
-              isLegalCard = yes for set in card when set not in filter.sets
-              hasIllegalCard = !isLegalCard
-              break if hasIllegalCard # we stop as soon as we find a single illegal card
-            continue if hasIllegalCard
-          filteredQuestions.push question.id
-        deferred.resolve filteredQuestions
-      , -> deferred.reject()
+      if useCache and caches.memory.get "filteredQuestions"
+        deferred.resolve caches.memory.get "filteredQuestions"
+      else
+        filter or= @filter()
+        @questions().then (response) ->
+          questions = response.data
+          filteredQuestions = []
+          for question in questions
+            continue unless parseInt(filter.language, 10) in question.languages
+            continue if filter.difficulty.length and question.difficulty in filter.difficulty
+            if filter.sets.length
+              # super complicated check to make sure that the question only contains cards which are allowed by the filter
+              hasIllegalCard = no
+              for card in question.cards
+                isLegalCard = no
+                isLegalCard = yes for set in card when set not in filter.sets
+                hasIllegalCard = !isLegalCard
+                break if hasIllegalCard # we stop as soon as we find a single illegal card
+              continue if hasIllegalCard
+            filteredQuestions.push question.id
+          # shuffle questions
+          i = filteredQuestions.length
+          while --i > 0
+            j = ~~(Math.random() * (i + 1))
+            t = filteredQuestions[j]
+            filteredQuestions[j] = filteredQuestions[i]
+            filteredQuestions[i] = t
+          caches.memory.put "filteredQuestions", filteredQuestions if useCache
+          deferred.resolve filteredQuestions
+        , -> deferred.reject()
+      deferred.promise
+    # get next question ID
+    nextQuestion: ->
+      deferred = $q.defer()
+      @filterQuestions().then (questions) ->
+        questions.push questions.shift()
+        caches.memory.put "filteredQuestions", questions
+        deferred.resolve questions[0]
       deferred.promise
 ]

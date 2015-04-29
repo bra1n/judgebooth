@@ -31,22 +31,19 @@ boothApp.config [
 boothApp.run [
   'questionsAPI', '$rootScope', '$state'
   (questionsAPI, $rootScope, $state) ->
-    $rootScope.$on '$stateChangeSuccess', (event, toState, toParams, fromState, fromParams) ->
-      $rootScope.state = toState
-    $rootScope.next = ->
-      # todo move to service
-      questionsAPI.questions().then (response) ->
-        questions = response.data
-        $state.go "question", id: questions[Math.floor(Math.random()*questions.length)].id
+    $rootScope.$on '$stateChangeSuccess', (event, toState) -> $rootScope.state = toState
+    $rootScope.next = -> questionsAPI.nextQuestion().then (id) ->  $state.go "question", {id}
 ]
 
 boothApp.controller 'SideCtrl', [
   "$scope", "questionsAPI"
   ($scope, questionsAPI) ->
     # get data
+    $scope.filter = questionsAPI.filter()
     $scope.languages = questionsAPI.languages()
     $scope.languageCounts = {}
     questionsAPI.sets().then (response) -> $scope.sets = response.data
+    # get questions and generate maps with counts
     questionsAPI.questions().then (response) ->
       $scope.questions = response.data
       $scope.setCounts = {}
@@ -62,11 +59,6 @@ boothApp.controller 'SideCtrl', [
             $scope.setCounts[language][set] or= 0
             $scope.setCounts[language][set]++
       $scope.updateCount()
-
-    $scope.filter =
-      language: 1
-      sets: []
-      difficulty: []
 
     # filter out a single set or many of them
     $scope.toggleSet = (id) ->
@@ -92,9 +84,14 @@ boothApp.controller 'SideCtrl', [
 
     # calculate number of resulting questions and selected sets
     $scope.updateCount = ->
-      questionsAPI.filterQuestions($scope.filter).then (questions) -> $scope.count = questions.length
+      questionsAPI.filterQuestions($scope.filter, no).then (questions) -> $scope.filteredQuestions = questions
       $scope.setCount = Object.keys($scope.setCounts[$scope.filter.language]).length
       $scope.setCount-- for set in $scope.filter.sets when $scope.setCounts[$scope.filter.language][set]
+
+    $scope.showQuestions = ->
+      return unless $scope.filteredQuestions.length
+      questionsAPI.filter $scope.filter
+      $scope.next()
 ]
 
 boothApp.controller 'HomeCtrl', [
@@ -104,10 +101,10 @@ boothApp.controller 'HomeCtrl', [
     $scope.sets = sets.data
 ]
 
-
 boothApp.controller 'QuestionCtrl', [
-  "$scope", "question"
-  ($scope, question) ->
+  "$scope", "question", "$state"
+  ($scope, question, $state) ->
     $scope.question = question
+    $state.go "home" unless question.metadata?.id
     $scope.showAnswer = -> $scope.answer = true
 ]

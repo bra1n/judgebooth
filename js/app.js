@@ -42,15 +42,13 @@
 
   boothApp.run([
     'questionsAPI', '$rootScope', '$state', function(questionsAPI, $rootScope, $state) {
-      $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+      $rootScope.$on('$stateChangeSuccess', function(event, toState) {
         return $rootScope.state = toState;
       });
       return $rootScope.next = function() {
-        return questionsAPI.questions().then(function(response) {
-          var questions;
-          questions = response.data;
+        return questionsAPI.nextQuestion().then(function(id) {
           return $state.go("question", {
-            id: questions[Math.floor(Math.random() * questions.length)].id
+            id: id
           });
         });
       };
@@ -59,6 +57,7 @@
 
   boothApp.controller('SideCtrl', [
     "$scope", "questionsAPI", function($scope, questionsAPI) {
+      $scope.filter = questionsAPI.filter();
       $scope.languages = questionsAPI.languages();
       $scope.languageCounts = {};
       questionsAPI.sets().then(function(response) {
@@ -97,11 +96,6 @@
         }
         return $scope.updateCount();
       });
-      $scope.filter = {
-        language: 1,
-        sets: [],
-        difficulty: []
-      };
       $scope.toggleSet = function(id) {
         var set, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2;
         if (id === "all" || id === "modern" || id === "standard" || id === "none") {
@@ -150,10 +144,10 @@
         }
         return $scope.updateCount();
       };
-      return $scope.updateCount = function() {
+      $scope.updateCount = function() {
         var set, _i, _len, _ref, _results;
-        questionsAPI.filterQuestions($scope.filter).then(function(questions) {
-          return $scope.count = questions.length;
+        questionsAPI.filterQuestions($scope.filter, false).then(function(questions) {
+          return $scope.filteredQuestions = questions;
         });
         $scope.setCount = Object.keys($scope.setCounts[$scope.filter.language]).length;
         _ref = $scope.filter.sets;
@@ -166,6 +160,13 @@
         }
         return _results;
       };
+      return $scope.showQuestions = function() {
+        if (!$scope.filteredQuestions.length) {
+          return;
+        }
+        questionsAPI.filter($scope.filter);
+        return $scope.next();
+      };
     }
   ]);
 
@@ -177,8 +178,12 @@
   ]);
 
   boothApp.controller('QuestionCtrl', [
-    "$scope", "question", function($scope, question) {
+    "$scope", "question", "$state", function($scope, question, $state) {
+      var _ref;
       $scope.question = question;
+      if (!((_ref = question.metadata) != null ? _ref.id : void 0)) {
+        $state.go("home");
+      }
       return $scope.showAnswer = function() {
         return $scope.answer = true;
       };
