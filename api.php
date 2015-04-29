@@ -12,26 +12,37 @@ if(isset($_GET['action'])) {
         LEFT JOIN card_sets cs ON cs.card_id = qc.card_id
         LEFT JOIN sets s ON s.id = cs.set_id
         LEFT JOIN question_translations qt ON qt.question_id = q.id
-        WHERE s.regular = 1
-        GROUP BY q.id";
+        WHERE s.regular = 1 AND q.live = 1
+        GROUP BY q.id, qc.card_id";
 	    $result = $db->query($query) or die($db->error());
       $output = array();
+      $questions = array();
 	    while($row = $result->fetch_assoc()) {
-		    array_push($output, $row);
+	      $row["difficulty"] = intval($row["difficulty"]);
+	      $row["id"] = intval($row["id"]);
+	      $row["sets"] = array_map('intval',explode(",",$row["sets"]));
+	      $row["languages"] = array_map('intval',explode(",",$row["languages"]));
+	      if(!isset($questions[$row["id"]])) {
+	        $questions[$row["id"]] = $row;
+	        $questions[$row["id"]]['cards'] = array();
+	        unset($questions[$row["id"]]["sets"]);
+	        unset($questions[$row["id"]]["live"]);
+	      }
+	      array_push($questions[$row["id"]]['cards'], $row["sets"]);
 	    }
 	    $result->free();
-      echo json_encode($output);
+      echo json_encode(array_values($questions));
       break;
     case "sets":
-      $query = "SELECT s.*, count(DISTINCT qc.question_id) qcount FROM sets s
-        LEFT JOIN card_sets cs ON cs.set_id = s.id
-        LEFT JOIN question_cards qc ON qc.card_id = cs.card_id
-        LEFT JOIN questions q ON q.id = qc.question_id
-        WHERE s.regular = 1 AND q.live = 1
-        GROUP BY s.id HAVING qcount > 1 ORDER BY releasedate DESC";
+      $query = "SELECT id, name, code, releasedate, standard, modern FROM sets
+        WHERE regular = 1
+        ORDER BY releasedate DESC";
       $result = $db->query($query) or die($db->error());
       $output = array();
       while($row = $result->fetch_assoc()) {
+        $row["id"] = intval($row["id"]);
+        $row["standard"] = intval($row["standard"]);
+        $row["modern"] = intval($row["modern"]);
         array_push($output, $row);
       }
       $result->free();

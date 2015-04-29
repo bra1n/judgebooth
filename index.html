@@ -9,12 +9,13 @@
   <link href="css/style.css" rel="stylesheet">
 
   <!-- ionic/angularjs js -->
-  <script src="js/ionic.bundle.min.js"></script>
-  <script src="js/angular-cache.min.js"></script>
-  <script src="js/angular-translate.min.js"></script>
+  <script src="lib/ionic.bundle.min.js"></script>
+  <script src="lib/angular-cache.min.js"></script>
+  <script src="lib/angular-translate.min.js"></script>
 
   <!-- app js -->
   <script src="js/app.js"></script>
+  <script src="js/services.js"></script>
 </head>
 <body>
   <ion-side-menus enable-menu-with-back-views="true">
@@ -35,9 +36,60 @@
 
     <!-- Left menu -->
     <ion-side-menu side="left" ng-controller="SideCtrl">
-      <ion-header-bar align-title="center">
+      <ion-header-bar align-title="center" class="bar-header bar bar-stable">
         <h1 class="title">Filter Questions</h1>
       </ion-header-bar>
+      <ion-content>
+        <div class="list">
+          <!-- Languages -->
+          <label class="item item-input item-select">
+            <span class="input-label">Language</span>
+            <select ng-model="filter.language" ng-change="updateCount()">
+              <option ng-repeat="language in languages" ng-if="languageCounts[language.id]" value="{{language.id}}">
+                {{language.name}}
+              </option>
+            </select>
+          </label>
+          <!-- Sets -->
+          <div class="item item-icon-right" ng-click="showSets = !showSets">
+            <span>Sets</span>
+            <span class="item-note">{{setCount}} selected</span>
+            <i class="icon ion-ios-gear"></i>
+          </div>
+          <div class="item sets" ng-show="showSets">
+            <div class="button-bar">
+              <button class="button button-dark button-small" ng-click="toggleSet('all')">All</button>
+              <button class="button button-dark button-small" ng-click="toggleSet('modern')">Modern</button>
+              <button class="button button-dark button-small" ng-click="toggleSet('standard')">Standard</button>
+              <button class="button button-dark button-small" ng-click="toggleSet('none')">None</button>
+            </div>
+            <div class="buttons">
+            <button class="button button-small set" ng-repeat="set in sets" ng-if="setCounts[filter.language][set.id]"
+                    ng-click="toggleSet(set.id)" ng-class="{'active':!filter.sets[set.id]}" title="{{set.name}}">
+              <img alt="{{set.code}}" src="images/sets/{{set.code}}.png">
+              <!--{{setCounts[filter.language][set.id]}}-->
+            </button>
+            </div>
+          </div>
+          <!-- Difficulty -->
+          <div class="item difficulty">
+            <span>Difficulty</span>
+            <div class="button-bar">
+              <button class="button button-small" ng-click="toggleDifficulty(0)"
+                      ng-class="{active:filter.difficulty.indexOf(0)<0}">Easy</button>
+              <button class="button button-small" ng-click="toggleDifficulty(1)"
+                      ng-class="{active:filter.difficulty.indexOf(1)<0}">Medium</button>
+              <button class="button button-small" ng-click="toggleDifficulty(2)"
+                      ng-class="{active:filter.difficulty.indexOf(2)<0}">Hard</button>
+            </div>
+          </div>
+        </div>
+        <div clasS="padding">
+          <button ng-disabled="!count" class="button button-block button-positive">
+            Show {{count}} Questions
+          </button>
+        </div>
+      </ion-content>
     </ion-side-menu>
   </ion-side-menus>
 </body>
