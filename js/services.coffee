@@ -55,12 +55,12 @@ services.service 'questionsAPI', [
         for question in questions
           continue unless parseInt(filter.language, 10) in question.languages
           continue if filter.difficulty.length and question.difficulty in filter.difficulty
-          if Object.keys(filter.sets).length
+          if filter.sets.length
             # super complicated check to make sure that the question only contains cards which are allowed by the filter
             hasIllegalCard = no
             for card in question.cards
               isLegalCard = no
-              isLegalCard = yes for set in card when !filter.sets[set]
+              isLegalCard = yes for set in card when set not in filter.sets
               hasIllegalCard = !isLegalCard
               break if hasIllegalCard # we stop as soon as we find a single illegal card
             continue if hasIllegalCard

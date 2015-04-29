@@ -99,38 +99,46 @@
       });
       $scope.filter = {
         language: 1,
-        sets: {},
+        sets: [],
         difficulty: []
       };
       $scope.toggleSet = function(id) {
         var set, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2;
+        if (id === "all" || id === "modern" || id === "standard" || id === "none") {
+          $scope.filter.sets = [];
+        }
         switch (id) {
-          case "all":
-            $scope.filter.sets = {};
-            break;
           case "standard":
             _ref = $scope.sets;
             for (_i = 0, _len = _ref.length; _i < _len; _i++) {
               set = _ref[_i];
-              $scope.filter.sets[set.id] = !set.standard;
+              if (!set.standard) {
+                $scope.filter.sets.push(set.id);
+              }
             }
             break;
           case "modern":
             _ref1 = $scope.sets;
             for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
               set = _ref1[_j];
-              $scope.filter.sets[set.id] = !set.modern;
+              if (!set.modern) {
+                $scope.filter.sets.push(set.id);
+              }
             }
             break;
           case "none":
             _ref2 = $scope.sets;
             for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
               set = _ref2[_k];
-              $scope.filter.sets[set.id] = true;
+              $scope.filter.sets.push(set.id);
             }
             break;
           default:
-            $scope.filter.sets[id] = !$scope.filter.sets[id];
+            if (__indexOf.call($scope.filter.sets, id) >= 0) {
+              $scope.filter.sets.splice($scope.filter.sets.indexOf(id), 1);
+            } else {
+              $scope.filter.sets.push(id);
+            }
         }
         return $scope.updateCount();
       };
@@ -143,16 +151,16 @@
         return $scope.updateCount();
       };
       return $scope.updateCount = function() {
-        var isOn, set, _ref, _results;
+        var set, _i, _len, _ref, _results;
         questionsAPI.filterQuestions($scope.filter).then(function(questions) {
           return $scope.count = questions.length;
         });
         $scope.setCount = Object.keys($scope.setCounts[$scope.filter.language]).length;
         _ref = $scope.filter.sets;
         _results = [];
-        for (set in _ref) {
-          isOn = _ref[set];
-          if (isOn && $scope.setCounts[$scope.filter.language][set]) {
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          set = _ref[_i];
+          if ($scope.setCounts[$scope.filter.language][set]) {
             _results.push($scope.setCount--);
           }
         }

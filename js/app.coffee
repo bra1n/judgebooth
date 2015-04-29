@@ -65,19 +65,24 @@ boothApp.controller 'SideCtrl', [
 
     $scope.filter =
       language: 1
-      sets: {}
+      sets: []
       difficulty: []
 
     # filter out a single set or many of them
     $scope.toggleSet = (id) ->
+      $scope.filter.sets = [] if id in ["all", "modern", "standard", "none"]
       switch id
-        when "all" then $scope.filter.sets = {}
-        when "standard" then $scope.filter.sets[set.id] = !set.standard for set in $scope.sets
-        when "modern" then $scope.filter.sets[set.id] = !set.modern for set in $scope.sets
-        when "none" then $scope.filter.sets[set.id] = yes for set in $scope.sets
-        else $scope.filter.sets[id] = !$scope.filter.sets[id]
+        when "standard" then $scope.filter.sets.push set.id for set in $scope.sets when !set.standard
+        when "modern" then $scope.filter.sets.push set.id for set in $scope.sets when !set.modern
+        when "none" then $scope.filter.sets.push set.id for set in $scope.sets
+        else
+          if id in $scope.filter.sets
+            $scope.filter.sets.splice $scope.filter.sets.indexOf(id), 1
+          else
+            $scope.filter.sets.push id
       $scope.updateCount()
 
+    # filter out difficulty levels
     $scope.toggleDifficulty = (level) ->
       if level in $scope.filter.difficulty
         $scope.filter.difficulty.splice $scope.filter.difficulty.indexOf(level), 1
@@ -85,11 +90,11 @@ boothApp.controller 'SideCtrl', [
         $scope.filter.difficulty.push level
       $scope.updateCount()
 
+    # calculate number of resulting questions and selected sets
     $scope.updateCount = ->
       questionsAPI.filterQuestions($scope.filter).then (questions) -> $scope.count = questions.length
-      # calculate number of valid sets for this language
       $scope.setCount = Object.keys($scope.setCounts[$scope.filter.language]).length
-      $scope.setCount-- for set, isOn of $scope.filter.sets when isOn and $scope.setCounts[$scope.filter.language][set]
+      $scope.setCount-- for set in $scope.filter.sets when $scope.setCounts[$scope.filter.language][set]
 ]
 
 boothApp.controller 'HomeCtrl', [

@@ -65,7 +65,7 @@
             </div>
             <div class="buttons">
             <button class="button button-small set" ng-repeat="set in sets" ng-if="setCounts[filter.language][set.id]"
-                    ng-click="toggleSet(set.id)" ng-class="{'active':!filter.sets[set.id]}" title="{{set.name}}">
+                    ng-click="toggleSet(set.id)" ng-class="{'active':filter.sets.indexOf(set.id)<0}" title="{{set.name}}">
               <img alt="{{set.code}}" src="images/sets/{{set.code}}.png">
               <!--{{setCounts[filter.language][set.id]}}-->
             </button>
