@@ -1,3 +1,5 @@
+/* General */
+
 /* Sidebar */
 div.sets {
   white-space: normal;
@@ -45,13 +47,15 @@ div.difficulty .button-bar .button {
 div.cards {
   flex-wrap: wrap;
   text-align: center;
+  position: relative;
+  z-index: 10;
 }
 div.cards .col {
-  min-width: 225px;
+  min-width: 223px;
 }
 div.cards .card-container {
-  width: 220px;
-  height: 307px;
+  width: 223px;
+  height: 310px;
   position: relative;
   display: block;
   margin: auto;
@@ -78,13 +82,13 @@ div.cards .card-container .scan {
 }
 div.cards .card-container div.oracle {
   text-align: left;
-  width: 220px;
+  width: 223px;
   font-size: 12px;
   line-height: 120%;
   box-sizing: border-box;
   padding: 8px;
   border: 10px solid black;
-  height: 307px;
+  height: 310px;
   -webkit-transform: rotateY(0deg) scale(1);
   transform: rotateY(0deg) scale(1);
 }
@@ -106,9 +110,11 @@ div.cards .card-container div.oracle .ability {
   white-space: pre-wrap;
 }
 div.cards .card-container .scan  {
-  width: 220px;
   -webkit-transform: rotateY(180deg) scale(1.3);
   transform: rotateY(180deg) scale(1.3);
+  width: 220px;
+  height: 307px;
+  background: url("../images/card.jpg") center center no-repeat;
 }
 div.cards .card-container.show-scan div.oracle {
   -webkit-transform: rotateY(-180deg) scale(1.3);

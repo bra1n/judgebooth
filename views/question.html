@@ -1,4 +1,4 @@
-<ion-view title="Question {{question.metadata.id}}">
+<ion-view>
   <ion-content class="padding">
     <div class="cards row">
       <div class="col" ng-repeat="card in question.cards">
@@ -8,13 +8,13 @@
             ng-load="card.scan = true" class="scan">
           <div class="oracle">
             <span class="title">
-              <span class="right">{{card.manacost}}</span>
+              <span class="right" ng-bind-html="card.manacost"></span>
               <b>{{card.name}}</b>
             </span>
             <b class="type">{{card.type}}</b>
-            <span class="ability">{{card.text}}</span>
-            <span class="right bottom" ng-if="card.toughness || card.power">{{card.power}} / {{card.toughness}}</span>
-            <span class="right bottom">{{card.loyalty}}</span>
+            <span class="ability" ng-bind-html="card.text"></span>
+            <b class="right bottom" ng-if="card.toughness || card.power">{{card.power}} / {{card.toughness}}</b>
+            <b class="right bottom">{{card.loyalty}}</b>
           </div>
         </div>
       </div>

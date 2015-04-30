@@ -102,6 +102,15 @@ boothApp.controller 'QuestionCtrl', [
   ($scope, questionsAPI, $stateParams, $state, $ionicScrollDelegate) ->
     questionsAPI.question($stateParams.id).then (question) ->
       $scope.question = question
+      for card in question.cards
+        card.manacost = (card.manacost or "")
+          .replace /\{([wubrg0-9]+)\}/ig, (a,b) -> "<i class='mtg mana-#{b.toLowerCase()}'></i>"
+          .replace /\{([2wubrg])\/([wubrg])\}/ig, (a,b,c) -> "<i class='mtg hybrid-#{(b+c).toLowerCase()}'></i>"
+        card.text = (card.text or "")
+          .replace /\{([wubrg0-9]+)\}/ig, (a,b) -> "<i class='mtg mana-#{b.toLowerCase()}'></i>"
+          .replace /\{t\}/ig, "<i class='mtg tap'></i>"
+          .replace /\{q\}/ig, "<i class='mtg untap'></i>"
+          .replace /\{([2wubrg])\/([wubrg])\}/ig, (a,b,c) -> "<i class='mtg hybrid-#{(b+c).toLowerCase()}'></i>"
       $state.go "home" unless question.metadata?.id
     $scope.toggleAnswer = ->
       $scope.answer = !$scope.answer

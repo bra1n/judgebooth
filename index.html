@@ -5,7 +5,10 @@
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
   <title>Interactive Judge Booth</title>
   <base href="/">
+  <!-- css & fonts -->
+  <link href='http://fonts.googleapis.com/css?family=Roboto:400,700&subset=cyrillic,latin' rel='stylesheet' type='text/css'>
   <link href="css/ionic.min.css" rel="stylesheet">
+  <link href="css/mtgicons.css" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet">
 
   <!-- ionic/angularjs js -->
@@ -21,7 +24,7 @@
   <ion-side-menus enable-menu-with-back-views="true">
     <!-- Center content -->
     <ion-side-menu-content>
-      <ion-nav-bar class="bar-positive nav-title-slide-ios7" align-title="center">
+      <ion-nav-bar class="bar-positive" align-title="center">
         <ion-nav-buttons side="primary">
           <button class="button button-icon ion-android-menu" menu-toggle></button>
         </ion-nav-buttons>
@@ -65,7 +68,7 @@
             <button class="button button-small set" ng-repeat="set in sets" ng-if="setCounts[filter.language][set.id]"
                     ng-click="toggleSet(set.id)" ng-class="{'active':filter.sets.indexOf(set.id)<0}"
                     title="{{::set.name}}">
-              <img alt="{{::set.code}}" src="images/sets/{{::set.code}}.png">
+              <img alt="{{::set.code}}" ng-src="images/sets/{{::set.code}}.png">
             </button>
             </div>
           </div>

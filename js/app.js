@@ -173,9 +173,23 @@
   boothApp.controller('QuestionCtrl', [
     "$scope", "questionsAPI", "$stateParams", "$state", "$ionicScrollDelegate", function($scope, questionsAPI, $stateParams, $state, $ionicScrollDelegate) {
       questionsAPI.question($stateParams.id).then(function(question) {
-        var _ref;
+        var card, _i, _len, _ref, _ref1;
         $scope.question = question;
-        if (!((_ref = question.metadata) != null ? _ref.id : void 0)) {
+        _ref = question.cards;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          card = _ref[_i];
+          card.manacost = (card.manacost || "").replace(/\{([wubrg0-9]+)\}/ig, function(a, b) {
+            return "<i class='mtg mana-" + (b.toLowerCase()) + "'></i>";
+          }).replace(/\{([2wubrg])\/([wubrg])\}/ig, function(a, b, c) {
+            return "<i class='mtg hybrid-" + ((b + c).toLowerCase()) + "'></i>";
+          });
+          card.text = (card.text || "").replace(/\{([wubrg0-9]+)\}/ig, function(a, b) {
+            return "<i class='mtg mana-" + (b.toLowerCase()) + "'></i>";
+          }).replace(/\{t\}/ig, "<i class='mtg tap'></i>").replace(/\{q\}/ig, "<i class='mtg untap'></i>").replace(/\{([2wubrg])\/([wubrg])\}/ig, function(a, b, c) {
+            return "<i class='mtg hybrid-" + ((b + c).toLowerCase()) + "'></i>";
+          });
+        }
+        if (!((_ref1 = question.metadata) != null ? _ref1.id : void 0)) {
           return $state.go("home");
         }
       });
