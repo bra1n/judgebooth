@@ -27,13 +27,14 @@ $cards = json_decode(file_get_contents("http://mtgjson.com/json/AllCards-x.json"
 echo "loaded cards\n";
 
 foreach($cards as $card) {
-  $query = "name='".$db->real_escape_string($card->name)."',
-  layout='".$db->real_escape_string($card->layout)."',
-  manacost='".$db->real_escape_string($card->manaCost)."',
-  type='".$db->real_escape_string($card->type)."',
-  text='".$db->real_escape_string($card->text)."',
-  power='".$db->real_escape_string($card->power)."',
-  toughness='".$db->real_escape_string($card->toughness)."'";
+  $query = "name='".$db->real_escape_string($card->name)."',";
+  if(isset($card->manaCost)) $query .= "manacost='".$db->real_escape_string($card->manaCost)."',";
+  if(isset($card->type)) $query .= "type='".$db->real_escape_string($card->type)."',";
+  if(isset($card->text)) $query .= "text='".$db->real_escape_string($card->text)."',";
+  if(isset($card->loyalty)) $query .= "loyalty='".$db->real_escape_string($card->loyalty)."',";
+  if(isset($card->power)) $query .= "power='".$db->real_escape_string($card->power)."',";
+  if(isset($card->toughness)) $query .= "toughness='".$db->real_escape_string($card->toughness)."',";
+  $query .= "layout='".$db->real_escape_string($card->layout)."'";
   if(isset($card->names)) $query .= ", full_name='".$db->real_escape_string(join(" // ",$card->names))."'";
   $query = "INSERT INTO cards SET $query ON DUPLICATE KEY UPDATE $query";
   $db->query($query) or die($db->error);
@@ -52,7 +53,7 @@ foreach($cards as $card) {
     $result->free();
   }
   # translations
-  if($card->foreignNames) {
+  if(isset($card->foreignNames) && count($card->foreignNames)) {
     foreach($card->foreignNames as $translation) {
       $result = $db->query("SELECT id FROM languages WHERE name = '".$db->real_escape_string($translation->language)."' LIMIT 1");
       while($row = $result->fetch_assoc()) {
@@ -82,7 +83,7 @@ foreach($tokens as $token) {
 }
 #*/
 
-#/* Import english question base
+/* Import english question base
 $questions = json_decode(file_get_contents("https://spreadsheets.google.com/feeds/cells/0Aig7p68d7NwYdFdhVVNHXzdDQ0Qwd0U3R0FNbkd6Ync/oda/public/values?alt=json"));
 echo count($questions->feed->entry)." cells loaded\n";
 $questionsArray = array();
@@ -129,7 +130,7 @@ foreach($questionsArray as $row) {
 }
 #*/
 
-#/* Import translations
+/* Import translations
 $translations = array(
   "cn" => 'https://spreadsheets.google.com/feeds/cells/0AqlIQacaL79AdDZoM0toVk5YTG9CWndTSldQODVuVlE/oda/public/values?alt=json',
   "tw" => 'https://spreadsheets.google.com/feeds/cells/0AvKY1T4Hb-_GdG1LZFhDNFpmcFNKZmt0LTZHcmllM2c/oda/public/values?alt=json',

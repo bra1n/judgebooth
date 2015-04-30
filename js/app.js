@@ -27,14 +27,7 @@
       }).state('question', {
         url: '/question/:id',
         templateUrl: 'views/question.html',
-        controller: 'QuestionCtrl',
-        resolve: {
-          question: [
-            'questionsAPI', '$stateParams', function(questionsAPI, $stateParams) {
-              return questionsAPI.question($stateParams.id);
-            }
-          ]
-        }
+        controller: 'QuestionCtrl'
       });
       return $urlRouterProvider.otherwise('/');
     }
@@ -178,15 +171,39 @@
   ]);
 
   boothApp.controller('QuestionCtrl', [
-    "$scope", "question", "$state", function($scope, question, $state) {
-      var _ref;
-      $scope.question = question;
-      console.log(question);
-      if (!((_ref = question.metadata) != null ? _ref.id : void 0)) {
-        $state.go("home");
-      }
-      return $scope.showAnswer = function() {
-        return $scope.answer = true;
+    "$scope", "questionsAPI", "$stateParams", "$state", "$ionicScrollDelegate", function($scope, questionsAPI, $stateParams, $state, $ionicScrollDelegate) {
+      questionsAPI.question($stateParams.id).then(function(question) {
+        var _ref;
+        $scope.question = question;
+        if (!((_ref = question.metadata) != null ? _ref.id : void 0)) {
+          return $state.go("home");
+        }
+      });
+      return $scope.toggleAnswer = function() {
+        $scope.answer = !$scope.answer;
+        $ionicScrollDelegate.resize();
+        return $ionicScrollDelegate.scrollBottom(true);
+      };
+    }
+  ]);
+
+  boothApp.directive('ngLoad', [
+    '$parse', function($parse) {
+      return {
+        restrict: 'A',
+        compile: function($element, attr) {
+          var fn;
+          fn = $parse(attr['ngLoad']);
+          return function(scope, element, attr) {
+            return element.on('load', function(event) {
+              return scope.$apply(function() {
+                return fn(scope, {
+                  $event: event
+                });
+              });
+            });
+          };
+        }
       };
     }
   ]);

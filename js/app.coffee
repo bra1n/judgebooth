@@ -21,10 +21,6 @@ boothApp.config [
       url: '/question/:id'
       templateUrl: 'views/question.html'
       controller: 'QuestionCtrl'
-      resolve:
-        question: [
-          'questionsAPI', '$stateParams', (questionsAPI, $stateParams) -> questionsAPI.question($stateParams.id)
-        ]
     $urlRouterProvider.otherwise '/'
 ]
 
@@ -102,10 +98,23 @@ boothApp.controller 'HomeCtrl', [
 ]
 
 boothApp.controller 'QuestionCtrl', [
-  "$scope", "question", "$state"
-  ($scope, question, $state) ->
-    $scope.question = question
-    console.log question
-    $state.go "home" unless question.metadata?.id
-    $scope.showAnswer = -> $scope.answer = true
+  "$scope", "questionsAPI", "$stateParams", "$state", "$ionicScrollDelegate"
+  ($scope, questionsAPI, $stateParams, $state, $ionicScrollDelegate) ->
+    questionsAPI.question($stateParams.id).then (question) ->
+      $scope.question = question
+      $state.go "home" unless question.metadata?.id
+    $scope.toggleAnswer = ->
+      $scope.answer = !$scope.answer
+      $ionicScrollDelegate.resize()
+      $ionicScrollDelegate.scrollBottom yes
+]
+
+boothApp.directive 'ngLoad', [
+  '$parse', ($parse) ->
+    restrict: 'A'
+    compile: ($element, attr) ->
+      fn = $parse attr['ngLoad']
+      (scope, element, attr) ->
+        element.on 'load', (event) ->
+          scope.$apply -> fn scope, $event:event
 ]

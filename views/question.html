@@ -2,24 +2,39 @@
   <ion-content class="padding">
     <div class="cards row">
       <div class="col" ng-repeat="card in question.cards">
-        <div class="scan">
-          {{card.name}}<br>
-          <img ng-src="{{card.url || 'http://gatherer.wizards.com/Handlers/Image.ashx?type=card&name='+card.name}}">
+        <b>{{card.name}}</b>
+        <div class="card-container" ng-class="{'show-scan':card.scan}" ng-click="card.scan = !card.scan">
+          <img ng-src="{{card.url || 'http://gatherer.wizards.com/Handlers/Image.ashx?type=card&name='+card.name}}"
+            ng-load="card.scan = true" class="scan">
+          <div class="oracle">
+            <span class="title">
+              <span class="right">{{card.manacost}}</span>
+              <b>{{card.name}}</b>
+            </span>
+            <b class="type">{{card.type}}</b>
+            <span class="ability">{{card.text}}</span>
+            <span class="right bottom" ng-if="card.toughness || card.power">{{card.power}} / {{card.toughness}}</span>
+            <span class="right bottom">{{card.loyalty}}</span>
+          </div>
         </div>
-        <div class="oracle">
-          <span class="right">{{card.manacost}}</span>
-          {{card.name}}<br>
-          {{card.type}}<br>
-          <span class="pre">{{card.text}}</span>
-          <span class="right" ng-if="card.toughness || card.power">{{card.power}} / {{card.toughness}}</span>
-          <span class="right">{{card.loyalty}}</span>
-        </div>
-
       </div>
     </div>
-    <p class="question">{{question.question}}</p>
-    <p ng-show="answer" class="answer">{{question.answer}}</p>
-    {{question.metadata.author}} - {{question.metadata.difficulty}}<br>
-    <button class="button" ng-hide="answer" ng-click="showAnswer()">Show Answer</button>
+    <!-- text -->
+    <div class="card">
+      <div class="item item-divider text-center">
+        Question {{question.metadata.id}} -
+        <span ng-show="question.metadata.author">from {{question.metadata.author}} -</span>
+        Difficulty {{question.metadata.difficulty}}
+      </div>
+      <div class="question item item-text-wrap">{{question.question}}</div>
+      <div ng-show="answer" class="answer item item-text-wrap">{{question.answer}}</div>
+      <div class="item item-divider text-center">
+        <button class="button icon-left" ng-click="toggleAnswer()"
+                ng-class="{'button-positive ion-checkmark-circled':!answer, 'button-dark ion-close-circled':answer}">
+          <span ng-hide="answer">Show Answer</span>
+          <span ng-show="answer">Hide Answer</span>
+        </button>
+      </div>
+    </div>
   </ion-content>
 </ion-view>
