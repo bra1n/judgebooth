@@ -97,8 +97,21 @@ div.cards .card-container div.oracle {
   -moz-osx-font-smoothing: grayscale;
 }
 div.cards .card-container div.oracle .right { float: right; }
-div.cards .card-container div.oracle .bottom { position: absolute; bottom: 10px; right: 10px; }
-div.cards .card-container div.oracle .type { margin-bottom: 10px; display: block; }
+div.cards .card-container div.oracle .bottom {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border: 1px solid black;
+  border-bottom: none;
+  border-right: none;
+  padding: 8px;
+}
+div.cards .card-container div.oracle .type {
+  display: block;
+  border: 1px solid black;
+  margin: 0 -9px 4px;
+  padding: 4px 8px;
+}
 div.cards .card-container div.oracle .title { margin-bottom: 50px; display: block; }
 div.cards .card-container div.oracle .ability br { line-height: 20px; }
 div.cards .card-container div.oracle .ability em { font-style: italic; }

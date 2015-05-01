@@ -14,7 +14,7 @@
             <b class="type">{{::card.type}}</b>
             <span class="ability" ng-bind-html="card.text"></span>
             <b class="right bottom" ng-if="card.toughness || card.power">{{::card.power}} / {{::card.toughness}}</b>
-            <b class="right bottom">{{::card.loyalty}}</b>
+            <b class="right bottom" ng-if="card.loyalty">{{::card.loyalty}}</b>
           </div>
         </div>
       </div>
