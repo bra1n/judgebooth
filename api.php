@@ -55,14 +55,16 @@ if(isset($_GET['action'])) {
           LEFT JOIN cards c ON c.id = qc.card_id
           LEFT JOIN card_translations ct ON ct.card_id = qc.card_id AND ct.language_id = ".$db->real_escape_string($_GET['lang'])."
           LEFT JOIN question_translations qt ON qt.question_id = qc.question_id AND qt.language_id = ".$db->real_escape_string($_GET['lang'])."
-          WHERE qc.question_id = ".$db->real_escape_string($_GET['id']);
+          WHERE qc.question_id = ".$db->real_escape_string($_GET['id'])."
+          ORDER BY c.layout, c.id ASC";
         $result = $db->query($query) or die($db->error);
         $output = array("cards"=>array());
         while($row = $result->fetch_assoc()) {
-          $output["question"] = $row["question"];
-          $output["answer"] = $row["answer"];
+          $output["question"] = strip_tags($row["question"]);
+          $output["answer"] = strip_tags($row["answer"]);
           unset($row["question"]);
           unset($row["answer"]);
+          $row["text"] = nl2br($row["text"]);
           foreach($row as $field=>$value) {
             if($value === "" || $value === null || $field == "id") unset($row[$field]);
           }

@@ -1,20 +1,20 @@
 <ion-view>
-  <ion-content class="padding">
+  <ion-content>
     <div class="cards row">
       <div class="col" ng-repeat="card in question.cards">
-        <b>{{card.name}}</b>
+        <h4>{{::card.name}}</h4>
         <div class="card-container" ng-class="{'show-scan':card.scan}" ng-click="card.scan = !card.scan">
-          <img ng-src="{{card.url || 'http://gatherer.wizards.com/Handlers/Image.ashx?type=card&name='+card.name}}"
+          <img ng-src="{{::card.src}}"
             ng-load="card.scan = true" class="scan">
           <div class="oracle">
             <span class="title">
               <span class="right" ng-bind-html="card.manacost"></span>
-              <b>{{card.name}}</b>
+              <b>{{::card.name}}</b>
             </span>
-            <b class="type">{{card.type}}</b>
+            <b class="type">{{::card.type}}</b>
             <span class="ability" ng-bind-html="card.text"></span>
-            <b class="right bottom" ng-if="card.toughness || card.power">{{card.power}} / {{card.toughness}}</b>
-            <b class="right bottom">{{card.loyalty}}</b>
+            <b class="right bottom" ng-if="card.toughness || card.power">{{::card.power}} / {{::card.toughness}}</b>
+            <b class="right bottom">{{::card.loyalty}}</b>
           </div>
         </div>
       </div>
@@ -22,13 +22,15 @@
     <!-- text -->
     <div class="card">
       <div class="item item-divider text-center">
-        Question {{question.metadata.id}} -
-        <span ng-show="question.metadata.author">from {{question.metadata.author}} -</span>
-        Difficulty {{question.metadata.difficulty}}
+        <b>Question {{::question.metadata.id}}</b>
+        <i class="icon ion-android-star"></i>
+        <i class="icon" ng-class="{'ion-android-star':question.metadata.difficulty>=1}"></i>
+        <i class="icon" ng-class="{'ion-android-star':question.metadata.difficulty>=2}"></i>
+        <span ng-show="question.metadata.author">by {{::question.metadata.author}}</span>
       </div>
-      <div class="question item item-text-wrap">{{question.question}}</div>
-      <div ng-show="answer" class="answer item item-text-wrap">{{question.answer}}</div>
-      <div class="item item-divider text-center">
+      <div class="question item item-text-wrap" ng-bind-html="question.question"></div>
+      <div ng-show="answer" class="answer positive item item-text-wrap" ng-bind-html="question.answer"></div>
+      <div class="item tabs item-divider text-center">
         <button class="button icon-left" ng-click="toggleAnswer()"
                 ng-class="{'button-positive ion-checkmark-circled':!answer, 'button-dark ion-close-circled':answer}">
           <span ng-hide="answer">Show Answer</span>

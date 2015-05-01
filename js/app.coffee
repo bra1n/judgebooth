@@ -100,9 +100,13 @@ boothApp.controller 'HomeCtrl', [
 boothApp.controller 'QuestionCtrl', [
   "$scope", "questionsAPI", "$stateParams", "$state", "$ionicScrollDelegate"
   ($scope, questionsAPI, $stateParams, $state, $ionicScrollDelegate) ->
+    gatherer = 'http://gatherer.wizards.com/Handlers/Image.ashx?type=card&name='
     questionsAPI.question($stateParams.id).then (question) ->
       $scope.question = question
       for card in question.cards
+        card.src = gatherer + card.name
+        card.src = gatherer + card.full_name if card.layout is "split"
+        card.src = card.url if card.url
         card.manacost = (card.manacost or "")
           .replace /\{([wubrg0-9]+)\}/ig, (a,b) -> "<i class='mtg mana-#{b.toLowerCase()}'></i>"
           .replace /\{([2wubrg])\/([wubrg])\}/ig, (a,b,c) -> "<i class='mtg hybrid-#{(b+c).toLowerCase()}'></i>"
@@ -111,6 +115,9 @@ boothApp.controller 'QuestionCtrl', [
           .replace /\{t\}/ig, "<i class='mtg tap'></i>"
           .replace /\{q\}/ig, "<i class='mtg untap'></i>"
           .replace /\{([2wubrg])\/([wubrg])\}/ig, (a,b,c) -> "<i class='mtg hybrid-#{(b+c).toLowerCase()}'></i>"
+          .replace /(\(.*?\))/ig, '<em>$1</em>'
+        question.question = question.question.replace RegExp("("+card.name+")", "ig"), "<b>$1</b>"
+        question.answer = question.answer.replace RegExp("("+card.name+")", "ig"), "<b>$1</b>"
       $state.go "home" unless question.metadata?.id
     $scope.toggleAnswer = ->
       $scope.answer = !$scope.answer
