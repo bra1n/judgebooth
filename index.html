@@ -48,7 +48,8 @@
           <label class="item item-input item-select">
             <span class="input-label">Language</span>
             <select ng-model="filter.language" ng-change="updateCount()">
-              <option ng-repeat="language in languages" ng-if="languageCounts[language.id]" value="{{language.id}}">
+              <option ng-repeat="language in languages" ng-if="languageCounts[language.id]"
+                     ng-selected="filter.language == language.id" value="{{language.id}}">
                 {{language.name}}
               </option>
             </select>

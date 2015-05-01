@@ -45,7 +45,7 @@ services.service 'questionsAPI', [
     # purge cached filtered question lists when updating the filter
     filter: (filter) ->
       filterDefault =
-        language: 1
+        language: "1"
         sets: []
         difficulty: []
       if filter?

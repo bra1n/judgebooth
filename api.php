@@ -51,7 +51,7 @@ if(isset($_GET['action'])) {
       break;
     case "question":
       if(isset($_GET['id']) && isset($_GET['lang']) && intval($_GET['id']) && intval($_GET['lang'])) {
-        $query = "SELECT c.*, IFNULL(ct.name, c.name) name, qt.question, qt.answer FROM question_cards qc
+        $query = "SELECT c.*, IFNULL(ct.name, c.name) name, c.name name_en, qt.question, qt.answer FROM question_cards qc
           LEFT JOIN cards c ON c.id = qc.card_id
           LEFT JOIN card_translations ct ON ct.card_id = qc.card_id AND ct.language_id = ".$db->real_escape_string($_GET['lang'])."
           LEFT JOIN question_translations qt ON qt.question_id = qc.question_id AND qt.language_id = ".$db->real_escape_string($_GET['lang'])."
