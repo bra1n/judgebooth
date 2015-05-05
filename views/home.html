@@ -1,7 +1,17 @@
 <ion-view>
-  <ion-content class="padding">
-    <h1>Welcome to the Judge Booth!</h1>
-    <p>We have {{questions.length}} Questions from {{sets.length}} Sets.</p>
-    <a class="button" ng-click="next()">Start</a>
+  <ion-content class="padding" id="home">
+    <div class="card">
+      <div class="item item-divider text-center">
+        <b translate>home.title</b>
+      </div>
+      <p class="item item-text-wrap">
+        <span translate>home.description</span>
+        <span translate translate-values="{question:questions.length, sets:sets.length, languages:languages.length,
+          authors:authors.length, filtered:filtered.length}">home.statistics</span>
+      </p>
+      <div class="item tabs item-divider text-center">
+        <a class="button icon-right button-positive ion-forward" ng-click="next()" translate>home.start</a>
+      </div>
+    </div>
   </ion-content>
 </ion-view>

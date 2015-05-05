@@ -1,4 +1,4 @@
-services = angular.module "boothServices", []
+services = angular.module "judgebooth.services", []
 
 services.service 'questionsAPI', [
   "$http", "CacheFactory", "$q"
@@ -12,7 +12,7 @@ services.service 'questionsAPI', [
       memory: CacheFactory 'memoryCache',
         maxAge: 3600 * 1000 # 1 hour
         capacity: 20
-    apiURL = "http://" + window.location.host + "/api.php?action="
+    apiURL = "http://" + window.location.host + "/backend/?action="
     # get all sets
     sets: -> $http.get apiURL + "sets", cache: caches.short
     # list of available languages

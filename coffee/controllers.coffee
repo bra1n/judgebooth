@@ -1,39 +1,8 @@
-boothApp = angular.module 'judgebooth', [
-  'ionic'
-  'angular-cache'
-  'pascalprecht.translate'
-  'boothServices'
-]
+controllers = angular.module "judgebooth.controllers", []
 
-boothApp.config [
-  '$locationProvider', '$stateProvider', '$urlRouterProvider'
-  ($locationProvider, $stateProvider, $urlRouterProvider) ->
-    $locationProvider.html5Mode !ionic.Platform.isWebView()
-    $stateProvider
-    .state 'home',
-      url: '/'
-      templateUrl: 'views/home.html'
-      controller: 'HomeCtrl'
-      resolve:
-        questions: ['questionsAPI', (questionsAPI) -> questionsAPI.questions()]
-        sets: ['questionsAPI', (questionsAPI) -> questionsAPI.sets()]
-    .state 'question',
-      url: '/question/:id'
-      templateUrl: 'views/question.html'
-      controller: 'QuestionCtrl'
-    $urlRouterProvider.otherwise '/'
-]
-
-boothApp.run [
-  'questionsAPI', '$rootScope', '$state'
-  (questionsAPI, $rootScope, $state) ->
-    $rootScope.$on '$stateChangeSuccess', (event, toState) -> $rootScope.state = toState
-    $rootScope.next = -> questionsAPI.nextQuestion().then (id) ->  $state.go "question", {id}
-]
-
-boothApp.controller 'SideCtrl', [
-  "$scope", "questionsAPI"
-  ($scope, questionsAPI) ->
+controllers.controller 'SideCtrl', [
+  "$scope", "questionsAPI", "$ionicScrollDelegate"
+  ($scope, questionsAPI, $ionicScrollDelegate) ->
     # get data
     $scope.filter = questionsAPI.filter()
     $scope.languages = questionsAPI.languages()
@@ -55,6 +24,11 @@ boothApp.controller 'SideCtrl', [
             $scope.setCounts[language][set] or= 0
             $scope.setCounts[language][set]++
       $scope.updateCount()
+
+    # show list of sets
+    $scope.showSets = ->
+      $scope.setsShown = !$scope.setsShown
+      $ionicScrollDelegate.resize()
 
     # filter out a single set or many of them
     $scope.toggleSet = (id) ->
@@ -90,14 +64,27 @@ boothApp.controller 'SideCtrl', [
       $scope.next()
 ]
 
-boothApp.controller 'HomeCtrl', [
-  "$scope", "questions", "sets"
-  ($scope, questions, sets) ->
-    $scope.questions = questions.data
-    $scope.sets = sets.data
+controllers.controller 'HomeCtrl', [
+  "$scope", "questionsAPI"
+  ($scope, questionsAPI) ->
+    $scope.sets = []
+    $scope.languages = []
+    $scope.authors = []
+    $scope.questions = []
+    $scope.filtered = []
+    $scope.$on "$ionicView.enter", ->
+      questionsAPI.questions().then (response) ->
+        $scope.questions = response.data
+        questionsAPI.filterQuestions().then (questions) -> $scope.filtered = questions
+        for question in $scope.questions
+          $scope.authors.push question.author unless question.author in $scope.authors
+          for card in question.cards
+            $scope.sets.push set for set in card when set not in $scope.sets
+          for language in question.languages
+            $scope.languages.push language if language not in $scope.languages
 ]
 
-boothApp.controller 'QuestionCtrl', [
+controllers.controller 'QuestionCtrl', [
   "$scope", "questionsAPI", "$stateParams", "$state", "$ionicScrollDelegate"
   ($scope, questionsAPI, $stateParams, $state, $ionicScrollDelegate) ->
     gatherer = 'http://gatherer.wizards.com/Handlers/Image.ashx?type=card&name='
@@ -108,14 +95,14 @@ boothApp.controller 'QuestionCtrl', [
         card.src = gatherer + card.full_name if card.layout is "split"
         card.src = card.url if card.url
         card.manacost = (card.manacost or "")
-          .replace /\{([wubrg0-9]+)\}/ig, (a,b) -> "<i class='mtg mana-#{b.toLowerCase()}'></i>"
-          .replace /\{([2wubrg])\/([wubrg])\}/ig, (a,b,c) -> "<i class='mtg hybrid-#{(b+c).toLowerCase()}'></i>"
+        .replace /\{([wubrgx0-9]+)\}/ig, (a,b) -> "<i class='mtg mana-#{b.toLowerCase()}'></i>"
+        .replace /\{([2wubrg])\/([wubrg])\}/ig, (a,b,c) -> "<i class='mtg hybrid-#{(b+c).toLowerCase()}'></i>"
         card.text = (card.text or "")
-          .replace /\{([wubrg0-9]+)\}/ig, (a,b) -> "<i class='mtg mana-#{b.toLowerCase()}'></i>"
-          .replace /\{t\}/ig, "<i class='mtg tap'></i>"
-          .replace /\{q\}/ig, "<i class='mtg untap'></i>"
-          .replace /\{([2wubrg])\/([wubrg])\}/ig, (a,b,c) -> "<i class='mtg hybrid-#{(b+c).toLowerCase()}'></i>"
-          .replace /(\(.*?\))/ig, '<em>$1</em>'
+        .replace /\{([wubrgx0-9]+)\}/ig, (a,b) -> "<i class='mtg mana-#{b.toLowerCase()}'></i>"
+        .replace /\{t\}/ig, "<i class='mtg tap'></i>"
+        .replace /\{q\}/ig, "<i class='mtg untap'></i>"
+        .replace /\{([2wubrg])\/([wubrg])\}/ig, (a,b,c) -> "<i class='mtg hybrid-#{(b+c).toLowerCase()}'></i>"
+        .replace /(\(.*?\))/ig, '<em>$1</em>'
         question.question = question.question.replace RegExp("("+card.name+")", "ig"), "<b>$1</b>"
         question.answer = question.answer.replace RegExp("("+card.name+")", "ig"), "<b>$1</b>"
       $state.go "home" unless question.metadata?.id
@@ -123,14 +110,4 @@ boothApp.controller 'QuestionCtrl', [
       $scope.answer = !$scope.answer
       $ionicScrollDelegate.resize()
       $ionicScrollDelegate.scrollBottom yes
-]
-
-boothApp.directive 'ngLoad', [
-  '$parse', ($parse) ->
-    restrict: 'A'
-    compile: ($element, attr) ->
-      fn = $parse attr['ngLoad']
-      (scope, element, attr) ->
-        element.on 'load', (event) ->
-          scope.$apply -> fn scope, $event:event
 ]

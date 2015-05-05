@@ -1,0 +1,23 @@
+{
+  "author": "Steffen Baumgart <steffen@baumgart.biz>",
+  "homepage": "https://brain.github.io/judgebooth/",
+  "name": "JudgeBooth",
+  "version": "2.0.0",
+  "description": "Interactive Judge Booth",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bra1n/judgebooth.git"
+  },
+  "dependencies": {
+    "bower": "*",
+    "gulp": "*",
+    "gulp-sass": "*",
+    "gulp-concat": "*",
+    "gulp-minify-css": "*",
+    "gulp-rename": "*",
+    "gulp-coffee": "*",
+    "gulp-wrap": "*",
+    "gulp-util": "*",
+    "gulp-uglify": "*"
+  }
+}

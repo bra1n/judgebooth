@@ -1,0 +1,13 @@
+{
+  "name": "JudgeBooth",
+  "private": "true",
+  "homepage": "https://brain.github.io/judgebooth/",
+  "authors": [
+    "Steffen Baumgart <steffen@baumgart.biz>"
+  ],
+  "dependencies": {
+    "angular-translate": "^2.7.0",
+    "angular-cache": "^4.2.0",
+    "ionic": "driftyco/ionic-bower#master"
+  }
+}

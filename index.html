@@ -3,108 +3,19 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-  <title>Interactive Judge Booth</title>
+  <title translate="common.title">Interactive Judge Booth</title>
   <base href="/">
   <!-- css & fonts -->
-  <link href='http://fonts.googleapis.com/css?family=Roboto:400,700&subset=cyrillic,latin' rel='stylesheet' type='text/css'>
-  <link href="css/ionic.min.css" rel="stylesheet">
+  <link href='https://fonts.googleapis.com/css?family=Roboto:400,700&subset=cyrillic,latin' rel='stylesheet' type='text/css'>
   <link href="css/mtgicons.css" rel="stylesheet">
-  <link href="css/style.css" rel="stylesheet">
-
-  <!-- ionic/angularjs js -->
-  <script src="lib/ionic.bundle.min.js"></script>
-  <script src="lib/angular-cache.min.js"></script>
-  <script src="lib/angular-translate.min.js"></script>
+  <link href="css/style.min.css" rel="stylesheet">
 
   <!-- app js -->
-  <script src="js/app.js"></script>
-  <script src="js/services.js"></script>
+  <script src="js/lib.min.js"></script>
+  <script src="js/app.min.js"></script>
+  <script src="js/translations.min.js"></script>
 </head>
 <body>
-  <ion-side-menus enable-menu-with-back-views="true">
-    <!-- Center content -->
-    <ion-side-menu-content>
-      <ion-nav-bar class="bar-positive" align-title="center">
-        <ion-nav-buttons side="left">
-          <button class="button button-icon ion-android-menu" menu-toggle></button>
-        </ion-nav-buttons>
-        <ion-nav-buttons side="right">
-          <button class="button button-icon icon-right ion-arrow-right-a" ng-click="next()" ng-hide="state.name == 'home'">
-            Next Question
-          </button>
-        </ion-nav-buttons>
-      </ion-nav-bar>
-      <ion-nav-view></ion-nav-view>
-    </ion-side-menu-content>
-
-    <!-- Left menu -->
-    <ion-side-menu side="left" ng-controller="SideCtrl">
-      <ion-header-bar align-title="center" class="bar-header bar bar-stable">
-        <h1 class="title">Filter Questions</h1>
-      </ion-header-bar>
-      <ion-content>
-        <div class="list">
-          <!-- Languages -->
-          <label class="item item-input item-select">
-            <span class="input-label">Language</span>
-            <select ng-model="filter.language" ng-change="updateCount()">
-              <option ng-repeat="language in languages" ng-if="languageCounts[language.id]"
-                     ng-selected="filter.language == language.id" value="{{language.id}}">
-                {{language.name}}
-              </option>
-            </select>
-          </label>
-          <!-- Sets -->
-          <div class="item item-icon-right" ng-click="showSets = !showSets">
-            <span>Sets</span>
-            <span class="item-note">{{setCount}} selected</span>
-            <i class="icon ion-ios-gear"></i>
-          </div>
-          <div class="item sets" ng-show="showSets">
-            <div class="button-bar">
-              <button class="button button-dark button-small" ng-click="toggleSet('all')">All</button>
-              <button class="button button-dark button-small" ng-click="toggleSet('modern')">Modern</button>
-              <button class="button button-dark button-small" ng-click="toggleSet('standard')">Standard</button>
-              <button class="button button-dark button-small" ng-click="toggleSet('none')">None</button>
-            </div>
-            <div class="buttons">
-            <button class="button button-small set" ng-repeat="set in sets" ng-if="setCounts[filter.language][set.id]"
-                    ng-click="toggleSet(set.id)" ng-class="{'active':filter.sets.indexOf(set.id)<0}"
-                    title="{{::set.name}}">
-              <img alt="{{::set.code}}" ng-src="images/sets/{{::set.code}}.png">
-            </button>
-            </div>
-          </div>
-          <!-- Difficulty -->
-          <div class="item difficulty">
-            <span>Difficulty</span>
-            <div class="button-bar">
-              <button class="button button-small" ng-click="toggleDifficulty(0)"
-                      ng-class="{active:filter.difficulty.indexOf(0)<0}">
-                <i class="icon ion-android-star"></i>
-              </button>
-              <button class="button button-small" ng-click="toggleDifficulty(1)"
-                      ng-class="{active:filter.difficulty.indexOf(1)<0}">
-                <i class="icon ion-android-star"></i>
-                <i class="icon ion-android-star"></i>
-              </button>
-              <button class="button button-small" ng-click="toggleDifficulty(2)"
-                      ng-class="{active:filter.difficulty.indexOf(2)<0}">
-                <i class="icon ion-android-star"></i>
-                <i class="icon ion-android-star"></i>
-                <i class="icon ion-android-star"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-        <div clasS="padding">
-          <button ng-disabled="!filteredQuestions.length" class="button button-block button-positive"
-                  menu-close ng-click="showQuestions()">
-            Show {{filteredQuestions.length}} Questions
-          </button>
-        </div>
-      </ion-content>
-    </ion-side-menu>
-  </ion-side-menus>
+  <ion-nav-view></ion-nav-view>
 </body>
 </html>
