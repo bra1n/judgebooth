@@ -2576,7 +2576,7 @@ body.grade-b, body.grade-c {
   width: auto;
   height: auto; }
 
-.scroll-content-false, .menu .scroll-content.scroll-content-false {
+.menu .scroll-content.scroll-content-false {
   z-index: 11; }
 
 .scroll-view {
@@ -7714,16 +7714,15 @@ div.card .button {
 
 /* Question */
 div.cards {
+  -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
-  text-align: center;
   position: relative;
   z-index: 10; }
-  div.cards h4 {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis; }
   div.cards .col {
-    min-width: 223px; }
+    -webkit-box-flex: 1 0 223px;
+    -webkit-flex: 1 0 223px;
+    flex: 1 0 223px;
+    text-align: center; }
   div.cards .card-container {
     width: 223px;
     height: 310px;
@@ -7737,11 +7736,11 @@ div.cards {
       position: absolute;
       -webkit-backface-visibility: hidden;
       backface-visibility: hidden;
-      -webkit-transition: transform 0.5s;
-      -moz-transition: transform 0.5s;
-      -ms-transition: transform 0.5s;
-      -o-transition: transform 0.5s;
-      transition: transform 0.5s;
+      -webkit-transition: all 0.5s;
+      -moz-transition: all 0.5s;
+      -ms-transition: all 0.5s;
+      -o-transition: all 0.5s;
+      transition: all 0.5s;
       left: 0;
       top: 0;
       border-radius: 10px;

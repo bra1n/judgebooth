@@ -1,7 +1,7 @@
 <ion-view>
   <ion-content>
     <div class="cards row">
-      <div class="col" ng-repeat="card in question.cards">
+      <div class="col col-bottom" ng-repeat="card in question.cards">
         <h4>{{::card.name}}</h4>
         <div class="card-container" ng-class="{'show-scan':card.scan}" ng-click="card.scan = !card.scan">
           <img ng-src="{{::card.src}}"

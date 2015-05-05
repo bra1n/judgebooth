@@ -1,5 +1,5 @@
 <?php
-$db = new mysqli('localhost', 'root', 'root', 'judgebooth');
+$db = new mysqli('127.0.0.1', 'root', 'root', 'judgebooth');
 $db->set_charset("utf8");
 
 header("Content-type: application/json");
