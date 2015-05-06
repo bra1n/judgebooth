@@ -1,13 +1,14 @@
 <ion-side-menus enable-menu-with-back-views="true">
   <!-- Center content -->
   <ion-side-menu-content>
-    <ion-nav-bar class="bar-positive" align-title="center">
+    <ion-nav-bar class="bar-positive">
       <ion-nav-buttons side="left">
         <button class="button button-icon ion-android-menu" menu-toggle></button>
       </ion-nav-buttons>
+      <ion-nav-title ui-sref="app.home"></ion-nav-title>
       <ion-nav-buttons side="right">
         <button class="button button-icon icon-right ion-arrow-right-a" ng-click="next()"
-                ng-hide="state.name == 'home'" translate>common.next</button>
+                ng-hide="state.name == 'home'" translate></button>
       </ion-nav-buttons>
     </ion-nav-bar>
     <ion-nav-view name="menuContent"></ion-nav-view>
@@ -82,9 +83,9 @@
         </div>
       </div>
       <div class="padding">
-        <button ng-disabled="!filteredQuestions.length" class="button button-block button-positive"
+        <button ng-disabled="!filteredQuestions.length" class="button button-block button-positive icon-right ion-arrow-right-a"
                 menu-close ng-click="showQuestions()" translate translate-value-number="{{filteredQuestions.length}}">
-          menu.show
+          menu.select
         </button>
       </div>
       <div class="text-center padding">

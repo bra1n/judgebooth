@@ -2,7 +2,7 @@ $light:                           #fff !default;
 $stable:                          #eee;
 $button-stable-active-bg:         #ccc;
 $item-divider-bg:                 #eee;
-$positive:                        #EC532B;
+$positive:                        #e52628;
 $calm:                            #43cee6 !default;
 $balanced:                        #66cc33 !default;
 $energized:                       #f0b840 !default;
@@ -13,8 +13,17 @@ $dark:                            #313131;
 @import "../lib/ionic/scss/ionic";
 
 /* General */
-ion-header-bar .button.icon-right:before {
-  margin-left: 10px;
+ion-header-bar.bar-positive {
+  .title {
+    background: url("../images/logo.png") no-repeat center center;
+    @media screen and (max-device-width: 500px) {
+      background-image: url("../images/logo-small.png");
+    }
+    span {
+      display: block;
+      height: 100%;
+    }
+  }
 }
 div.card .button {
   -webkit-transition: background 0.5s;
@@ -23,9 +32,93 @@ div.card .button {
   -o-transition: background 0.5s;
   transition: background 0.5s;
 }
+div.scroll { min-height: 90%; }
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -32px;
+  margin-left: -32px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  perspective: 800px;
+  span {
+    position: absolute;
+    top: 100%;
+    margin-top: 10px;
+    text-align: center;
+    display: block;
+    width: 320px;
+    left: -128px;
+    font-size: 16px;
+  }
+  .inner {
+    position: absolute;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    &.one {
+      left: 0;
+      top: 0;
+      -webkit-animation: rotate-one 1s linear infinite;
+      animation: rotate-one 1s linear infinite;
+      border-bottom: 3px solid #EC532B;
+    }
+    &.two {
+      right: 0;
+      top: 0;
+      -webkit-animation: rotate-two 1s linear infinite;
+      animation: rotate-two 1s linear infinite;
+      border-right: 3px solid #F6891F;
+    }
+    &.three {
+      right: 0;
+      bottom: 0;
+      -webkit-animation: rotate-three 1s linear infinite;
+      animation: rotate-three 1s linear infinite;
+      border-top: 3px solid #FFCD34;
+    }
+  }
+}
+@-webkit-keyframes rotate-one {
+  0% { transform: rotateX(35deg) rotateY(-45deg) rotateZ(0deg); }
+  100% { transform: rotateX(35deg) rotateY(-45deg) rotateZ(360deg); }
+}
+@keyframes rotate-one {
+  0% { transform: rotateX(35deg) rotateY(-45deg) rotateZ(0deg); }
+  100% { transform: rotateX(35deg) rotateY(-45deg) rotateZ(360deg); }
+}
+@-webkit-keyframes rotate-two {
+  0% { transform: rotateX(50deg) rotateY(10deg) rotateZ(0deg); }
+  100% { transform: rotateX(50deg) rotateY(10deg) rotateZ(360deg); }
+}
+@keyframes rotate-two {
+  0% { transform: rotateX(50deg) rotateY(10deg) rotateZ(0deg); }
+  100% { transform: rotateX(50deg) rotateY(10deg) rotateZ(360deg); }
+}
+@-webkit-keyframes rotate-three {
+  0% { transform: rotateX(35deg) rotateY(55deg) rotateZ(0deg); }
+  100% { transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg); }
+}
+@keyframes rotate-three {
+  0% { transform: rotateX(35deg) rotateY(55deg) rotateZ(0deg); }
+  100% { transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg); }
+}
 
 /* Home */
 #home {
+  img.logo {
+    margin: 20px 0;
+    max-width: 100%;
+  }
+  .loader {
+    position: relative;
+    left: 0;
+    top: 0;
+    margin: 20px auto;
+  }
   .card p span {
     display: block;
     margin: 5px 0;

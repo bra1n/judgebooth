@@ -1,6 +1,13 @@
 <ion-view>
-  <ion-content class="padding" id="home">
-    <div class="card">
+  <ion-content class="padding text-center" id="home" on-swipe-left="next()">
+    <img class="logo" src="/images/logo2.png" alt="Magic Judge Booth">
+    <div class="loader" ng-hide="questions.length">
+      <div class="inner one"></div>
+      <div class="inner two"></div>
+      <div class="inner three"></div>
+      <span class="positive" translate>common.loading</span>
+    </div>
+    <div class="card" ng-show="questions.length">
       <div class="item item-divider text-center">
         <b translate>home.title</b>
       </div>
@@ -10,7 +17,9 @@
           authors:authors.length, filtered:filtered.length}">home.statistics</span>
       </p>
       <div class="item tabs item-divider text-center">
-        <a class="button icon-right button-positive ion-forward" ng-click="next()" translate>home.start</a>
+        <a class="button button-positive" ng-click="next()" translate>
+          home.start
+        </a>
       </div>
     </div>
   </ion-content>

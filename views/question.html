@@ -1,5 +1,12 @@
 <ion-view>
-  <ion-content>
+  <ion-content on-swipe-left="next()">
+    <div class="loader" ng-hide="question">
+      <div class="inner one"></div>
+      <div class="inner two"></div>
+      <div class="inner three"></div>
+      <span class="positive" translate>common.loading</span>
+    </div>
+
     <div class="cards row">
       <div class="col col-bottom" ng-repeat="card in question.cards">
         <h4>{{::card.name}}</h4>
@@ -20,7 +27,7 @@
       </div>
     </div>
     <!-- text -->
-    <div class="card">
+    <div class="card" ng-show="question">
       <div class="item item-divider text-center">
         <b translate translate-value-number="{{::question.metadata.id}}">question.title</b>
         <i class="icon positive ion-android-star"></i>
@@ -31,7 +38,7 @@
       <div class="question item item-text-wrap" ng-bind-html="question.question"></div>
       <div ng-show="answer" class="answer positive item item-text-wrap" ng-bind-html="question.answer"></div>
       <div class="item tabs item-divider text-center">
-        <button class="button icon-left" ng-click="toggleAnswer()"
+        <button class="button icon-right" ng-click="toggleAnswer()"
                 ng-class="{'button-positive ion-checkmark-circled':!answer, 'button-dark ion-close-circled':answer}">
           <span ng-hide="answer" translate>question.show_answer</span>
           <span ng-show="answer" translate>question.hide_answer</span>

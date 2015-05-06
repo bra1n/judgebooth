@@ -1,7 +1,7 @@
 {
   "common": {
-    "title": "Interactive Judge Booth",
-    "next": "Next Question"
+    "title": "Magic Judge Booth",
+    "loading": "Loading"
   },
   "menu": {
     "title": "Filter Questions",
@@ -13,14 +13,14 @@
     "sets_standard": "Standard",
     "sets_none": "None",
     "difficulty": "Difficulty",
-    "show": "Show {{number}} Questions",
+    "select": "Select {{number}} Questions",
     "source": "Fork me on GitHub"
   },
   "home": {
     "title": "Welcome to the Judge Booth!",
     "description": "The Judge Booth was created to allow players to interact with judges as a group of individuals who share a passion, who are fun to hang out with, and whom they can befriend and trust, as opposed to just people in positions of authority. The booth wants to make a connection between judges and players.",
     "statistics": "There are {{questions}} questions from {{sets}} sets and {{languages}} languages, written by more than {{authors}} authors. You currently have selected {{filtered}} of these questions.",
-    "start": "Start"
+    "start": "Show Questions"
   },
   "question": {
     "title": "Question {{number}}",
