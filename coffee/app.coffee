@@ -36,9 +36,9 @@ boothApp.config [
   '$translateProvider', ($translateProvider) ->
     # detect language
     availableLanguages = ["en", "ru", "cn", "tw", "fr"]
-    navigatorLanguage = (navigator.language or navigator.userLanguage).toLowerCase().substr(0,2)
+    navigatorLanguage = (navigator.language or navigator.userLanguage)
+    navigatorLanguage = navigatorLanguage.replace(/^zh_/i,'').toLowerCase().substr(0,2)
     language = "en"
-    # todo: detect zh_cn/zh_tw languages correctly
     language = navigatorLanguage if navigatorLanguage in availableLanguages
     $translateProvider.useSanitizeValueStrategy 'escaped'
     $translateProvider.registerAvailableLanguageKeys availableLanguages
@@ -47,10 +47,13 @@ boothApp.config [
 ]
 
 boothApp.run [
-  'questionsAPI', '$rootScope', '$state'
-  (questionsAPI, $rootScope, $state) ->
+  'questionsAPI', '$rootScope', '$state', '$ionicPlatform'
+  (questionsAPI, $rootScope, $state, $ionicPlatform) ->
     $rootScope.$on '$stateChangeSuccess', (event, toState) -> $rootScope.state = toState
     $rootScope.next = -> questionsAPI.nextQuestion().then (id) ->  $state.go "app.question", {id}
+    $ionicPlatform.ready ->
+      unless $rootScope.online = navigator.onLine
+        alert "offline mode"
 ]
 
 boothApp.directive 'ngLoad', [

@@ -94,5 +94,6 @@ services.service 'questionsAPI', [
         questions.push questions.shift()
         caches.memory.put "filteredQuestions", questions
         deferred.resolve questions[0]
+      , -> deferred.reject()
       deferred.promise
 ]

@@ -2576,7 +2576,7 @@ body.grade-b, body.grade-c {
   width: auto;
   height: auto; }
 
-.scroll-content-false, .menu .scroll-content.scroll-content-false {
+.menu .scroll-content.scroll-content-false {
   z-index: 11; }
 
 .scroll-view {
@@ -7661,6 +7661,7 @@ a.button {
 
 /* General */
 ion-header-bar.bar-positive .title {
+  cursor: pointer;
   background: url("../images/logo.png") no-repeat center center; }
   @media screen and (max-device-width: 500px) {
     ion-header-bar.bar-positive .title {
