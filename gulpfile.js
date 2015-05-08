@@ -7,6 +7,7 @@ var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var wrap = require('gulp-wrap');
 var uglify = require('gulp-uglify');
+var spritesmith = require('gulp.spritesmith');
 
 var paths = {
   sass: ['./scss/**/*.scss'],
@@ -19,7 +20,22 @@ var paths = {
   ]
 };
 
-gulp.task('default', ['sass', 'coffee', 'translations', 'libraries']);
+gulp.task('default', ['sprites','sass', 'coffee', 'translations', 'libraries']);
+
+gulp.task('sprites', function(done) {
+  var spriteData = gulp.src('./images/sets/*.png').pipe(spritesmith({
+    imgName: 'sets.png',
+    imgPath: '../images/sets.png',
+    cssName: 'sets.min.css',
+    cssSpritesheetName: 'icon-sets',
+    cssTemplate: './scss/sets-template.handlebars'
+  }));
+  spriteData.img.pipe(gulp.dest('./images/'));
+  spriteData.css
+    .pipe(minifyCss({keepSpecialComments: 0}))
+    .pipe(gulp.dest('./css/'))
+    .on('end', done);
+});
 
 gulp.task('sass', function(done) {
   gulp.src(paths.sass)
@@ -53,7 +69,7 @@ gulp.task('libraries', function() {
     .pipe(gulp.dest('./js/'))
 });
 
-gulp.task('watch', ['sass', 'coffee', 'translations', 'libraries'], function() {
+gulp.task('watch', ['default'], function() {
   gulp.watch(paths.sass, ['sass']);
   gulp.watch(paths.coffee, ['coffee']);
   gulp.watch(paths.translations, ['translations']);

@@ -56,7 +56,9 @@
             <button class="button button-small set" ng-repeat="set in sets" ng-if="setCounts[filter.language][set.id]"
                     ng-click="toggleSet(set.id)" ng-class="{'active':filter.sets.indexOf(set.id)<0}"
                     title="{{::set.name}}">
-              <img alt="{{::set.code}}" ng-src="images/sets/{{::set.code}}.png">
+              <i class="icon-sets icon-sets-{{::set.code}}" title="{{::set.name}}"></i>
+              <!--<img ng-show="filter.sets.indexOf(set.id)<0" alt="{{::set.code}}" ng-src="http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&set={{::set.code}}&size=small&rarity=R">-->
+              <!--<img ng-hide="filter.sets.indexOf(set.id)<0" alt="{{::set.code}}" ng-src="http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&set={{::set.code}}&size=small&rarity=C">-->
             </button>
           </div>
         </div>
@@ -89,6 +91,10 @@
         </button>
       </div>
       <div class="text-center padding">
+        <span ng-show="online && cacheStatus != 1" translate>menu.offline_caching</span>
+        <span ng-show="online && cacheStatus == 1" translate>menu.offline_ready</span>
+        <span ng-show="!online && cacheStatus == 1" translate>menu.offline_mode</span>
+        -
         <a href="https://github.com/bra1n/judgebooth" class="dark" target="_blank" translate>menu.source</a>
       </div>
     </ion-content>

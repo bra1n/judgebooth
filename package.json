@@ -11,13 +11,14 @@
   "dependencies": {
     "bower": "*",
     "gulp": "*",
-    "gulp-sass": "*",
+    "gulp-coffee": "*",
     "gulp-concat": "*",
     "gulp-minify-css": "*",
     "gulp-rename": "*",
-    "gulp-coffee": "*",
-    "gulp-wrap": "*",
+    "gulp-sass": "*",
+    "gulp-uglify": "*",
     "gulp-util": "*",
-    "gulp-uglify": "*"
+    "gulp-wrap": "*",
+    "gulp.spritesmith": "^3.6.0"
   }
 }

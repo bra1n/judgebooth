@@ -14,6 +14,9 @@
     "sets_none": "None",
     "difficulty": "Difficulty",
     "select": "Select {{number}} Questions",
+    "offline_caching": "Caching files...",
+    "offline_ready": "Offline ready",
+    "offline_mode": "Offline mode",
     "source": "Fork me on GitHub"
   },
   "home": {

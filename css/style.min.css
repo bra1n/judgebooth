@@ -7794,10 +7794,12 @@ div.scroll {
   #side div.sets .button.set {
     margin: 2px;
     min-width: 45px;
-    padding: 0; }
+    padding: 0;
+    line-height: 16px; }
+    #side div.sets .button.set i {
+      vertical-align: middle; }
     #side div.sets .button.set img {
-      vertical-align: middle;
-      max-width: 43px; }
+      vertical-align: middle; }
 #side div.difficulty {
   padding-right: 185px; }
   #side div.difficulty .button-bar {

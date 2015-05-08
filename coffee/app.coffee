@@ -47,13 +47,18 @@ boothApp.config [
 ]
 
 boothApp.run [
-  'questionsAPI', '$rootScope', '$state', '$ionicPlatform'
-  (questionsAPI, $rootScope, $state, $ionicPlatform) ->
+  'questionsAPI', '$rootScope', '$state', '$ionicPlatform', '$window'
+  (questionsAPI, $rootScope, $state, $ionicPlatform, $window) ->
     $rootScope.$on '$stateChangeSuccess', (event, toState) -> $rootScope.state = toState
     $rootScope.next = -> questionsAPI.nextQuestion().then (id) ->  $state.go "app.question", {id}
     $ionicPlatform.ready ->
-      unless $rootScope.online = navigator.onLine
-        alert "offline mode"
+      $rootScope.online = navigator.onLine
+      appCache = $window.applicationCache
+      appCache.addEventListener 'progress', -> $rootScope.cacheStatus = appCache.status
+      appCache.addEventListener 'error', -> $rootScope.$apply -> $rootScope.cacheStatus = appCache.status
+      appCache.addEventListener 'cached', -> $rootScope.$apply -> $rootScope.cacheStatus = appCache.status
+      appCache.addEventListener 'updateready', -> $rootScope.$apply -> $rootScope.cacheStatus = appCache.status
+      appCache.addEventListener 'noupdate', -> $rootScope.$apply -> $rootScope.cacheStatus = appCache.status
 ]
 
 boothApp.directive 'ngLoad', [

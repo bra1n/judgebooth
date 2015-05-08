@@ -34,12 +34,32 @@ services.service 'questionsAPI', [
     # get a single question with translations
     question: (id) ->
       deferred = $q.defer()
-      questionPromise = $http.get apiURL + "question&lang=" + @filter().language + "&id=" + id, cache: caches.memory
-      $q.all([@questions(), questionPromise]).then ([questionsResponse, questionResponse]) ->
-        question = questionResponse.data
-        question.metadata = metadata for metadata in questionsResponse.data when metadata.id is parseInt(id, 10)
-        deferred.resolve question
-      , -> deferred.reject()
+      language = @filter().language
+      if !navigator.onLine
+        # we have internet access
+        questionPromise = $http.get apiURL + "question&lang=" + language + "&id=" + id, cache: caches.memory
+        $q.all([@questions(), questionPromise]).then ([questionsResponse, questionResponse]) ->
+          question = questionResponse.data
+          question.metadata = metadata for metadata in questionsResponse.data when metadata.id is parseInt(id, 10)
+          deferred.resolve question
+        , -> deferred.reject()
+      else
+        # we don't have internet access, use the offline endpoint
+        questionPromise = $http.get apiURL + "offline", cache: caches.memory
+        $q.all([@questions(), questionPromise]).then ([questionsResponse, questionResponse]) ->
+          if questionResponse.data.questions[id]
+            question = questionResponse.data.questions[id][language] or questionResponse.data.questions[id][1]
+            question.cards = []
+            for cardId in questionResponse.data.questions[id].cards
+              card = questionResponse.data.cards[cardId]
+              card.name_en = card.name
+              card.name = card.translations[language] if card.translations?[language]
+              question.cards.push card
+            question.metadata = metadata for metadata in questionsResponse.data when metadata.id is parseInt(id, 10)
+            deferred.resolve question
+          else
+            deferred.reject()
+        , -> deferred.reject()
       deferred.promise
     # set or get the question filter
     # purge cached filtered question lists when updating the filter
