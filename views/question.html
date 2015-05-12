@@ -35,7 +35,7 @@
         <span ng-show="question.metadata.author" translate translate-value-author="{{::question.metadata.author}}">question.title_by</span>
       </div>
       <div class="question item item-text-wrap" ng-bind-html="question.question"></div>
-      <div ng-show="answer" class="answer positive item item-text-wrap" ng-bind-html="question.answer"></div>
+      <div ng-show="answer" class="answer positive item item-text-wrap ng-hide" ng-bind-html="question.answer"></div>
       <div class="item tabs item-divider text-center">
         <button class="button icon-right" ng-click="toggleAnswer()"
                 ng-class="{'button-positive ion-checkmark-circled':!answer, 'button-dark ion-close-circled':answer}">

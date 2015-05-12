@@ -44,7 +44,7 @@ services.service 'questionsAPI', [
     question: (id) ->
       deferred = $q.defer()
       language = @filter().language
-      if !navigator.onLine
+      if navigator.onLine
         # we have internet access
         questionPromise = $http.get apiURL + "question&lang=" + language + "&id=" + id, cache: caches.memory
         $q.all([@questions(), questionPromise]).then ([questionsResponse, questionResponse]) ->
