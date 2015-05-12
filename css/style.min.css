@@ -7660,15 +7660,16 @@ a.button {
   transition-duration: 0s; }
 
 /* General */
-ion-header-bar.bar-positive .title {
-  cursor: pointer;
-  background: url("../images/logo.png") no-repeat center center; }
+#content ion-header-bar.bar-positive {
+  background: url("../images/logo.png") no-repeat center center #e52628; }
   @media screen and (max-device-width: 500px) {
-    ion-header-bar.bar-positive .title {
+    #content ion-header-bar.bar-positive {
       background-image: url("../images/logo-small.png"); } }
-  ion-header-bar.bar-positive .title span {
-    display: block;
-    height: 100%; }
+  #content ion-header-bar.bar-positive .title {
+    cursor: pointer; }
+    #content ion-header-bar.bar-positive .title span {
+      display: block;
+      height: 100%; }
 
 div.card .button {
   -webkit-transition: background 0.5s;

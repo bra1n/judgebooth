@@ -13,13 +13,13 @@ $dark:                            #313131;
 @import "../lib/ionic/scss/ionic";
 
 /* General */
-ion-header-bar.bar-positive {
+#content ion-header-bar.bar-positive {
+  background: url("../images/logo.png") no-repeat center center $positive;
+  @media screen and (max-device-width: 500px) {
+    background-image: url("../images/logo-small.png");
+  }
   .title {
     cursor: pointer;
-    background: url("../images/logo.png") no-repeat center center;
-    @media screen and (max-device-width: 500px) {
-      background-image: url("../images/logo-small.png");
-    }
     span {
       display: block;
       height: 100%;
