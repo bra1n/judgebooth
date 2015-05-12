@@ -10,7 +10,7 @@ boothApp = angular.module 'judgebooth', [
 boothApp.config [
   '$locationProvider', '$stateProvider', '$urlRouterProvider'
   ($locationProvider, $stateProvider, $urlRouterProvider) ->
-    $locationProvider.html5Mode !ionic.Platform.isWebView()
+    $locationProvider.html5Mode navigator.onLine
     $stateProvider
     .state 'app',
       url: ''

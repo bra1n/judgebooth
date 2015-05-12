@@ -16,6 +16,7 @@ CACHE:
 /fonts/ionicons.woff?v=2.0.1
 /fonts/ionicons.svg?v=2.0.1
 /fonts/ionicons.ttf?v=2.0.1
+https://fonts.googleapis.com/css?family=Roboto:400,700&subset=cyrillic,latin
 <?php
 // list all files
 $dirs = array("css","fonts","images","js","views");

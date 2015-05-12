@@ -79,10 +79,7 @@ services.service 'questionsAPI', [
         sets: []
         difficulty: []
       if filter?
-        console.log "filter set", filter
-        for language in availableLanguages when language.id is parseInt filter.language, 10
-          console.log "use", language.code
-          $translate.use language.code
+        $translate.use language.code for language in availableLanguages when language.id is parseInt filter.language, 10
         caches.persistent.put "filter", filter
         caches.memory.remove "filteredQuestions"
       caches.persistent.get("filter") or filterDefault
