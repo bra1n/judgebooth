@@ -1,9 +1,10 @@
 <?php
+require("config.php");
 if(php_sapi_name() != "cli") exit;
 if(count($_SERVER['argv']) < 2) die("possible arguments: sets, cards, questions, translations, tokens\n");
 ini_set('memory_limit', '512M');
 ini_set('max_execution_time', '0');
-$db = new mysqli('127.0.0.1', 'root', 'root', 'judgebooth');
+$db = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 $db->set_charset("utf8");
 $argv = strtolower($_SERVER['argv'][1]);
 

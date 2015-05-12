@@ -1,9 +1,58 @@
 <?php
-$db = new mysqli('127.0.0.1', 'root', 'root', 'judgebooth');
+require("config.php");
+session_start();
+$db = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 $db->set_charset("utf8");
 
 header("Content-type: application/json");
 
+// Authenticate the user through the Google API and return their data
+function auth($db, $token = "") {
+  $auth = isset($_SESSION['auth']) ? $_SESSION['auth']:"";
+  $query = "SELECT * FROM users WHERE email = '".$db->real_escape_string($auth)."' LIMIT 1";
+  $result = $db->query($query) or die($db->error());
+  $user = $result->fetch_assoc();
+  $result->free();
+  if($user) {
+    return $user;
+  } elseif($auth) {
+    return array("error"=>"unauthorized");
+  } elseif($token) {
+    $postData = "code=".urlencode($token).
+      "&client_id=".urlencode(GAPPS_CLIENTID).
+      "&client_secret=".urlencode(GAPPS_CLIENTSECRET).
+      "&redirect_uri=".urlencode(GAPPS_REDIRECT).
+      "&grant_type=authorization_code";
+    $ch = curl_init();
+    curl_setopt($ch,CURLOPT_URL, "https://www.googleapis.com/oauth2/v3/token");
+    curl_setopt($ch,CURLOPT_POST, count($postData));
+    curl_setopt($ch,CURLOPT_POSTFIELDS, $postData);
+    curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+    $result = json_decode(curl_exec($ch));
+    curl_close($ch);
+    if(isset($result->error)) {
+      return array("error"=>"invalid_token");
+    } else {
+      $token = $result->access_token;
+      $userinfo = json_decode(file_get_contents("https://www.googleapis.com/oauth2/v2/userinfo?access_token=".$token));
+      if($userinfo->verified_email) {
+        $_SESSION['auth'] = $userinfo->email;
+        return array("status"=>"success");
+      } else {
+        return array("error"=>"invalid_email");
+      }
+    }
+  } else {
+    $url = 'https://accounts.google.com/o/oauth2/auth?'.
+      'scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email'.
+      '&state=auth&response_type=code'.
+      '&redirect_uri='.urlencode(GAPPS_REDIRECT).
+      '&client_id='.urlencode(GAPPS_CLIENTID);
+    return array("login"=>$url);
+  }
+}
+
+// get a list of all questions with sets and languages
 function getQuestions($db) {
   $query = "SELECT q.*, GROUP_CONCAT(DISTINCT set_id) sets, GROUP_CONCAT(DISTINCT qt.language_id) languages FROM questions q
         LEFT JOIN question_cards qc ON qc.question_id = q.id
@@ -32,6 +81,7 @@ function getQuestions($db) {
   return array_values($questions);
 }
 
+// get a single question with cards and texts
 function getQuestion($db, $id = false, $lang = false) {
   $output = array();
   if($id && $lang && intval($id) && intval($lang)) {
@@ -59,6 +109,7 @@ function getQuestion($db, $id = false, $lang = false) {
   return $output;
 }
 
+// get a list of sets
 function getSets($db) {
   $query = "SELECT id, name, code, releasedate, standard, modern FROM sets
         WHERE regular = 1
@@ -75,6 +126,7 @@ function getSets($db) {
   return $output;
 }
 
+// get all the data for offline mode
 function getQuestionsAndCards($db) {
   $questionQuery = "SELECT qt.* FROM question_translations qt
     LEFT JOIN questions q ON q.id = qt.question_id
@@ -134,6 +186,10 @@ if(isset($_GET['action'])) {
       break;
     case "offline":
       echo json_encode(getQuestionsAndCards($db));
+      break;
+    case "auth":
+      if(!isset($_GET['token'])) $_GET['token'] = "";
+      echo json_encode(auth($db, $_GET['token']));
       break;
   }
 }
