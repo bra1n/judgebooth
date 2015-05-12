@@ -1,8 +1,9 @@
 services = angular.module "judgebooth.services", []
 
 services.service 'questionsAPI', [
-  "$http", "CacheFactory", "$q"
-  ($http, CacheFactory, $q) ->
+  "$http", "CacheFactory", "$q", "$translate"
+  ($http, CacheFactory, $q, $translate) ->
+    # vars
     caches =
       persistent: CacheFactory 'persistentCache', # forever
         storageMode: 'localStorage'
@@ -12,11 +13,7 @@ services.service 'questionsAPI', [
       memory: CacheFactory 'memoryCache',
         maxAge: 3600 * 1000 # 1 hour
         capacity: 20
-    apiURL = "http://" + window.location.host + "/backend/?action="
-    # get all sets
-    sets: -> $http.get apiURL + "sets", cache: caches.short
-    # list of available languages
-    languages: -> [
+    availableLanguages = [
       {id: 1,name: "English",code: "en"}
       {id: 2,name: "German",code: "de"}
       {id: 3,name: "Italian",code: "it"}
@@ -29,6 +26,18 @@ services.service 'questionsAPI', [
       {id: 10,name: "Chinese Traditional",code: "tw"}
       {id: 11,name: "French",code: "fr"}
     ]
+    apiURL = "http://" + window.location.host + "/backend/?action="
+    # set app language from cache
+    if caches.persistent.get "filter"
+      for language in availableLanguages when language.id is parseInt caches.persistent.get("filter").language, 10
+        $translate.use language.code
+        break
+
+    #################  API methods   ###################
+    # get all sets
+    sets: -> $http.get apiURL + "sets", cache: caches.short
+    # list of available languages
+    languages: -> availableLanguages
     # get all questions with basic metadata
     questions: -> $http.get apiURL + "questions", cache: caches.short
     # get a single question with translations
@@ -64,11 +73,16 @@ services.service 'questionsAPI', [
     # set or get the question filter
     # purge cached filtered question lists when updating the filter
     filter: (filter) ->
+      currentLanguage = language.id for language in @languages() when language.code is $translate.use()
       filterDefault =
-        language: "1"
+        language: currentLanguage
         sets: []
         difficulty: []
       if filter?
+        console.log "filter set", filter
+        for language in availableLanguages when language.id is parseInt filter.language, 10
+          console.log "use", language.code
+          $translate.use language.code
         caches.persistent.put "filter", filter
         caches.memory.remove "filteredQuestions"
       caches.persistent.get("filter") or filterDefault

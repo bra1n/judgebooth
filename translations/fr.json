@@ -1,0 +1,31 @@
+{
+  "common": {
+    "title": "Magic Judge Booth",
+    "loading": "Chargement"
+  },
+  "menu": {
+    "title": "Filtrer les questions",
+    "language": "Langue",
+    "sets": "Editions",
+    "sets_selected": "{{number}} sélectionnés",
+    "sets_all": "Toutes",
+    "sets_modern": "Modern",
+    "sets_standard": "Standard",
+    "sets_none": "Aucun",
+    "difficulty": "Difficulté",
+    "select": "Voir les {{number}} questions sélectionnées",
+    "source": "Source code on GitHub"
+  },
+  "home": {
+    "title": "Bienvenue sur le Judge Booth!",
+    "description": "Le Judge Booth a été créé pour permettre aux joueurs d’interagir avec les arbitres comme un groupe de personnes partageant la même passion, pouvant sortir ensemble et même devenir amis et se faire confiance, au lieu d'être seulement des individus en relation d'autorité. Le booth se veut une connexion entre arbitres et joueurs. ",
+    "statistics": "Il y a {{questions}} questions parmi {{sets}} éditions différentes et en {{languages}} langues, écrites par plus de {{authors}} auteurs. Vous avez actuellement choisi {{filtered}} de ces questions.",
+    "start": "Montrer les Questions"
+  },
+  "question": {
+    "title": "Question {{number}}",
+    "title_by": "par {{author}}",
+    "show_answer": "Montrer la réponse",
+    "hide_answer": "Cacher la réponse"
+  }
+}

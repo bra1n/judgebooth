@@ -1,6 +1,31 @@
 {
+  "common": {
+    "title": "万智牌裁判问答",
+    "loading": "正在载入"
+  },
+  "menu": {
+    "title": "筛选问题",
+    "language": "语言",
+    "sets": "系列",
+    "sets_selected": "已选择 {{number}} 个系列",
+    "sets_all": "所有",
+    "sets_modern": "近代",
+    "sets_standard": "标准",
+    "sets_none": "无",
+    "difficulty": "难度",
+    "select": "选择 {{number}} 个问题",
+    "source": "在 GitHub 上 Fork 此项目"
+  },
+  "home": {
+    "title": "欢迎访问裁判问答！",
+    "description": "裁判并不是一群高高在上的权威人士，而是一个怀有共同理念，幽默风趣，友善助人，值得信赖的群体。正因如此，我们设计了这个裁判问答系列，来让牌手与裁判互动，希望能够成为沟通裁判与牌手的桥梁。",
+    "statistics": "裁判问答现有来自 {{sets}} 个系列与 {{languages}} 种语言的 {{questions}} 道问题，作者人数多达 {{authors}} 人。你当前选择了其中的 {{filtered}} 道题目。",
+    "start": "显示问题"
+  },
   "question": {
-    "show_answer": "Show Answer",
-    "hide_answer": "Hide Answer"
+    "title": "问题 {{number}}",
+    "title_by": "作者：{{author}}",
+    "show_answer": "显示答案",
+    "hide_answer": "隐藏答案"
   }
 }
