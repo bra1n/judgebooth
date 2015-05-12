@@ -12,23 +12,52 @@ boothApp.config [
   ($locationProvider, $stateProvider, $urlRouterProvider) ->
     $locationProvider.html5Mode navigator.onLine
     $stateProvider
+    # base app route
     .state 'app',
       url: ''
       abstract: yes
       templateUrl: 'views/menu.html'
       controller: 'SideCtrl'
-    .state 'app.home',
+    .state 'app.home', # home screen
       url: '/'
       views:
         menuContent:
           templateUrl: 'views/home.html'
           controller: 'HomeCtrl'
-    .state 'app.question',
+    .state 'app.question', # show a question
       url: '/question/:id'
       views:
         menuContent:
           templateUrl: 'views/question.html'
           controller: 'QuestionCtrl'
+    # admin routes
+    .state 'app.admin',
+      url: '/admin'
+      abstract: yes
+    .state 'app.admin.new', # new question
+      url: '/new'
+      views:
+        'menuContent@app':
+          templateUrl: 'views/admin/new.html'
+          controller: 'AdminNewCtrl'
+    .state 'app.admin.all', # all questions
+      url: '/question/:id'
+      views:
+        'menuContent@app':
+          templateUrl: 'views/admin/question.html'
+          controller: 'AdminQuestionCtrl'
+    .state 'app.admin.translation', # translations
+      url: '/translation/:id/:language'
+      views:
+        'menuContent@app':
+          templateUrl: 'views/admin/translation.html'
+          controller: 'AdminTranslationCtrl'
+    .state 'app.admin.user', # users
+      url: '/user'
+      views:
+        'menuContent@app':
+          templateUrl: 'views/admin/user.html'
+          controller: 'AdminUserCtrl'
     $urlRouterProvider.otherwise '/'
 ]
 

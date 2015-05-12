@@ -17,9 +17,12 @@
   <!-- Left menu -->
   <ion-side-menu side="left">
     <ion-header-bar align-title="center" class="bar-header bar bar-stable">
-      <h1 class="title" translate>menu.title</h1>
+      <h1 class="title">
+        <span ng-show="tab == 'filter'" translate>menu.title_filter</span>
+        <span ng-show="tab == 'admin'" translate>menu.title_admin</span>
+      </h1>
     </ion-header-bar>
-    <ion-content id="side">
+    <ion-content class="side-content" ng-class="{'has-tabs':user.name}" ng-show="tab == 'filter'">
       <div class="list">
         <!-- Languages -->
         <label class="item item-input item-select">
@@ -91,12 +94,56 @@
         </button>
       </div>
       <div class="text-center padding">
-        <span ng-show="online && cacheStatus != 1" translate>menu.offline_caching</span>
-        <span ng-show="online && cacheStatus == 1" translate>menu.offline_ready</span>
-        <span ng-show="!online && cacheStatus == 1" translate>menu.offline_mode</span>
-        -
-        <a href="https://github.com/bra1n/judgebooth" class="dark" target="_blank" translate>menu.source</a>
+        <div>
+          <span ng-show="online && cacheStatus == 3" translate>menu.offline_caching</span>
+          <span ng-show="online && cacheStatus == 1" translate>menu.offline_ready</span>
+          <span ng-show="!online && cacheStatus == 1" translate>menu.offline_mode</span>
+        </div>
+        <div>
+          <span ng-show="!user" ng-click="login()">Login</span>
+          <span ng-show="user.error">Error logging in: {{user.error}}</span>
+          <span ng-show="user.name">{{user.name}}</span>
+        </div>
+        <a class="dark" href="https://github.com/bra1n/judgebooth" target="_blank" translate>menu.source</a>
       </div>
     </ion-content>
+
+    <ion-content ng-show="tab == 'admin'" class="has-tabs side-content">
+      <div class="list">
+        <a class="item item-icon-left" ui-sref="app.admin.new">
+          <i class="icon ion-plus"></i>
+          New Question
+        </a>
+        <a class="item item-icon-left" ui-sref="app.admin.all" ng-show="user.role == 'admin'">
+          <i class="icon ion-help"></i>
+          All Questions
+        </a>
+        <a class="item item-icon-left" ui-sref="app.admin.translation">
+          <i class="icon ion-earth"></i>
+          Translations
+        </a>
+        <a class="item item-icon-left" ui-sref="app.admin.user" ng-show="user.role == 'admin'">
+          <i class="icon ion-ios-people"></i>
+          Users
+        </a>
+        <a class="item item-icon-left" ng-click="logout()">
+          <i class="icon ion-android-exit"></i>
+          Logout
+        </a>
+      </div>
+    </ion-content>
+
+    <div ng-show="user.name" class="tabs-striped tabs-color-positive">
+      <div class="tabs">
+        <a class="tab-item"  ng-class="{active:tab == 'filter'}" ng-click="toggleTab('filter')">
+          <i class="ion-search"></i>
+          <span translate>menu.button_filter</span>
+        </a>
+        <a class="tab-item" ng-class="{active:tab == 'admin'}" ng-click="toggleTab('admin')">
+          <i class="ion-settings"></i>
+          <span translate>menu.button_admin</span>
+        </a>
+      </div>
+    </div>
   </ion-side-menu>
 </ion-side-menus>

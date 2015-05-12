@@ -4,7 +4,8 @@
     "loading": "Loading"
   },
   "menu": {
-    "title": "Filter Questions",
+    "title_filter": "Filter Questions",
+    "title_admin": "Manage Questions",
     "language": "Language",
     "sets": "Sets",
     "sets_selected": "{{number}} selected",
@@ -17,7 +18,9 @@
     "offline_caching": "Caching files...",
     "offline_ready": "Offline ready",
     "offline_mode": "Offline mode",
-    "source": "Fork me on GitHub"
+    "source": "Source on GitHub",
+    "button_filter": "Filter",
+    "button_admin": "Manage"
   },
   "home": {
     "title": "Welcome to the Judge Booth!",

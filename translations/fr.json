@@ -4,7 +4,7 @@
     "loading": "Chargement"
   },
   "menu": {
-    "title": "Filtrer les questions",
+    "title_filter": "Filtrer les questions",
     "language": "Langue",
     "sets": "Editions",
     "sets_selected": "{{number}} sélectionnés",

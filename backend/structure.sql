@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 08. Mai 2015 um 16:05
+-- Erstellungszeit: 12. Mai 2015 um 20:49
 -- Server Version: 5.5.43-0ubuntu0.14.04.1
 -- PHP-Version: 5.5.9-1ubuntu4.9
 
@@ -15,28 +15,6 @@ SET time_zone = "+00:00";
 --
 -- Datenbank: `judgebooth`
 --
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `cards`
---
-
-CREATE TABLE IF NOT EXISTS `cards` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL DEFAULT '',
-  `full_name` varchar(255) DEFAULT NULL,
-  `layout` varchar(20) DEFAULT NULL,
-  `manacost` varchar(128) DEFAULT NULL,
-  `type` varchar(128) DEFAULT NULL,
-  `text` text,
-  `power` varchar(3) DEFAULT NULL,
-  `toughness` varchar(3) DEFAULT NULL,
-  `loyalty` varchar(2) DEFAULT NULL,
-  `url` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -68,6 +46,28 @@ CREATE TABLE IF NOT EXISTS `card_translations` (
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `cards`
+--
+
+CREATE TABLE IF NOT EXISTS `cards` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `full_name` varchar(255) DEFAULT NULL,
+  `layout` varchar(20) DEFAULT NULL,
+  `manacost` varchar(128) DEFAULT NULL,
+  `type` varchar(128) DEFAULT NULL,
+  `text` text,
+  `power` varchar(3) DEFAULT NULL,
+  `toughness` varchar(3) DEFAULT NULL,
+  `loyalty` varchar(2) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Tabellenstruktur für Tabelle `languages`
 --
 
@@ -75,20 +75,6 @@ CREATE TABLE IF NOT EXISTS `languages` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
   `code` varchar(2) NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `questions`
---
-
-CREATE TABLE IF NOT EXISTS `questions` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `live` tinyint(1) NOT NULL DEFAULT '0',
-  `author` varchar(255) DEFAULT NULL,
-  `difficulty` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
@@ -123,6 +109,20 @@ CREATE TABLE IF NOT EXISTS `question_translations` (
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `questions`
+--
+
+CREATE TABLE IF NOT EXISTS `questions` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `live` tinyint(1) NOT NULL DEFAULT '0',
+  `author` varchar(255) DEFAULT NULL,
+  `difficulty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Tabellenstruktur für Tabelle `sets`
 --
 
@@ -139,6 +139,21 @@ CREATE TABLE IF NOT EXISTS `sets` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `users`
+--
+
+CREATE TABLE IF NOT EXISTS `users` (
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `role` varchar(50) NOT NULL,
+  `language_id` int(11) unsigned DEFAULT NULL,
+  UNIQUE KEY `name` (`name`),
+  UNIQUE KEY `language_id` (`language_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 --
 -- Constraints der exportierten Tabellen
 --
@@ -147,27 +162,33 @@ CREATE TABLE IF NOT EXISTS `sets` (
 -- Constraints der Tabelle `card_sets`
 --
 ALTER TABLE `card_sets`
-  ADD CONSTRAINT `card_sets_ibfk_1` FOREIGN KEY (`card_id`) REFERENCES `cards` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `card_sets_ibfk_2` FOREIGN KEY (`set_id`) REFERENCES `sets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `card_sets_ibfk_1` FOREIGN KEY (`card_id`) REFERENCES `cards` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `card_sets_ibfk_2` FOREIGN KEY (`set_id`) REFERENCES `sets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints der Tabelle `card_translations`
 --
 ALTER TABLE `card_translations`
-  ADD CONSTRAINT `card_translations_ibfk_1` FOREIGN KEY (`card_id`) REFERENCES `cards` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `card_translations_ibfk_2` FOREIGN KEY (`language_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `card_translations_ibfk_1` FOREIGN KEY (`card_id`) REFERENCES `cards` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `card_translations_ibfk_2` FOREIGN KEY (`language_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints der Tabelle `question_cards`
 --
 ALTER TABLE `question_cards`
-  ADD CONSTRAINT `question_cards_ibfk_1` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `question_cards_ibfk_2` FOREIGN KEY (`card_id`) REFERENCES `cards` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `question_cards_ibfk_1` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `question_cards_ibfk_2` FOREIGN KEY (`card_id`) REFERENCES `cards` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints der Tabelle `question_translations`
 --
 ALTER TABLE `question_translations`
-  ADD CONSTRAINT `question_translations_ibfk_1` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `question_translations_ibfk_2` FOREIGN KEY (`language_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ADD CONSTRAINT `question_translations_ibfk_1` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `question_translations_ibfk_2` FOREIGN KEY (`language_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `users`
+--
+ALTER TABLE `users`
+ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`language_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;

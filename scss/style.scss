@@ -127,7 +127,7 @@ div.scroll { min-height: 90%; }
 }
 
 /* Sidebar */
-#side {
+.side-content {
   div.sets {
     white-space: normal;
     margin-top: 0;
@@ -167,7 +167,9 @@ div.scroll { min-height: 90%; }
     }
   }
 }
-
+ion-side-menu .tabs-striped .tabs {
+  z-index: 20;
+}
 
 /* Question */
 div.cards {

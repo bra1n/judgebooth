@@ -10,6 +10,8 @@ services.service 'questionsAPI', [
       short: CacheFactory 'shortCache',
         maxAge: 24 * 3600 * 1000 # 24 hours
         storageMode: 'localStorage'
+      session: CacheFactory 'sessionCache',
+        storageMode: 'sessionStorage' # session cache
       memory: CacheFactory 'memoryCache',
         maxAge: 3600 * 1000 # 1 hour
         capacity: 20
@@ -126,5 +128,17 @@ services.service 'questionsAPI', [
         caches.memory.put "filteredQuestions", questions
         deferred.resolve questions[0]
       , -> deferred.reject()
+      deferred.promise
+    # admin stuff
+    user: -> caches.session.get "user"
+    logout: -> caches.session.remove "user"
+    auth: (token) ->
+      deferred = $q.defer()
+      url = apiURL + "auth"
+      url+= "&token=" + encodeURIComponent(token) if token
+      $http.get(url).then (response) ->
+        caches.session.put 'user', response.data if response.data.role?
+        deferred.resolve response.data
+      , (response) -> deferred.reject response
       deferred.promise
 ]

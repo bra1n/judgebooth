@@ -7781,29 +7781,29 @@ div.scroll {
   margin: 5px 0; }
 
 /* Sidebar */
-#side div.sets {
+.side-content div.sets {
   white-space: normal;
   margin-top: 0;
   padding-top: 0;
   border-top: none;
   text-align: center; }
-  #side div.sets .button-bar .button {
+  .side-content div.sets .button-bar .button {
     padding: 0;
     margin-bottom: 2px; }
-  #side div.sets .buttons {
+  .side-content div.sets .buttons {
     margin: 0 -5px; }
-  #side div.sets .button.set {
+  .side-content div.sets .button.set {
     margin: 2px;
     min-width: 45px;
     padding: 0;
     line-height: 16px; }
-    #side div.sets .button.set i {
+    .side-content div.sets .button.set i {
       vertical-align: middle; }
-    #side div.sets .button.set img {
+    .side-content div.sets .button.set img {
       vertical-align: middle; }
-#side div.difficulty {
+.side-content div.difficulty {
   padding-right: 185px; }
-  #side div.difficulty .button-bar {
+  .side-content div.difficulty .button-bar {
     position: absolute;
     right: 11px;
     top: 0;
@@ -7814,10 +7814,13 @@ div.scroll {
     -moz-align-items: center;
     align-items: center;
     width: 165px; }
-    #side div.difficulty .button-bar .button {
+    .side-content div.difficulty .button-bar .button {
       padding: 0; }
-    #side div.difficulty .button-bar .button i:before {
+    .side-content div.difficulty .button-bar .button i:before {
       line-height: 20px; }
+
+ion-side-menu .tabs-striped .tabs {
+  z-index: 20; }
 
 /* Question */
 div.cards {

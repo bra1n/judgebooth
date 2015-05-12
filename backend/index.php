@@ -45,7 +45,7 @@ function auth($db, $token = "") {
   } else {
     $url = 'https://accounts.google.com/o/oauth2/auth?'.
       'scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email'.
-      '&state=auth&response_type=code'.
+      '&response_type=code'.
       '&redirect_uri='.urlencode(GAPPS_REDIRECT).
       '&client_id='.urlencode(GAPPS_CLIENTID);
     return array("login"=>$url);

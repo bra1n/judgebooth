@@ -1,8 +1,8 @@
 controllers = angular.module "judgebooth.controllers", []
 
 controllers.controller 'SideCtrl', [
-  "$scope", "questionsAPI", "$ionicScrollDelegate"
-  ($scope, questionsAPI, $ionicScrollDelegate) ->
+  "$scope", "questionsAPI", "$ionicScrollDelegate", "$location"
+  ($scope, questionsAPI, $ionicScrollDelegate, $location) ->
     # get data
     $scope.filter = questionsAPI.filter()
     $scope.languages = questionsAPI.languages()
@@ -62,6 +62,27 @@ controllers.controller 'SideCtrl', [
       return unless $scope.filteredQuestions.length
       questionsAPI.filter $scope.filter
       $scope.next()
+
+    # auth handling
+    $scope.tab = "filter"
+    $scope.user = questionsAPI.user()
+    $scope.login = ->
+      questionsAPI.auth().then (auth) ->
+        window.location.href = auth.login if auth.login?
+        $scope.user = auth if auth.name?
+    $scope.logout = ->
+      questionsAPI.logout()
+      $scope.user = false
+      $scope.tab = "filter"
+    $scope.toggleTab = (tab) -> $scope.tab = tab
+    if $location.search().code?
+      questionsAPI.auth($location.search().code).then (auth) ->
+        $location.search('code',null)
+        if auth.status is "success"
+          questionsAPI.auth().then (auth) ->
+            $scope.user = auth if auth.name?
+        else
+          $scope.user = auth
 ]
 
 controllers.controller 'HomeCtrl', [
@@ -110,4 +131,28 @@ controllers.controller 'QuestionCtrl', [
       $scope.answer = !$scope.answer
       $ionicScrollDelegate.resize()
       $ionicScrollDelegate.scrollBottom yes
+]
+
+controllers.controller 'AdminNewCtrl', [
+  "$scope"
+  ($scope) ->
+    console.log "AdminNewCtrl"
+]
+
+controllers.controller 'AdminQuestionCtrl', [
+  "$scope"
+  ($scope) ->
+    console.log "AdminQuestionCtrl"
+]
+
+controllers.controller 'AdminTranslationCtrl', [
+  "$scope"
+  ($scope) ->
+    console.log "AdminTranslationCtrl"
+]
+
+controllers.controller 'AdminUserCtrl', [
+  "$scope"
+  ($scope) ->
+    console.log "AdminUserCtrl"
 ]

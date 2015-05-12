@@ -4,16 +4,16 @@
     "loading": "Загрузка"
   },
   "menu": {
-    "title": "Сортировка вопросов",
+    "title_filter": "Сортировка вопросов",
     "language": "Язык",
     "sets": "Выпуск",
-    "sets_selected": "{{number}} выбран",
+    "sets_selected": "{{number}} выбрано",
     "sets_all": "Все",
     "sets_modern": "Модерн",
     "sets_standard": "Стандарт",
-    "sets_none": "Ничего",
+    "sets_none": "Сброс",
     "difficulty": "Сложность",
-    "select": "Выбрать {{number}} Вопросов",
+    "select": "Выбрать {{number}} вопросов",
     "source": "Fork me on GitHub"
   },
   "home": {

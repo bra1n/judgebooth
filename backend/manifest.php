@@ -2,6 +2,7 @@
 date_default_timezone_set("Europe/Berlin");
 $version = date("Ymd");
 header("Content-type: text/cache-manifest");
+header("Cache-Control: no-cache, private");
 ?>
 CACHE MANIFEST
 # Version <?php echo $version; ?>

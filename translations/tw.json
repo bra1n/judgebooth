@@ -4,7 +4,7 @@
     "loading": "正在載入"
   },
   "menu": {
-    "title": "篩選問題",
+    "title_filter": "篩選問題",
     "language": "語言",
     "sets": "系列",
     "sets_selected": "已選擇 {{number}} 個系列",
