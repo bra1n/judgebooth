@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 12. Mai 2015 um 20:49
+-- Erstellungszeit: 13. Mai 2015 um 19:23
 -- Server Version: 5.5.43-0ubuntu0.14.04.1
 -- PHP-Version: 5.5.9-1ubuntu4.9
 
@@ -78,6 +78,23 @@ CREATE TABLE IF NOT EXISTS `languages` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
+--
+-- Daten für Tabelle `languages`
+--
+
+INSERT INTO `languages` (`id`, `name`, `code`) VALUES
+(1, 'English', 'en'),
+(2, 'German', 'de'),
+(3, 'Italian', 'it'),
+(4, 'Japanese', 'jp'),
+(5, 'Korean', 'ko'),
+(6, 'Portuguese (Brazil)', 'pt'),
+(7, 'Russian', 'ru'),
+(8, 'Spanish', 'es'),
+(9, 'Chinese Simplified', 'cn'),
+(10, 'Chinese Traditional', 'tw'),
+(11, 'French', 'fr');
+
 -- --------------------------------------------------------
 
 --
@@ -102,6 +119,7 @@ CREATE TABLE IF NOT EXISTS `question_translations` (
   `language_id` int(11) unsigned NOT NULL,
   `question` text NOT NULL,
   `answer` text NOT NULL,
+  `changedate` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   UNIQUE KEY `question_id` (`question_id`,`language_id`),
   KEY `language_id` (`language_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -162,33 +180,33 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Constraints der Tabelle `card_sets`
 --
 ALTER TABLE `card_sets`
-ADD CONSTRAINT `card_sets_ibfk_1` FOREIGN KEY (`card_id`) REFERENCES `cards` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `card_sets_ibfk_2` FOREIGN KEY (`set_id`) REFERENCES `sets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `card_sets_ibfk_1` FOREIGN KEY (`card_id`) REFERENCES `cards` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `card_sets_ibfk_2` FOREIGN KEY (`set_id`) REFERENCES `sets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints der Tabelle `card_translations`
 --
 ALTER TABLE `card_translations`
-ADD CONSTRAINT `card_translations_ibfk_1` FOREIGN KEY (`card_id`) REFERENCES `cards` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `card_translations_ibfk_2` FOREIGN KEY (`language_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `card_translations_ibfk_1` FOREIGN KEY (`card_id`) REFERENCES `cards` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `card_translations_ibfk_2` FOREIGN KEY (`language_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints der Tabelle `question_cards`
 --
 ALTER TABLE `question_cards`
-ADD CONSTRAINT `question_cards_ibfk_1` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `question_cards_ibfk_2` FOREIGN KEY (`card_id`) REFERENCES `cards` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `question_cards_ibfk_1` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `question_cards_ibfk_2` FOREIGN KEY (`card_id`) REFERENCES `cards` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints der Tabelle `question_translations`
 --
 ALTER TABLE `question_translations`
-ADD CONSTRAINT `question_translations_ibfk_1` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-ADD CONSTRAINT `question_translations_ibfk_2` FOREIGN KEY (`language_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `question_translations_ibfk_1` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `question_translations_ibfk_2` FOREIGN KEY (`language_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints der Tabelle `users`
 --
 ALTER TABLE `users`
-ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`language_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`language_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
