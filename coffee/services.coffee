@@ -141,4 +141,7 @@ services.service 'questionsAPI', [
         deferred.resolve response.data
       , (response) -> deferred.reject response
       deferred.promise
+    admin:
+      questions: -> $http.get apiURL + "admin-questions"
+      question: (id) -> $http.get apiURL + "admin-question&id="+id
 ]

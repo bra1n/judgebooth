@@ -13,7 +13,7 @@
     "sets_standard": "Standard",
     "sets_none": "Aucun",
     "difficulty": "Difficulté",
-    "select": "Voir les {{number}} questions sélectionnées",
+    "select": "Voir les {{number}} questions",
     "source": "Source code on GitHub"
   },
   "home": {

@@ -22,7 +22,7 @@
         <span ng-show="tab == 'admin'" translate>menu.title_admin</span>
       </h1>
     </ion-header-bar>
-    <ion-content class="side-content" ng-class="{'has-tabs':user.name}" ng-show="tab == 'filter'">
+    <ion-content class="side-content" ng-class="{'has-tabs':user.role}" ng-show="tab == 'filter'">
       <div class="list">
         <!-- Languages -->
         <label class="item item-input item-select">
@@ -99,11 +99,11 @@
           <span ng-show="online && cacheStatus == 1" translate>menu.offline_ready</span>
           <span ng-show="!online && cacheStatus == 1" translate>menu.offline_mode</span>
         </div>
-        <div>
+        <!--<div>
           <span ng-show="!user" ng-click="login()">Login</span>
           <span ng-show="user.error">Error logging in: {{user.error}}</span>
           <span ng-show="user.name">{{user.name}}</span>
-        </div>
+        </div>-->
         <a class="dark" href="https://github.com/bra1n/judgebooth" target="_blank" translate>menu.source</a>
       </div>
     </ion-content>
@@ -114,7 +114,7 @@
           <i class="icon ion-plus"></i>
           New Question
         </a>
-        <a class="item item-icon-left" ui-sref="app.admin.all" ng-show="user.role == 'admin'">
+        <a class="item item-icon-left" ui-sref="app.admin.question({id:null})" ng-show="user.role == 'admin' || user.role == 'editor'">
           <i class="icon ion-help"></i>
           All Questions
         </a>
@@ -126,14 +126,14 @@
           <i class="icon ion-ios-people"></i>
           Users
         </a>
-        <a class="item item-icon-left" ng-click="logout()">
+        <a class="item item-icon-left" ui-sref="app.home" ng-click="logout()">
           <i class="icon ion-android-exit"></i>
           Logout
         </a>
       </div>
     </ion-content>
 
-    <div ng-show="user.name" class="tabs-striped tabs-color-positive">
+    <div ng-show="user.role" class="tabs-striped tabs-color-positive tabs-background-stable">
       <div class="tabs">
         <a class="tab-item"  ng-class="{active:tab == 'filter'}" ng-click="toggleTab('filter')">
           <i class="ion-search"></i>

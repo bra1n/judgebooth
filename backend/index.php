@@ -37,7 +37,7 @@ function auth($db, $token = "") {
       $userinfo = json_decode(file_get_contents("https://www.googleapis.com/oauth2/v2/userinfo?access_token=".$token));
       if($userinfo->verified_email) {
         $_SESSION['auth'] = $userinfo->email;
-        return array("status"=>"success");
+        return auth($db);
       } else {
         return array("error"=>"invalid_email");
       }
@@ -171,6 +171,68 @@ function getQuestionsAndCards($db) {
   return array("questions"=>$questions, "cards"=>$cards);
 }
 
+function getAdminQuestions($db) {
+  $user = auth($db);
+  if(isset($user['role']) && in_array($user['role'],array("admin", "editor", "translator"))){
+    $query = "SELECT q.*,
+      GROUP_CONCAT(DISTINCT c.name SEPARATOR '|') cards,
+      GROUP_CONCAT(DISTINCT qt2.language_id) languages,
+      GROUP_CONCAT(DISTINCT qt3.language_id) outdated
+      FROM questions q
+      LEFT JOIN question_cards qc ON qc.question_id = q.id
+      LEFT JOIN cards c ON qc.card_id = c.id
+      LEFT JOIN question_translations qt ON qt.question_id = q.id AND qt.language_id = 1
+      LEFT JOIN question_translations qt2 ON qt2.question_id = q.id
+      LEFT JOIN question_translations qt3 ON qt3.question_id = q.id AND qt3.changedate < qt.changedate
+      GROUP BY q.id";
+    $result = $db->query($query) or die($db->error);
+    $questions = array();
+    while($row = $result->fetch_assoc()) {
+      $row['id'] = intval($row['id']);
+      $row['difficulty'] = intval($row['difficulty']);
+      $row['live'] = !!$row['live'];
+      $row['cards'] = explode("|", $row['cards']);
+      $row['languages'] = array_map("intval",explode(",", $row['languages']));
+      if(!$row['author']) unset($row['author']);
+      if($row['outdated']) $row['outdated'] = array_map("intval",explode(",", $row['outdated']));
+      else unset($row['outdated']);
+      array_push($questions, $row);
+    }
+    $result->free();
+    return $questions;
+  } else {
+    return array();
+  }
+}
+
+function getAdminQuestion($db, $id) {
+   $user = auth($db);
+   if(isset($user['role']) && in_array($user['role'],array("admin", "editor", "translator"))){
+     $query = "SELECT q.*, qt.question, qt.answer, GROUP_CONCAT(DISTINCT c.id,':',c.name SEPARATOR '|') cards
+       FROM questions q
+       LEFT JOIN question_cards qc ON qc.question_id = q.id
+       LEFT JOIN cards c ON c.id = qc.card_id
+       LEFT JOIN question_translations qt ON qt.question_id = q.id
+       WHERE q.id = '".$db->real_escape_string($id)."' AND qt.language_id = 1
+       GROUP BY q.id";
+     $result = $db->query($query) or die($db->error);
+     $question = $result->fetch_assoc();
+     $question['difficulty'] = intval($question['difficulty']);
+     $question['id'] = intval($question['id']);
+     $question['live'] = !!$question['live'];
+     $cards = explode("|",$question['cards']);
+     $question['cards'] = array();
+     foreach($cards as $card) {
+       $card = explode(":",$card,2);
+       $question['cards'][] = array("id"=>intval($card[0]),"name"=>$card[1]);
+     }
+     $result->free();
+     return $question;
+   } else {
+     return array();
+   }
+}
+
 if(isset($_GET['action'])) {
   switch(strtolower($_GET['action'])) {
     case "questions":
@@ -190,6 +252,13 @@ if(isset($_GET['action'])) {
     case "auth":
       if(!isset($_GET['token'])) $_GET['token'] = "";
       echo json_encode(auth($db, $_GET['token']));
+      break;
+    case "admin-questions":
+      echo json_encode(getAdminQuestions($db));
+      break;
+    case "admin-question":
+      if(!isset($_GET['id'])) $_GET['id'] = 0;
+      echo json_encode(getAdminQuestion($db, $_GET['id']));
       break;
   }
 }

@@ -263,3 +263,21 @@ div.cards {
     }
   }
 }
+
+/* Admin */
+/* Questions */
+#questions {
+  table {
+    width: 100%;
+    thead td { font-weight: bold; }
+    tbody tr:nth-child(odd) { background: $stable; }
+    td { vertical-align: middle; }
+    td.toggle-small { text-align: center; }
+    td:first-child {
+      text-align: center;
+      font-weight: bold;
+    }
+    td:last-child { width: 60px; }
+    .button-bar > .button { padding: 0; }
+  }
+}

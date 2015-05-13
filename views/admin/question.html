@@ -1,5 +1,104 @@
-<ion-view>
-  <ion-content class="padding text-center" id="question">
-    Questions
+<ion-view cache-view="false">
+  <ion-content class="padding" overflow-scroll="true" id="questions">
+    <table ng-show="questions.length">
+      <thead>
+        <tr>
+          <td>Nr</td>
+          <td>Cards</td>
+          <td>Author</td>
+          <td>Translations</td>
+          <td>Live</td>
+          <td>Action</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="question in questions">
+          <td>{{::question.id}}</td>
+          <td>{{::question.cards.join("; ")}}</td>
+          <td>{{::question.author}}</td>
+          <td>
+            <div class="button-bar">
+              <a class="button button-small language"
+                 ui-sref="app.admin.translation({id:question.id, language:language.id})"
+                 ng-class="::{
+                    'button-positive':question.languages.indexOf(language.id)>-1,
+                    'button-dark':question.outdated.indexOf(language.id)>-1,
+                  }"
+                 ng-repeat="language in ::languages">
+                {{::language.code}}
+              </a>
+            </div>
+          </td>
+          <td class="toggle-small">
+            <label class="toggle toggle-positive">
+              <input type="checkbox" ng-model="question.live">
+              <div class="track">
+                <div class="handle"></div>
+              </div>
+            </label>
+          </td>
+          <td>
+            <a class="button button-small button-positive icon ion-edit" ui-sref="app.admin.question({id:question.id})"></a>
+            <a class="button button-small button-dark icon ion-trash-a"></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <form ng-show="question">
+      <div class="row">
+        <div class="col col-50 list">
+          <div class="item">
+            Question
+            <span class="item-note dark">{{question.id}}</span>
+          </div>
+          <label class="item item-input">
+            <span class="input-label">Author</span>
+            <input type="text" class="text-right" ng-model="question.author">
+          </label>
+          <label class="item item-input item-select">
+            <span class="input-label">Difficulty</span>
+            <select ng-model="question.difficulty">
+              <option value="0">Easy</option>
+              <option value="1">Medium</option>
+              <option value="2">Hard</option>
+            </select>
+          </label>
+          <div class="item item-toggle">
+            Live
+            <label class="toggle toggle-positive">
+              <input type="checkbox" ng-model="question.live">
+              <div class="track">
+                <div class="handle"></div>
+              </div>
+            </label>
+          </div>
+        </div>
+        <div class="col col-50 list">
+          <div class="item item-input-inset" ng-repeat="card in question.cards">
+            <label class="item-input-wrapper">
+              <input type="text" ng-model="card.name">
+            </label>
+            <button class="button button-small button-dark icon ion-trash-a"></button>
+            <input type="hidden" ng-model="card.id">
+          </div>
+          <div class="item item-button-right">
+            Add Card
+            <button class="button button-positive">
+              <i class="icon ion-plus"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col col-50">
+          <b>Question:</b>
+          <textarea ng-model="question.question"></textarea>
+        </div>
+        <div class="col col-50">
+          <b>Answer:</b>
+          <textarea ng-model="question.answer"></textarea>
+        </div>
+      </div>
+    </form>
   </ion-content>
 </ion-view>

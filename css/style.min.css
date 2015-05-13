@@ -7904,3 +7904,23 @@ div.cards {
     div.cards .card-container.show-scan .scan {
       -webkit-transform: rotateY(0deg) scale(1);
       transform: rotateY(0deg) scale(1); }
+
+/* Admin */
+/* Questions */
+#questions table {
+  width: 100%; }
+  #questions table thead td {
+    font-weight: bold; }
+  #questions table tbody tr:nth-child(odd) {
+    background: #eee; }
+  #questions table td {
+    vertical-align: middle; }
+  #questions table td.toggle-small {
+    text-align: center; }
+  #questions table td:first-child {
+    text-align: center;
+    font-weight: bold; }
+  #questions table td:last-child {
+    width: 60px; }
+  #questions table .button-bar > .button {
+    padding: 0; }

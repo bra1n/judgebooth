@@ -10,9 +10,8 @@ controllers.controller 'SideCtrl', [
     questionsAPI.sets().then (response) -> $scope.sets = response.data
     # get questions and generate maps with counts
     questionsAPI.questions().then (response) ->
-      $scope.questions = response.data
       $scope.setCounts = {}
-      for question in $scope.questions
+      for question in response.data
         sets = []
         for card in question.cards
           sets.push set for set in card when set not in sets
@@ -69,7 +68,7 @@ controllers.controller 'SideCtrl', [
     $scope.login = ->
       questionsAPI.auth().then (auth) ->
         window.location.href = auth.login if auth.login?
-        $scope.user = auth if auth.name?
+        $scope.user = auth if auth.role?
     $scope.logout = ->
       questionsAPI.logout()
       $scope.user = false
@@ -78,11 +77,7 @@ controllers.controller 'SideCtrl', [
     if $location.search().code?
       questionsAPI.auth($location.search().code).then (auth) ->
         $location.search('code',null)
-        if auth.status is "success"
-          questionsAPI.auth().then (auth) ->
-            $scope.user = auth if auth.name?
-        else
-          $scope.user = auth
+        $scope.user = auth if auth.role?
 ]
 
 controllers.controller 'HomeCtrl', [
@@ -140,9 +135,16 @@ controllers.controller 'AdminNewCtrl', [
 ]
 
 controllers.controller 'AdminQuestionCtrl', [
-  "$scope"
-  ($scope) ->
-    console.log "AdminQuestionCtrl"
+  "$scope", "questionsAPI", "$stateParams"
+  ($scope, questionsAPI, $stateParams) ->
+    unless $stateParams.id
+      $scope.questions = []
+      $scope.languages = questionsAPI.languages()
+      questionsAPI.admin.questions().then (response) ->
+        $scope.questions = response.data
+    else
+      questionsAPI.admin.question($stateParams.id).then (response) ->
+        $scope.question = response.data
 ]
 
 controllers.controller 'AdminTranslationCtrl', [
