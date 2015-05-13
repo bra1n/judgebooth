@@ -121,7 +121,7 @@ controllers.controller 'QuestionCtrl', [
         .replace /(\(.*?\))/ig, '<em>$1</em>'
         question.question = question.question.replace RegExp("("+card.name+")", "ig"), "<b>$1</b>"
         question.answer = question.answer.replace RegExp("("+card.name+")", "ig"), "<b>$1</b>"
-      $state.go "home" unless question.metadata?.id
+      $state.go "app.home" unless question.metadata?.id
     $scope.toggleAnswer = ->
       $scope.answer = !$scope.answer
       $ionicScrollDelegate.resize()
