@@ -12,7 +12,7 @@
     "sets_modern": "Модерн",
     "sets_standard": "Стандарт",
     "sets_none": "Сброс",
-    "difficulty": "Сложность",
+    "difficulty": "Уровень",
     "select": "Выбрать {{number}} вопросов",
     "source": "Fork me on GitHub"
   },

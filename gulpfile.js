@@ -16,7 +16,7 @@ var paths = {
   libraries: [
     './lib/ionic/js/ionic.bundle.min.js',
     './lib/angular-cache/dist/angular-cache.min.js',
-    'lib/angular-translate/angular-translate.min.js'
+    './lib/angular-translate/angular-translate.min.js'
   ]
 };
 
