@@ -12,7 +12,7 @@ Once that is in place, adjust the database configuration in backend/config.php a
 via backend/import.php script from the command line.
 You should import the data in this order: sets, cards, tokens, questions, translations
 
-When the database is ready, you need to install the Gulp Node modules (`npm install`) and the Bower dependencies. (`bower instal`)
+When the database is ready, you need to install the Gulp Node modules (`npm install`) and the Bower dependencies. (`bower install`)
 This allows you to build the application files via running `gulp` or `gulp watch`.
 
 License and Copyright
