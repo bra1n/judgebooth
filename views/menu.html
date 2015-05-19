@@ -36,8 +36,8 @@
         </label>
         <!-- Sets -->
         <div class="item item-icon-right" ng-click="showSets()">
-          <span translate>menu.sets</span>
           <span class="item-note" translate translate-value-number="{{setCount}}">menu.sets_selected</span>
+          <span translate>menu.sets</span>
           <i class="icon ion-ios-gear"></i>
         </div>
         <div class="item sets" ng-show="setsShown">
@@ -60,8 +60,7 @@
                     ng-click="toggleSet(set.id)" ng-class="{'active':filter.sets.indexOf(set.id)<0}"
                     title="{{::set.name}}">
               <i class="icon-sets icon-sets-{{::set.code}}" title="{{::set.name}}"></i>
-              <!--<img ng-show="filter.sets.indexOf(set.id)<0" alt="{{::set.code}}" ng-src="http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&set={{::set.code}}&size=small&rarity=R">-->
-              <!--<img ng-hide="filter.sets.indexOf(set.id)<0" alt="{{::set.code}}" ng-src="http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&set={{::set.code}}&size=small&rarity=C">-->
+              <!--<i class="mtg e-{{::set.code.toLowerCase()}}" ng-class="{'rare':filter.sets.indexOf(set.id)<0}" title="{{::set.name}}"></i>-->
             </button>
           </div>
         </div>
