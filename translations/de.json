@@ -1,0 +1,31 @@
+{
+  "common": {
+    "title": "Magic Judge Booth",
+    "loading": "Lädt..."
+  },
+  "menu": {
+    "title_filter": "Fragen filtern",
+    "language": "Sprache",
+    "sets": "Editionen",
+    "sets_selected": "{{number}} ausgewählt",
+    "sets_all": "Alle",
+    "sets_modern": "Modern",
+    "sets_standard": "Standard",
+    "sets_none": "keine",
+    "difficulty": "Schwierigkeit",
+    "select": "Wähle {{number}} Fragen",
+    "source": "Quellcode auf GitHub"
+  },
+  "home": {
+    "title": "Willkommen in der Judge Booth!",
+    "description": "Die Judge Booth wurde geschaffen, damit Spieler Judges nicht nur als eine Gruppe von Autoritätspersonen, sondern als Menschen sehen, mit denen sie sich eine Leidenschaft teilen und mit denen es Spaß macht etwas zu unternehmen, mit denen man sich anfreunden und ihnen vertrauen kann. Die Booth soll eine Verbindung zwischen Judges und Spielern herstellen. ",
+    "statistics": "Es gibt {{questions}} Fragen aus {{sets}} Sets und in {{languages}} Sprachen, verfasst von mehr als {{authors}} Authoren. Du hast derzeit {{filtered}} dieser Fragen ausgewählt.",
+    "start": "Zeige Fragen"
+  },
+  "question": {
+    "title": "Frage {{number}}",
+    "title_by": "von {{author}}",
+    "show_answer": "Zeige Antwort",
+    "hide_answer": "Verstecke Antwort"
+  }
+}
