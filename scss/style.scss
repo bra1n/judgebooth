@@ -15,7 +15,7 @@ $dark:                            #313131;
 /* General */
 #content ion-header-bar.bar-positive {
   background: url("../images/logo.png") no-repeat center center $positive;
-  @media screen and (max-device-width: 500px) {
+  @media only screen and (max-width: 500px) {
     background-image: url("../images/logo-small.png");
   }
   .title {

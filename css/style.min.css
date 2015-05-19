@@ -7662,7 +7662,7 @@ a.button {
 /* General */
 #content ion-header-bar.bar-positive {
   background: url("../images/logo.png") no-repeat center center #e52628; }
-  @media screen and (max-device-width: 500px) {
+  @media only screen and (max-width: 500px) {
     #content ion-header-bar.bar-positive {
       background-image: url("../images/logo-small.png"); } }
   #content ion-header-bar.bar-positive .title {
