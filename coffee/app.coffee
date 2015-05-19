@@ -78,8 +78,12 @@ boothApp.config [
 boothApp.run [
   'questionsAPI', '$rootScope', '$state', '$ionicPlatform', '$window'
   (questionsAPI, $rootScope, $state, $ionicPlatform, $window) ->
+    # keep current state name in a global variable
     $rootScope.$on '$stateChangeSuccess', (event, toState) -> $rootScope.state = toState
+    # go to next question
     $rootScope.next = -> questionsAPI.nextQuestion().then (id) ->  $state.go "app.question", {id}
+    # catch global keyboard events and pass them down the scope hierarchy
+    $rootScope.keydown = ({keyCode}) -> $rootScope.$broadcast "keydown", keyCode
     $ionicPlatform.ready ->
       $rootScope.online = navigator.onLine
       appCache = $window.applicationCache

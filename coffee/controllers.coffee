@@ -125,7 +125,12 @@ controllers.controller 'QuestionCtrl', [
     $scope.toggleAnswer = ->
       $scope.answer = !$scope.answer
       $ionicScrollDelegate.resize()
-      $ionicScrollDelegate.scrollBottom yes
+      $ionicScrollDelegate.scrollBottom yes if $scope.answer
+    $scope.$on 'keydown', (event, keycode) ->
+      switch keycode
+        when 37 then history.back()
+        when 39 then $scope.next()
+        when 38, 40 then $scope.toggleAnswer()
 ]
 
 controllers.controller 'AdminNewCtrl', [
