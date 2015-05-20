@@ -40,6 +40,12 @@ boothApp.config [
         'menuContent@app':
           templateUrl: 'views/admin/new.html'
           controller: 'AdminNewCtrl'
+    .state 'app.admin.questions', # all questions
+      url: '/questions/:page'
+      views:
+        'menuContent@app':
+          templateUrl: 'views/admin/questions.html'
+          controller: 'AdminQuestionsCtrl'
     .state 'app.admin.question', # all questions
       url: '/question/:id'
       views:

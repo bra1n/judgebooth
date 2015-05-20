@@ -139,17 +139,69 @@ controllers.controller 'AdminNewCtrl', [
     console.log "AdminNewCtrl"
 ]
 
+controllers.controller 'AdminQuestionsCtrl', [
+  "$scope", "questionsAPI", "$stateParams", "$state"
+  ($scope, questionsAPI, $stateParams, $state) ->
+    # paging
+    $scope.page = parseInt $stateParams.page, 10
+    $scope.goto = ->
+      page = prompt "Go to page"
+      $state.go "app.admin.questions", page: page-1 if page > 0
+    # load data
+    $scope.questions = []
+    $scope.reload = ->
+      questionsAPI.admin.questions($scope.page).then (response) ->
+        $scope.questions = response.data.questions
+        $scope.pages = response.data.pages
+    $scope.$on "$ionicView.enter", -> $scope.reload()
+    $scope.languages = questionsAPI.languages()
+    # toggle question live
+    $scope.toggle = ({id, live}) -> questionsAPI.admin.save({id, live})
+    # delete a question
+    $scope.delete = (question) ->
+      if confirm "Are you sure?"
+        questionsAPI.admin.delete(question.id).then ->
+          question.deleted = yes
+          $scope.reload()
+
+]
+
 controllers.controller 'AdminQuestionCtrl', [
-  "$scope", "questionsAPI", "$stateParams"
-  ($scope, questionsAPI, $stateParams) ->
-    unless $stateParams.id
-      $scope.questions = []
-      $scope.languages = questionsAPI.languages()
-      questionsAPI.admin.questions().then (response) ->
-        $scope.questions = response.data
-    else
-      questionsAPI.admin.question($stateParams.id).then (response) ->
-        $scope.question = response.data
+  "$scope", "questionsAPI", "$stateParams", "$window"
+  ($scope, questionsAPI, $stateParams, $window) ->
+    $scope.question = {cards: []}
+    questionsAPI.admin.question($stateParams.id).then (response) ->
+      $scope.question = response.data
+    $scope.add = -> $scope.question.cards.push {}
+    $scope.delete = (index) -> $scope.question.cards.splice index, 1
+    # suggest cards
+    $scope.suggest = (card) ->
+      card.id = ""
+      if card.name.length > 1
+        questionsAPI.admin.suggest(card.name).then (response) ->
+          card.suggestions = response.data
+          card.id = card.suggestions[0].id if card.suggestions.length is 1
+      else
+        card.suggestions = []
+    # select a suggested card
+    $scope.select = (card, suggestion) ->
+      card.name = suggestion.name
+      card.id = suggestion.id
+      delete card.suggestions
+    # catch enter key in card fields
+    $scope.keypress = (event, card) ->
+      console.log event.keyCode
+      if event.keyCode is 13
+        $scope.select card, card.suggestions[0] if card.suggestions?.length
+        event.preventDefault()
+    $scope.back = -> $window.history.back()
+    $scope.save = ->
+      delete card.suggestions for card in $scope.question.cards
+      questionsAPI.admin.save($scope.question).then (response) ->
+        if response.data is "success"
+          $scope.back()
+        else
+          alert "Error when saving question"
 ]
 
 controllers.controller 'AdminTranslationCtrl', [

@@ -171,10 +171,12 @@ function getQuestionsAndCards($db) {
   return array("questions"=>$questions, "cards"=>$cards);
 }
 
-function getAdminQuestions($db) {
+function getAdminQuestions($db, $page) {
   $user = auth($db);
+  $pagesize = 20;
   if(isset($user['role']) && in_array($user['role'],array("admin", "editor", "translator"))){
-    $query = "SELECT q.*,
+    $start = intval($page) * $pagesize;
+    $query = "SELECT SQL_CALC_FOUND_ROWS q.*,
       GROUP_CONCAT(DISTINCT c.name SEPARATOR '|') cards,
       GROUP_CONCAT(DISTINCT qt2.language_id) languages,
       GROUP_CONCAT(DISTINCT qt3.language_id) outdated
@@ -184,10 +186,12 @@ function getAdminQuestions($db) {
       LEFT JOIN question_translations qt ON qt.question_id = q.id AND qt.language_id = 1
       LEFT JOIN question_translations qt2 ON qt2.question_id = q.id
       LEFT JOIN question_translations qt3 ON qt3.question_id = q.id AND qt3.changedate < qt.changedate
-      GROUP BY q.id";
+      GROUP BY q.id
+      ORDER BY q.id DESC
+      LIMIT $start, $pagesize;";
     $result = $db->query($query) or die($db->error);
     $questions = array();
-    while($row = $result->fetch_assoc()) {
+    while(count($questions) < $pagesize && $row = $result->fetch_assoc()) {
       $row['id'] = intval($row['id']);
       $row['difficulty'] = intval($row['difficulty']);
       $row['live'] = !!$row['live'];
@@ -199,7 +203,12 @@ function getAdminQuestions($db) {
       array_push($questions, $row);
     }
     $result->free();
-    return $questions;
+    $query = "SELECT FOUND_ROWS() rows;";
+    $result = $db->query($query) or die($db->error);
+    $total = $result->fetch_assoc();
+    $result->free();
+    $response = array("questions"=>$questions, "pages"=>ceil($total['rows']/$pagesize));
+    return $response;
   } else {
     return array();
   }
@@ -208,7 +217,7 @@ function getAdminQuestions($db) {
 function getAdminQuestion($db, $id) {
    $user = auth($db);
    if(isset($user['role']) && in_array($user['role'],array("admin", "editor", "translator"))){
-     $query = "SELECT q.*, qt.question, qt.answer, GROUP_CONCAT(DISTINCT c.id,':',c.name SEPARATOR '|') cards
+     $query = "SELECT q.*, qt.question, qt.answer, qt.changedate, GROUP_CONCAT(DISTINCT c.id,':',c.name SEPARATOR '|') cards
        FROM questions q
        LEFT JOIN question_cards qc ON qc.question_id = q.id
        LEFT JOIN cards c ON c.id = qc.card_id
@@ -233,6 +242,73 @@ function getAdminQuestion($db, $id) {
    }
 }
 
+function getAdminSuggest($db, $name) {
+   $query = "SELECT id, name FROM `cards`
+     WHERE name LIKE '".$db->real_escape_string($name)."%'
+     ORDER BY name ASC LIMIT 10";
+   $result = $db->query($query) or die($db->error);
+   $cards = array();
+   while($row = $result->fetch_assoc()) {
+     $row['id'] = intval($row['id']);
+     array_push($cards, $row);
+   }
+   $result->free();
+   return $cards;
+}
+
+function postAdminSave($db) {
+  $user = auth($db);
+  if(isset($user['role']) && in_array($user['role'],array("admin", "editor"))){
+    $question = json_decode(file_get_contents('php://input'));
+    if(intval($question->id)) {
+      // question basics
+      $parameters = array();
+      if(isset($question->live)) $parameters[] = "live = '".intval($question->live)."'";
+      if(isset($question->author)) $parameters[] = "author = '".$db->real_escape_string($question->author)."'";
+      if(isset($question->difficulty)) $parameters[] = "difficulty = '".intval($question->difficulty)."'";
+      if(count($parameters)) $db->query("UPDATE questions SET ".join(",",$parameters)." WHERE id = '".intval($question->id)."' LIMIT 1") or die($db->error);
+      // english text
+      if(isset($question->question)) {
+        $query = "UPDATE question_translations SET
+          question = '".$db->real_escape_string($question->question)."',
+          answer = '".$db->real_escape_string($question->answer)."'
+          WHERE question_id = '".intval($question->id)."' AND language_id = 1 LIMIT 1";
+        $db->query($query) or die($db->error);
+      }
+      // cards
+      if(isset($question->cards)) {
+        $db->query("DELETE FROM question_cards WHERE question_id = '".intval($question->id)."'") or die($db->error);
+        $cards = array();
+        foreach($question->cards as $card) {
+          if(intval($card->id)) $cards[] = "(".intval($question->id).",".intval($card->id).")";
+        }
+        $query = "INSERT INTO question_cards (question_id, card_id) VALUES ".join(",",$cards);
+        $db->query($query) or die($db->error);
+      }
+      return "success";
+    } else {
+      return "missingid";
+    }
+  } else {
+    return "unauthorized";
+  }
+}
+
+function deleteAdminQuestion($db, $id) {
+  $user = auth($db);
+  if(isset($user['role']) && in_array($user['role'],array("admin", "editor"))){
+    if(intval($id)) {
+      $query = "DELETE FROM questions WHERE id = '".intval($id)."' LIMIT 1";
+      $db->query($query) or die($db->error);
+      return "success";
+    } else {
+      return "missingid";
+    }
+  } else {
+    return "unauthorized";
+  }
+}
+
 if(isset($_GET['action'])) {
   switch(strtolower($_GET['action'])) {
     case "questions":
@@ -254,11 +330,23 @@ if(isset($_GET['action'])) {
       echo json_encode(auth($db, $_GET['token']));
       break;
     case "admin-questions":
-      echo json_encode(getAdminQuestions($db));
+      if(!isset($_GET['page'])) $_GET['page'] = 0;
+      echo json_encode(getAdminQuestions($db, $_GET['page']));
       break;
     case "admin-question":
       if(!isset($_GET['id'])) $_GET['id'] = 0;
       echo json_encode(getAdminQuestion($db, $_GET['id']));
+      break;
+    case "admin-suggest":
+      if(!isset($_GET['name'])) $_GET['name'] = "";
+      echo json_encode(getAdminSuggest($db, $_GET['name']));
+      break;
+    case "admin-save":
+      echo json_encode(postAdminSave($db));
+      break;
+    case "admin-delete":
+      if(!isset($_GET['id'])) $_GET['id'] = 0;
+      echo json_encode(deleteAdminQuestion($db, $_GET['id']));
       break;
   }
 }

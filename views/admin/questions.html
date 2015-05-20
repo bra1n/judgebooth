@@ -1,0 +1,60 @@
+<ion-view>
+  <ion-content class="padding" id="questions">
+    <!-- Question list -->
+    <table>
+      <thead>
+        <tr>
+          <td class="text-center">Question</td>
+          <td>Cards</td>
+          <td>Author</td>
+          <td class="text-center">Live</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat-start="question in questions | filter:{deleted:'!true'}" ng-class-odd="'odd'">
+          <td class="nr">{{::question.id}}</td>
+          <td>{{::question.cards.join("; ")}}</td>
+          <td>{{::question.author}}</td>
+          <td class="toggle-small">
+            <label class="toggle toggle-positive">
+              <input type="checkbox" ng-model="question.live" ng-change="toggle(question)">
+              <div class="track">
+                <div class="handle"></div>
+              </div>
+            </label>
+          </td>
+        </tr>
+        <tr ng-repeat-end ng-class-odd="'odd'">
+          <td colspan="3">
+            <div class="button-bar">
+              <a class="button button-outline button-small language"
+                 ui-sref="app.admin.translation({id:question.id, language:language.id})"
+                 ng-class="::{
+                    'button-positive':question.languages.indexOf(language.id)>-1,
+                    'button-dark':question.outdated.indexOf(language.id)>-1,
+                  }"
+                 ng-repeat="language in ::languages">
+                {{::language.code}}
+              </a>
+            </div>
+          </td>
+          <td>
+            <a class="button button-small button-positive icon ion-edit" ui-sref="app.admin.question({id:question.id})"></a>
+            <a class="button button-small button-dark icon ion-trash-a" ng-click="delete(question)"></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="button-bar">
+      <a ng-disabled="page<1" class="button icon ion-ios-skipbackward button-light"
+              ui-sref="app.admin.questions({page:0})"></a>
+      <a ng-disabled="page<1" class="button button-light icon ion-arrow-left-b"
+              ui-sref="app.admin.questions({page:page-1})"></a>
+      <a class="button icon button-light" ng-click="goto()">{{page+1}}</a>
+      <a ng-disabled="page>=pages-1" class="button icon button-light ion-arrow-right-b"
+              ui-sref="app.admin.questions({page:page+1})"></a>
+      <a ng-disabled="page>=pages-1" class="button icon ion-ios-skipforward button-light"
+              ui-sref="app.admin.questions({page:pages-1})"></a>
+    </div>
+  </ion-content>
+</ion-view>

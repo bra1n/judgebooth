@@ -142,6 +142,9 @@ services.service 'questionsAPI', [
       , (response) -> deferred.reject response
       deferred.promise
     admin:
-      questions: -> $http.get apiURL + "admin-questions"
+      questions: (page) -> $http.get apiURL + "admin-questions&page="+page
       question: (id) -> $http.get apiURL + "admin-question&id="+id
+      suggest: (name) -> $http.get apiURL + "admin-suggest&name="+name
+      save: (question) -> $http.post apiURL + "admin-save", question
+      delete: (id) -> $http.delete apiURL + "admin-delete&id="+id
 ]

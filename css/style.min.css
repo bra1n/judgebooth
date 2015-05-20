@@ -7908,19 +7908,38 @@ div.cards {
 /* Admin */
 /* Questions */
 #questions table {
-  width: 100%; }
+  width: 100%;
+  margin-bottom: 20px; }
   #questions table thead td {
     font-weight: bold; }
-  #questions table tbody tr:nth-child(odd) {
+  #questions table tbody tr.odd {
     background: #eee; }
   #questions table td {
     vertical-align: middle; }
   #questions table td.toggle-small {
     text-align: center; }
-  #questions table td:first-child {
+  #questions table .toggle {
+    margin-top: 0; }
+  #questions table .button-bar {
+    padding-right: 5px; }
+  #questions table td.nr {
     text-align: center;
-    font-weight: bold; }
+    font-weight: bold;
+    height: 31px; }
   #questions table td:last-child {
     width: 60px; }
   #questions table .button-bar > .button {
     padding: 0; }
+
+#question .cards input {
+  width: 100%; }
+#question .cards .suggestion {
+  cursor: pointer; }
+  #question .cards .suggestion:hover {
+    background: #e52628;
+    color: #fff; }
+#question textarea {
+  width: 100%;
+  max-width: 100%;
+  height: 150px;
+  max-height: 150px; }

@@ -8,6 +8,6 @@
   "dependencies": {
     "angular-translate": "^2.7.0",
     "angular-cache": "^4.2.0",
-    "ionic": "driftyco/ionic-bower#master"
+    "ionic": "driftyco/ionic-bower#v1.0.0"
   }
 }
