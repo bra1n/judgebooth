@@ -14,15 +14,17 @@ function auth($db, $token = "") {
   $user = $result->fetch_assoc();
   $result->free();
   if($user) {
+    if(!isset($user['languages']) || empty($user['languages'])) $user['languages'] = array();
+    else $user['languages'] = array_map('intval',explode(',',$user['languages']));
     return $user;
   } elseif($auth) {
     return array("error"=>"unauthorized");
   } elseif($token) {
     $postData = "code=".urlencode($token).
-      "&client_id=".urlencode(GAPPS_CLIENTID).
-      "&client_secret=".urlencode(GAPPS_CLIENTSECRET).
-      "&redirect_uri=".urlencode(GAPPS_REDIRECT).
-      "&grant_type=authorization_code";
+                "&client_id=".urlencode(GAPPS_CLIENTID).
+                "&client_secret=".urlencode(GAPPS_CLIENTSECRET).
+                "&redirect_uri=".urlencode(GAPPS_REDIRECT).
+                "&grant_type=authorization_code";
     $ch = curl_init();
     curl_setopt($ch,CURLOPT_URL, "https://www.googleapis.com/oauth2/v3/token");
     curl_setopt($ch,CURLOPT_POST, count($postData));
@@ -44,10 +46,10 @@ function auth($db, $token = "") {
     }
   } else {
     $url = 'https://accounts.google.com/o/oauth2/auth?'.
-      'scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email'.
-      '&response_type=code'.
-      '&redirect_uri='.urlencode(GAPPS_REDIRECT).
-      '&client_id='.urlencode(GAPPS_CLIENTID);
+           'scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email'.
+           '&response_type=code'.
+           '&redirect_uri='.urlencode(GAPPS_REDIRECT).
+           '&client_id='.urlencode(GAPPS_CLIENTID);
     return array("login"=>$url);
   }
 }
@@ -210,50 +212,52 @@ function getAdminQuestions($db, $page) {
     $response = array("questions"=>$questions, "pages"=>ceil($total['rows']/$pagesize));
     return $response;
   } else {
+    header('HTTP/1.0 401 Unauthorized');
     return array();
   }
 }
 
 function getAdminQuestion($db, $id) {
-   $user = auth($db);
-   if(isset($user['role']) && in_array($user['role'],array("admin", "editor", "translator"))){
-     $query = "SELECT q.*, qt.question, qt.answer, qt.changedate, GROUP_CONCAT(DISTINCT c.id,':',c.name SEPARATOR '|') cards
+  $user = auth($db);
+  if(isset($user['role']) && in_array($user['role'],array("admin", "editor", "translator"))){
+    $query = "SELECT q.*, qt.question, qt.answer, qt.changedate, GROUP_CONCAT(DISTINCT c.id,':',c.name SEPARATOR '|') cards
        FROM questions q
        LEFT JOIN question_cards qc ON qc.question_id = q.id
        LEFT JOIN cards c ON c.id = qc.card_id
        LEFT JOIN question_translations qt ON qt.question_id = q.id
        WHERE q.id = '".$db->real_escape_string($id)."' AND qt.language_id = 1
        GROUP BY q.id";
-     $result = $db->query($query) or die($db->error);
-     $question = $result->fetch_assoc();
-     $question['difficulty'] = intval($question['difficulty']);
-     $question['id'] = intval($question['id']);
-     $question['live'] = !!$question['live'];
-     $cards = explode("|",$question['cards']);
-     $question['cards'] = array();
-     foreach($cards as $card) {
-       $card = explode(":",$card,2);
-       $question['cards'][] = array("id"=>intval($card[0]),"name"=>$card[1]);
-     }
-     $result->free();
-     return $question;
-   } else {
-     return array();
-   }
+    $result = $db->query($query) or die($db->error);
+    $question = $result->fetch_assoc();
+    $question['difficulty'] = intval($question['difficulty']);
+    $question['id'] = intval($question['id']);
+    $question['live'] = !!$question['live'];
+    $cards = explode("|",$question['cards']);
+    $question['cards'] = array();
+    foreach($cards as $card) {
+      $card = explode(":",$card,2);
+      $question['cards'][] = array("id"=>intval($card[0]),"name"=>$card[1]);
+    }
+    $result->free();
+    return $question;
+  } else {
+    header('HTTP/1.0 401 Unauthorized');
+    return array();
+  }
 }
 
 function getAdminSuggest($db, $name) {
-   $query = "SELECT id, name FROM `cards`
+  $query = "SELECT id, name FROM `cards`
      WHERE name LIKE '".$db->real_escape_string($name)."%'
      ORDER BY name ASC LIMIT 10";
-   $result = $db->query($query) or die($db->error);
-   $cards = array();
-   while($row = $result->fetch_assoc()) {
-     $row['id'] = intval($row['id']);
-     array_push($cards, $row);
-   }
-   $result->free();
-   return $cards;
+  $result = $db->query($query) or die($db->error);
+  $cards = array();
+  while($row = $result->fetch_assoc()) {
+    $row['id'] = intval($row['id']);
+    array_push($cards, $row);
+  }
+  $result->free();
+  return $cards;
 }
 
 function postAdminSave($db) {
@@ -290,6 +294,7 @@ function postAdminSave($db) {
       return "missingid";
     }
   } else {
+    header('HTTP/1.0 401 Unauthorized');
     return "unauthorized";
   }
 }
@@ -305,7 +310,43 @@ function deleteAdminQuestion($db, $id) {
       return "missingid";
     }
   } else {
+    header('HTTP/1.0 401 Unauthorized');
     return "unauthorized";
+  }
+}
+
+function getAdminTranslations($db, $language) {
+  $user = auth($db);
+  if(isset($user['role']) && in_array($user['role'],array("admin", "editor", "translator"))
+     && (!count($user['languages']) || in_array($language,$user['languages']))) {
+    $language = intval($language);
+    $query = "SELECT qt.question_id, qt2.changedate, q.live, GROUP_CONCAT(IFNULL(ct.name, c.name) SEPARATOR '|') cards,
+      IF(qt2.question IS NULL OR qt2.answer IS NULL,'untranslated',IF(qt.changedate > qt2.changedate,'outdated','translated')) status
+      FROM question_translations qt
+      LEFT JOIN question_translations qt2 ON qt2.question_id = qt.question_id AND qt2.language_id = '$language'
+      LEFT JOIN questions q ON q.id = qt.question_id
+      LEFT JOIN question_cards qc ON qc.question_id = qt.question_id
+      LEFT JOIN cards c ON c.id = qc.card_id
+      LEFT JOIN card_translations ct ON ct.card_id = qc.card_id AND ct.language_id = '$language'
+      WHERE qt.language_id = 1
+      GROUP BY qt.question_id
+      ORDER BY qt.question_id DESC";
+    $result = $db->query($query) or die($db->error);
+    $translations = array();
+    while($row = $result->fetch_assoc()) {
+      $row['question_id'] = intval($row['question_id']);
+      $row['live'] = !!$row['live'];
+      $row['cards'] = explode("|", $row['cards']);
+      foreach($row as $field=>$value) {
+        if($value === null) unset($row[$field]);
+      }
+      $translations[] = $row;
+    }
+    $result->free();
+    return $translations;
+  } else {
+    header('HTTP/1.0 401 Unauthorized');
+    return array();
   }
 }
 
@@ -347,6 +388,10 @@ if(isset($_GET['action'])) {
     case "admin-delete":
       if(!isset($_GET['id'])) $_GET['id'] = 0;
       echo json_encode(deleteAdminQuestion($db, $_GET['id']));
+      break;
+    case "admin-translations":
+      if(!isset($_GET['lang'])) $_GET['lang'] = 0;
+      echo json_encode(getAdminTranslations($db, $_GET['lang']));
       break;
   }
 }

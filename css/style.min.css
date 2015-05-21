@@ -7931,6 +7931,8 @@ div.cards {
   #questions table .button-bar > .button {
     padding: 0; }
 
+#question .list .item {
+  height: 54px; }
 #question .cards input {
   width: 100%; }
 #question .cards .suggestion {
@@ -7943,3 +7945,14 @@ div.cards {
   max-width: 100%;
   height: 150px;
   max-height: 150px; }
+
+#translations .item-button-right {
+  padding-right: 180px; }
+#translations .button .icon {
+  margin-left: 10px; }
+#translations .item.stable-bg {
+  opacity: 0.5; }
+#translations .item-note {
+  position: absolute;
+  right: 16px;
+  bottom: 6px; }

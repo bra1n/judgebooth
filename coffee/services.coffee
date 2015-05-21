@@ -147,4 +147,5 @@ services.service 'questionsAPI', [
       suggest: (name) -> $http.get apiURL + "admin-suggest&name="+name
       save: (question) -> $http.post apiURL + "admin-save", question
       delete: (id) -> $http.delete apiURL + "admin-delete&id="+id
+      translations: (language) -> $http.get apiURL + "admin-translations&lang=" + language
 ]

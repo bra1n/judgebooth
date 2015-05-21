@@ -46,14 +46,20 @@ boothApp.config [
         'menuContent@app':
           templateUrl: 'views/admin/questions.html'
           controller: 'AdminQuestionsCtrl'
-    .state 'app.admin.question', # all questions
+    .state 'app.admin.question', # single question
       url: '/question/:id'
       views:
         'menuContent@app':
           templateUrl: 'views/admin/question.html'
           controller: 'AdminQuestionCtrl'
-    .state 'app.admin.translation', # translations
-      url: '/translation/:id/:language'
+    .state 'app.admin.translations', # translations
+      url: '/translations'
+      views:
+        'menuContent@app':
+          templateUrl: 'views/admin/translations.html'
+          controller: 'AdminTranslationsCtrl'
+    .state 'app.admin.translation', # single translation
+      url: '/translation/:language/:id'
       views:
         'menuContent@app':
           templateUrl: 'views/admin/translation.html'

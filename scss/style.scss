@@ -287,6 +287,9 @@ div.cards {
 }
 
 #question {
+  .list .item {
+    height: 54px;
+  }
   .cards {
     input { width: 100%; }
     .suggestion {
@@ -299,5 +302,16 @@ div.cards {
     max-width: 100%;
     height: 150px;
     max-height: 150px;
+  }
+}
+
+#translations {
+  .item-button-right { padding-right: 180px; }
+  .button .icon { margin-left: 10px; }
+  .item.stable-bg { opacity: 0.5; }
+  .item-note {
+    position: absolute;
+    right: 16px;
+    bottom: 6px;
   }
 }
