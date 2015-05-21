@@ -18,7 +18,8 @@ function auth($db, $token = "") {
     else $user['languages'] = array_map('intval',explode(',',$user['languages']));
     return $user;
   } elseif($auth) {
-    return array("error"=>"unauthorized");
+    header('HTTP/1.0 401 Unauthorized');
+    return array("error"=>"No account found");
   } elseif($token) {
     $postData = "code=".urlencode($token).
                 "&client_id=".urlencode(GAPPS_CLIENTID).

@@ -69,6 +69,7 @@ controllers.controller 'SideCtrl', [
       questionsAPI.auth().then (auth) ->
         window.location.href = auth.login if auth.login?
         $scope.user = auth if auth.role?
+      , (response) -> $scope.user = response.data
     $scope.logout = ->
       questionsAPI.logout()
       $scope.user = false
@@ -78,6 +79,9 @@ controllers.controller 'SideCtrl', [
       questionsAPI.auth($location.search().code).then (auth) ->
         $location.search('code',null)
         $scope.user = auth if auth.role?
+      , (response) ->
+        $location.search('code',null)
+        $scope.user = response.data
 ]
 
 controllers.controller 'HomeCtrl', [
