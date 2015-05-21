@@ -273,10 +273,10 @@ function postAdminSave($db) {
       if(count($parameters)) $db->query("UPDATE questions SET ".join(",",$parameters)." WHERE id = '".intval($question->id)."' LIMIT 1") or die($db->error);
       // english text
       if(isset($question->question)) {
-        $query = "UPDATE question_translations SET
+        $query = "REPLACE INTO question_translations SET
+          question_id = '".intval($question->id)."', language_id = 1,
           question = '".$db->real_escape_string($question->question)."',
-          answer = '".$db->real_escape_string($question->answer)."'
-          WHERE question_id = '".intval($question->id)."' AND language_id = 1 LIMIT 1";
+          answer = '".$db->real_escape_string($question->answer)."'";
         $db->query($query) or die($db->error);
       }
       // cards
@@ -317,9 +317,9 @@ function deleteAdminQuestion($db, $id) {
 
 function getAdminTranslations($db, $language) {
   $user = auth($db);
+  $language = intval($language);
   if(isset($user['role']) && in_array($user['role'],array("admin", "editor", "translator"))
      && (!count($user['languages']) || in_array($language,$user['languages']))) {
-    $language = intval($language);
     $query = "SELECT qt.question_id, qt2.changedate, q.live, GROUP_CONCAT(IFNULL(ct.name, c.name) SEPARATOR '|') cards,
       IF(qt2.question IS NULL OR qt2.answer IS NULL,'untranslated',IF(qt.changedate > qt2.changedate,'outdated','translated')) status
       FROM question_translations qt
@@ -350,6 +350,70 @@ function getAdminTranslations($db, $language) {
   }
 }
 
+function postAdminTranslate($db) {
+  $user = auth($db);
+  $translation = json_decode(file_get_contents('php://input'));
+  if(isset($user['role']) && in_array($user['role'],array("admin", "editor", "translator"))
+       && (!count($user['languages']) || in_array(intval($translation->language_id),$user['languages']))) {
+    if(intval($translation->id) && intval($translation->language_id)) {
+      if(isset($translation->question) && $translation->question
+         && isset($translation->answer) && $translation->answer) {
+        // insert new translation
+        $query = "REPLACE INTO question_translations SET
+          question_id = '".$translation->id."', language_id = '".$translation->language_id."',
+          question = '".$db->real_escape_string($translation->question)."',
+          answer = '".$db->real_escape_string($translation->answer)."'";
+        $db->query($query) or die($db->error);
+      } else {
+        // delete old translation
+        $query = "DELETE FROM question_translations
+          WHERE question_id = '".$translation->id."' AND language_id = '".$translation->language_id."' LIMIT 1";
+        $db->query($query) or die($db->error);
+      }
+      return "success";
+    } else {
+      return "missingid";
+    }
+  } else {
+    header('HTTP/1.0 401 Unauthorized');
+    return "unauthorized";
+  }
+}
+
+
+function getAdminTranslation($db, $language, $id) {
+  $user = auth($db);
+  $language = intval($language);
+  if(isset($user['role']) && in_array($user['role'],array("admin", "editor", "translator"))
+     && (!count($user['languages']) || in_array($language,$user['languages']))) {
+    $query = "SELECT q.*, qt.*, qt2.question question_translated, qt2.answer answer_translated,
+       qt2.changedate changedate_translated, GROUP_CONCAT(IFNULL(ct.name, c.name) SEPARATOR '|') cards
+       FROM questions q
+       LEFT JOIN question_cards qc ON qc.question_id = q.id
+       LEFT JOIN question_translations qt ON qt.question_id = q.id
+       LEFT JOIN question_translations qt2 ON qt2.question_id = q.id AND qt2.language_id = '$language'
+       LEFT JOIN cards c ON c.id = qc.card_id
+       LEFT JOIN card_translations ct ON ct.card_id = qc.card_id AND ct.language_id = '$language'
+       WHERE q.id = '".intval($id)."' AND qt.language_id = 1
+       GROUP BY q.id";
+    $result = $db->query($query) or die($db->error);
+    $question = $result->fetch_assoc();
+    if($question) {
+      $question['difficulty'] = intval($question['difficulty']);
+      $question['language_id'] = intval($language);
+      unset($question['question_id']);
+      $question['id'] = intval($question['id']);
+      $question['live'] = !!$question['live'];
+      if(isset($question['cards'])) $question['cards'] = explode("|", $question['cards']);
+    }
+    $result->free();
+    return $question;
+  } else {
+    header('HTTP/1.0 401 Unauthorized');
+    return array();
+  }
+}
+
 if(isset($_GET['action'])) {
   switch(strtolower($_GET['action'])) {
     case "questions":
@@ -369,6 +433,9 @@ if(isset($_GET['action'])) {
     case "auth":
       if(!isset($_GET['token'])) $_GET['token'] = "";
       echo json_encode(auth($db, $_GET['token']));
+      break;
+    case "logout":
+      $_SESSION['auth'] = "";
       break;
     case "admin-questions":
       if(!isset($_GET['page'])) $_GET['page'] = 0;
@@ -392,6 +459,14 @@ if(isset($_GET['action'])) {
     case "admin-translations":
       if(!isset($_GET['lang'])) $_GET['lang'] = 0;
       echo json_encode(getAdminTranslations($db, $_GET['lang']));
+      break;
+    case "admin-translation":
+      if(!isset($_GET['id'])) $_GET['id'] = 0;
+      if(!isset($_GET['lang'])) $_GET['lang'] = 0;
+      echo json_encode(getAdminTranslation($db, $_GET['lang'], $_GET['id']));
+      break;
+    case "admin-translate":
+      echo json_encode(postAdminTranslate($db));
       break;
   }
 }

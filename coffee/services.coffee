@@ -131,7 +131,9 @@ services.service 'questionsAPI', [
       deferred.promise
     # admin stuff
     user: -> caches.session.get "user"
-    logout: -> caches.session.remove "user"
+    logout: ->
+      $http.get apiURL + "logout"
+      caches.session.remove "user"
     auth: (token) ->
       deferred = $q.defer()
       url = apiURL + "auth"
@@ -148,4 +150,6 @@ services.service 'questionsAPI', [
       save: (question) -> $http.post apiURL + "admin-save", question
       delete: (id) -> $http.delete apiURL + "admin-delete&id="+id
       translations: (language) -> $http.get apiURL + "admin-translations&lang=" + language
+      translation: (language, id) -> $http.get apiURL + "admin-translation&lang="+language+"&id="+id
+      translate: (translation) -> $http.post apiURL + "admin-translate", translation
 ]

@@ -7818,6 +7818,8 @@ div.scroll {
       padding: 0; }
     .side-content div.difficulty .button-bar .button i:before {
       line-height: 20px; }
+.side-content .button-bar .button-small {
+  padding: 0; }
 
 ion-side-menu .tabs-striped .tabs {
   z-index: 20; }
@@ -7921,7 +7923,8 @@ div.cards {
   #questions table .toggle {
     margin-top: 0; }
   #questions table .button-bar {
-    padding-right: 5px; }
+    padding-right: 5px;
+    font-weight: bold; }
   #questions table td.nr {
     text-align: center;
     font-weight: bold;
@@ -7931,7 +7934,7 @@ div.cards {
   #questions table .button-bar > .button {
     padding: 0; }
 
-#question .list .item {
+#question .question-infos .list .item {
   height: 54px; }
 #question .cards input {
   width: 100%; }
@@ -7946,6 +7949,7 @@ div.cards {
   height: 150px;
   max-height: 150px; }
 
+/* Translations */
 #translations .item-button-right {
   padding-right: 180px; }
 #translations .button .icon {
@@ -7956,3 +7960,9 @@ div.cards {
   position: absolute;
   right: 16px;
   bottom: 6px; }
+
+#translation textarea {
+  width: 100%;
+  max-width: 100%;
+  height: 150px;
+  max-height: 150px; }

@@ -1,12 +1,18 @@
 <ion-view>
-  <ion-content class="padding" overflow-scroll="true" id="question">
+  <ion-content class="padding" id="question">
     <!-- Edit a question -->
-    <form name="form" ng-submit="save()">
-      <div class="row responsive-sm">
+    <div class="loader" ng-hide="question">
+      <div class="inner one"></div>
+      <div class="inner two"></div>
+      <div class="inner three"></div>
+      <span class="positive" translate>common.loading</span>
+    </div>
+    <form name="form" ng-show="question" ng-submit="save()">
+      <div class="row question-infos responsive-sm">
         <div class="col col-50 list">
           <div class="item">
-            Question
             <span class="item-note dark">{{question.id}}</span>
+            Question
           </div>
           <label class="item item-input">
             <span class="input-label">Author</span>
@@ -54,13 +60,13 @@
         </div>
       </div>
       <div class="row responsive-sm">
-        <div class="col col-50">
+        <div class="col col-50 list">
           <div class="item item-divider">Question:</div>
           <div class="item">
             <textarea required="required" ng-model="question.question"></textarea>
           </div>
         </div>
-        <div class="col col-50">
+        <div class="col col-50 list">
           <div class="item item-divider">Answer:</div>
           <div class="item">
             <textarea required="required" ng-model="question.answer"></textarea>

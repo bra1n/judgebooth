@@ -166,6 +166,8 @@ div.scroll { min-height: 90%; }
       .button i:before { line-height: 20px; }
     }
   }
+
+  .button-bar .button-small { padding: 0; }
 }
 ion-side-menu .tabs-striped .tabs {
   z-index: 20;
@@ -275,7 +277,7 @@ div.cards {
     td { vertical-align: middle; }
     td.toggle-small { text-align: center; }
     .toggle { margin-top: 0; }
-    .button-bar { padding-right: 5px; }
+    .button-bar { padding-right: 5px; font-weight: bold; }
     td.nr {
       text-align: center;
       font-weight: bold;
@@ -287,7 +289,7 @@ div.cards {
 }
 
 #question {
-  .list .item {
+  .question-infos .list .item {
     height: 54px;
   }
   .cards {
@@ -305,6 +307,7 @@ div.cards {
   }
 }
 
+/* Translations */
 #translations {
   .item-button-right { padding-right: 180px; }
   .button .icon { margin-left: 10px; }
@@ -313,5 +316,14 @@ div.cards {
     position: absolute;
     right: 16px;
     bottom: 6px;
+  }
+}
+
+#translation {
+  textarea {
+    width: 100%;
+    max-width: 100%;
+    height: 150px;
+    max-height: 150px;
   }
 }

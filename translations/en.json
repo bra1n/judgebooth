@@ -15,12 +15,18 @@
     "sets_none": "None",
     "difficulty": "Difficulty",
     "select": "Select {{number}} Questions",
-    "offline_caching": "Caching files...",
-    "offline_ready": "Offline ready",
+    "login": "Login",
+    "logout": "Logout",
+    "logged_in": "Logged in as: {{user}}",
+    "login_error": "Login error: {{error}}",
     "offline_mode": "Offline mode",
-    "source": "Source on GitHub",
+    "source": "Source Code",
     "button_filter": "Filter",
-    "button_admin": "Manage"
+    "button_admin": "Admin",
+    "admin_new": "New Question",
+    "admin_all": "All Questions",
+    "admin_translations": "Translations",
+    "admin_users": "Users"
   },
   "home": {
     "title": "Welcome to the Judge Booth!",

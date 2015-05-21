@@ -86,52 +86,53 @@
           </div>
         </div>
       </div>
+      <!-- Select Button -->
       <div class="padding">
         <button ng-disabled="!filteredQuestions.length" class="button button-block button-positive icon-right ion-arrow-right-a"
                 menu-close ng-click="showQuestions()" translate translate-value-number="{{filteredQuestions.length}}">
           menu.select
         </button>
       </div>
-      <div class="text-center padding">
-        <div>
-          <span ng-show="online && cacheStatus == 3" translate>menu.offline_caching</span>
-          <span ng-show="online && cacheStatus == 1" translate>menu.offline_ready</span>
-          <span ng-show="!online && cacheStatus == 1" translate>menu.offline_mode</span>
-        </div>
-        <!--<div>
-          <span ng-show="!user" ng-click="login()">Login</span>
-          <span ng-show="user.error">Error logging in: {{user.error}}</span>
-          <span ng-show="user.name">{{user.name}}</span>
-        </div>-->
-        <a class="dark" href="https://github.com/bra1n/judgebooth" target="_blank" translate>menu.source</a>
+      <!-- Further controls -->
+      <div class="text-center">
+        <span ng-show="user.error" translate-value-error="{{user.error}}" translate>menu.login_error</span>
+        <span ng-show="user.name" translate-value-user="{{user.name}}" translate>menu.logged_in</span>
+      </div>
+      <div class="button-bar padding">
+        <span ng-show="!online && cacheStatus == 1" class="button button-small" disabled translate>menu.offline_mode</span>
+        <span ng-show="online && !user" class="button button-small button-light" ng-click="login()" translate>menu.login</span>
+        <span ng-show="online && user" class="button button-small button-light" ng-click="logout()" translate>menu.logout</span>
+        <a class="button button-small button-light" href="https://github.com/bra1n/judgebooth" target="_blank" translate>menu.source</a>
       </div>
     </ion-content>
 
+    <!-- Admin Menu -->
     <ion-content ng-show="tab == 'admin'" class="has-tabs side-content">
       <div class="list">
         <a class="item item-icon-left" ui-sref="app.admin.new">
           <i class="icon ion-plus"></i>
-          New Question
+          <span translate>menu.admin_new</span>
         </a>
         <a class="item item-icon-left" ui-sref="app.admin.questions({page:0})" ng-show="user.role == 'admin' || user.role == 'editor'">
           <i class="icon ion-help"></i>
-          All Questions
+          <span translate>menu.admin_all</span>
         </a>
-        <a class="item item-icon-left" ui-sref="app.admin.translation">
+        <a class="item item-icon-left" ui-sref="app.admin.translations">
           <i class="icon ion-earth"></i>
-          Translations
+          <span translate>menu.admin_translations</span>
         </a>
         <a class="item item-icon-left" ui-sref="app.admin.user" ng-show="user.role == 'admin'">
           <i class="icon ion-ios-people"></i>
-          Users
+          <span translate>menu.admin_users</span>
         </a>
         <a class="item item-icon-left" ui-sref="app.home" ng-click="logout()">
           <i class="icon ion-android-exit"></i>
-          Logout
+          <span translate>menu.logout</span>
         </a>
       </div>
     </ion-content>
 
+    <!-- Bottom Tabs -->
     <div ng-show="user.role" class="tabs-striped tabs-color-positive tabs-background-stable">
       <div class="tabs">
         <a class="tab-item"  ng-class="{active:tab == 'filter'}" ng-click="toggleTab('filter')">

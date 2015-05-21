@@ -13,8 +13,7 @@
     "sets_standard": "標準",
     "sets_none": "無",
     "difficulty": "難度",
-    "select": "選擇 {{number}} 個問題",
-    "source": "在 GitHub 上 Fork 此項目"
+    "select": "選擇 {{number}} 個問題"
   },
   "home": {
     "title": "歡迎訪問裁判問答！",

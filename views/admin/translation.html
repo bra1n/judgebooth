@@ -1,5 +1,82 @@
 <ion-view>
-  <ion-content class="padding text-center" id="translation">
-    Translations
+  <ion-content class="padding" id="translation">
+    <!-- Edit a translation -->
+    <div class="loader" ng-hide="translation">
+      <div class="inner one"></div>
+      <div class="inner two"></div>
+      <div class="inner three"></div>
+      <span class="positive" translate>common.loading</span>
+    </div>
+    <form name="form" ng-show="translation" ng-submit="save()">
+      <div class="row responsive-sm">
+        <div class="col col-50 list">
+          <div class="item">
+            <span class="item-note">{{translation.id}}</span>
+            Question
+          </div>
+          <div class="item" ng-show="translation.author">
+            <span class="item-note">{{translation.author}}</span>
+            Author
+          </div>
+          <div class="item">
+            <span class="item-note" ng-show="translation.difficulty == 0">Easy</span>
+            <span class="item-note" ng-show="translation.difficulty == 1">Medium</span>
+            <span class="item-note" ng-show="translation.difficulty == 2">Hard</span>
+            Difficulty
+          </div>
+          <div class="item item-icon-right">
+            Live
+            <i class="icon" ng-class="{'ion-checkmark positive':translation.live,'ion-close':!translation.live}"></i>
+          </div>
+        </div>
+        <div class="col col-50 list cards">
+          <div ng-repeat-start="(index, card) in translation.cards" class="item"
+               ng-click="showCard[index]=!showCard[index]">
+            {{card}}
+          </div>
+          <div ng-repeat-end ng-show="showCard[index]" class="item stable-bg">
+            <img ng-src="http://gatherer.wizards.com/Handlers/Image.ashx?type=card&name={{card}}">
+          </div>
+        </div>
+      </div>
+      <div class="row responsive-sm">
+        <div class="col col-50 list">
+          <div class="item item-divider">
+            <span class="item-note" ng-show="translation.changedate">{{translation.changedate}}</span>
+            English Question:
+          </div>
+          <div class="item item-text-wrap">
+            {{translation.question}}
+          </div>
+          <div class="item item-divider">
+            <span class="item-note" ng-show="translation.changedate_translated">{{translation.changedate_translated}}</span>
+            {{language.name}} Question:
+          </div>
+          <div class="item">
+            <textarea ng-required="translation.answer_translated" ng-model="translation.question_translated"></textarea>
+          </div>
+        </div>
+        <div class="col col-50 list">
+          <div class="item item-divider">
+            <span class="item-note" ng-show="translation.changedate">{{translation.changedate}}</span>
+            English Answer:
+          </div>
+          <div class="item item-text-wrap">
+            {{translation.answer}}
+          </div>
+          <div class="item item-divider">
+            <span class="item-note" ng-show="translation.changedate_translated">{{translation.changedate_translated}}</span>
+            {{language.name}} Answer:
+          </div>
+          <div class="item">
+            <textarea ng-required="translation.question_translated" ng-model="translation.answer_translated"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="button-bar padding">
+        <button type="button" ng-click="back()" class="button button-stable">Back</button>
+        <button ng-disabled="question.cards.length==0 || !form.$valid" type="submit" class="button button-positive">Save</button>
+      </div>
+    </form>
   </ion-content>
 </ion-view>

@@ -29,6 +29,8 @@
             <div class="button-bar">
               <a class="button button-outline button-small language"
                  ui-sref="app.admin.translation({id:question.id, language:language.id})"
+                 ng-if="::language.code != 'en'"
+                 ng-disabled="::user.languages.length && user.languages.indexOf(language.id)<0"
                  ng-class="::{
                     'button-positive':question.languages.indexOf(language.id)>-1,
                     'button-dark':question.outdated.indexOf(language.id)>-1,

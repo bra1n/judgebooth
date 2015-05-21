@@ -1,38 +1,40 @@
 <ion-view>
   <ion-content id="translations">
-    <div class="row responsive-sm">
-      <div class="col-50 item item-input">
-        <i class="icon placeholder-icon ion-search"></i>
-        <input type="text" ng-model="selected.search" placeholder="Search">
-      </div>
-      <label class="col-50 item item-input item-select">
-        <div class="input-label">Language</div>
-        <select ng-model="selected.language" ng-change="reload(true)">
-          <option ng-repeat="lang in languages" ng-if="lang.code != 'en'" value="{{lang.id}}"
-                  ng-selected="lang.id == selected.language">{{lang.name}}</option>
-        </select>
-      </label>
-    </div>
     <div class="loader" ng-hide="translations.length">
       <div class="inner one"></div>
       <div class="inner two"></div>
       <div class="inner three"></div>
       <span class="positive" translate>common.loading</span>
     </div>
+    <div class="row responsive-sm" ng-show="translations.length">
+      <div class="col-50 item item-input">
+        <i class="icon placeholder-icon ion-search"></i>
+        <input type="text" ng-model="selected.search" placeholder="Search">
+      </div>
+      <label class="col-50 item item-input item-select">
+        <div class="input-label">Language</div>
+        <select ng-model="selected.language" ng-change="reload(true)" ng-disabled="languages.length <= 1">
+          <option ng-repeat="lang in languages" ng-if="lang.code != 'en'" value="{{lang.id}}"
+                  ng-selected="lang.id == selected.language">{{lang.name}}</option>
+        </select>
+      </label>
+    </div>
     <div class="list">
-      <div class="item item-button-right" ng-class="{'stable-bg':!translation.live}" ng-repeat="translation in translations | filter:selected.search">
+      <a class="item item-button-right" ng-class="{'stable-bg':!translation.live}"
+         ui-sref="app.admin.translation({language:selected.language, id:translation.question_id})"
+         ng-repeat="translation in translations | filter:selected.search">
         <span class="item-note">{{translation.changedate}}</span>
         <b>Question {{::translation.question_id}}</b>
         <p>{{::translation.cards.join("; ")}}</p>
-        <a class="button" ui-sref="app.admin.translation({language:selected.language, id:translation.question_id})"
+        <button class="button" ui-sref="app.admin.translation({language:selected.language, id:translation.question_id})"
                 ng-class="{'button-positive':translation.status=='translated',
                 'button-dark':translation.status=='outdated'}">
           {{translation.status}}
           <i class="icon" ng-class="{'ion-checkmark':translation.status=='translated',
                 'ion-alert-circled':translation.status=='outdated',
                 'ion-close':translation.status=='untranslated'}"></i>
-        </a>
-      </div>
+        </button>
+      </a>
     </div>
   </ion-content>
 </ion-view>

@@ -172,12 +172,12 @@ controllers.controller 'AdminQuestionsCtrl', [
 controllers.controller 'AdminQuestionCtrl', [
   "$scope", "questionsAPI", "$stateParams", "$window", "$state"
   ($scope, questionsAPI, $stateParams, $window, $state) ->
-    $scope.question = {cards: []}
-    questionsAPI.admin.question($stateParams.id).then (response) ->
-      $scope.question = response.data
-    , ->
-      questionsAPI.logout()
-      $state.go "app.home"
+    $scope.$on "$ionicView.enter", ->
+      questionsAPI.admin.question($stateParams.id).then (response) ->
+        $scope.question = response.data
+      , ->
+        questionsAPI.logout()
+        $state.go "app.home"
     $scope.add = -> $scope.question.cards.push {}
     $scope.delete = (index) -> $scope.question.cards.splice index, 1
     # suggest cards
@@ -210,25 +210,48 @@ controllers.controller 'AdminQuestionCtrl', [
 ]
 
 controllers.controller 'AdminTranslationsCtrl', [
-  "$scope", "questionsAPI"
-  ($scope, questionsAPI) ->
+  "$scope", "questionsAPI", "$state"
+  ($scope, questionsAPI, $state) ->
     $scope.user = questionsAPI.user()
     $scope.selected =
-      language: $scope.user.languages[0] or $scope.languages[1].id
+      language: $scope.user?.languages[0] or $scope.languages[1].id
       search: ""
-    $scope.languages = $scope.user.languages if $scope.user.languages.length
+    if $scope.user? and $scope.user.languages.length
+      $scope.languages = []
+      $scope.languages.push language for language in questionsAPI.languages() when language.id in $scope.user.languages
     $scope.reload = (clear = no) ->
       $scope.translations = [] if clear
-      $scope.selected.search = ""
+      $scope.selected.search = "" if clear
       questionsAPI.admin.translations($scope.selected.language).then (response) ->
         $scope.translations = response.data
+      , ->
+        questionsAPI.logout()
+        $state.go "app.home"
     $scope.$on "$ionicView.enter", -> $scope.reload()
 ]
 
 controllers.controller 'AdminTranslationCtrl', [
-  "$scope"
-  ($scope) ->
-    console.log "AdminTranslationCtrl"
+  "$scope", "$stateParams", "questionsAPI", "$window", "$state"
+  ($scope, $stateParams, questionsAPI, $window, $state) ->
+    $scope.$on "$ionicView.enter", ->
+      questionsAPI.admin.translation($stateParams.language, $stateParams.id).then (response) ->
+        $scope.translation = response.data
+      , ->
+        questionsAPI.logout()
+        $state.go "app.home"
+    $scope.language = language for language in $scope.languages when language.id is parseInt($stateParams.language, 10)
+    $scope.back = -> $window.history.back()
+    $scope.save = ->
+      translation =
+        id: $scope.translation.id
+        language_id: $scope.translation.language_id
+        question: $scope.translation.question_translated
+        answer: $scope.translation.answer_translated
+      questionsAPI.admin.translate(translation).then (response) ->
+        if response.data is "success"
+          $scope.back()
+        else
+          alert "Error when saving question"
 ]
 
 controllers.controller 'AdminUserCtrl', [

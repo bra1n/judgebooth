@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 13. Mai 2015 um 19:23
+-- Erstellungszeit: 21. Mai 2015 um 21:47
 -- Server Version: 5.5.43-0ubuntu0.14.04.1
 -- PHP-Version: 5.5.9-1ubuntu4.9
 
@@ -15,6 +15,28 @@ SET time_zone = "+00:00";
 --
 -- Datenbank: `judgebooth`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `cards`
+--
+
+CREATE TABLE IF NOT EXISTS `cards` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `full_name` varchar(255) DEFAULT NULL,
+  `layout` varchar(20) DEFAULT NULL,
+  `manacost` varchar(128) DEFAULT NULL,
+  `type` varchar(128) DEFAULT NULL,
+  `text` text,
+  `power` varchar(3) DEFAULT NULL,
+  `toughness` varchar(3) DEFAULT NULL,
+  `loyalty` varchar(2) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -46,28 +68,6 @@ CREATE TABLE IF NOT EXISTS `card_translations` (
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `cards`
---
-
-CREATE TABLE IF NOT EXISTS `cards` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL DEFAULT '',
-  `full_name` varchar(255) DEFAULT NULL,
-  `layout` varchar(20) DEFAULT NULL,
-  `manacost` varchar(128) DEFAULT NULL,
-  `type` varchar(128) DEFAULT NULL,
-  `text` text,
-  `power` varchar(3) DEFAULT NULL,
-  `toughness` varchar(3) DEFAULT NULL,
-  `loyalty` varchar(2) DEFAULT NULL,
-  `url` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Tabellenstruktur für Tabelle `languages`
 --
 
@@ -78,22 +78,19 @@ CREATE TABLE IF NOT EXISTS `languages` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
 --
--- Daten für Tabelle `languages`
+-- Tabellenstruktur für Tabelle `questions`
 --
 
-INSERT INTO `languages` (`id`, `name`, `code`) VALUES
-(1, 'English', 'en'),
-(2, 'German', 'de'),
-(3, 'Italian', 'it'),
-(4, 'Japanese', 'jp'),
-(5, 'Korean', 'ko'),
-(6, 'Portuguese (Brazil)', 'pt'),
-(7, 'Russian', 'ru'),
-(8, 'Spanish', 'es'),
-(9, 'Chinese Simplified', 'cn'),
-(10, 'Chinese Traditional', 'tw'),
-(11, 'French', 'fr');
+CREATE TABLE IF NOT EXISTS `questions` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `live` tinyint(1) NOT NULL DEFAULT '0',
+  `author` varchar(255) DEFAULT NULL,
+  `difficulty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -119,24 +116,10 @@ CREATE TABLE IF NOT EXISTS `question_translations` (
   `language_id` int(11) unsigned NOT NULL,
   `question` text NOT NULL,
   `answer` text NOT NULL,
-  `changedate` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `changedate` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   UNIQUE KEY `question_id` (`question_id`,`language_id`),
   KEY `language_id` (`language_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `questions`
---
-
-CREATE TABLE IF NOT EXISTS `questions` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `live` tinyint(1) NOT NULL DEFAULT '0',
-  `author` varchar(255) DEFAULT NULL,
-  `difficulty` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -167,9 +150,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `role` varchar(50) NOT NULL,
-  `language_id` int(11) unsigned DEFAULT NULL,
-  UNIQUE KEY `name` (`name`),
-  UNIQUE KEY `language_id` (`language_id`)
+  `languages` varchar(255) NOT NULL,
+  UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -203,10 +185,4 @@ ALTER TABLE `question_cards`
 ALTER TABLE `question_translations`
   ADD CONSTRAINT `question_translations_ibfk_1` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `question_translations_ibfk_2` FOREIGN KEY (`language_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints der Tabelle `users`
---
-ALTER TABLE `users`
-  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`language_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
