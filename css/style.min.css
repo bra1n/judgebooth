@@ -7923,21 +7923,28 @@ div.cards {
   #questions table .toggle {
     margin-top: 0; }
   #questions table .button-bar {
-    padding-right: 5px;
     font-weight: bold; }
   #questions table td.nr {
     text-align: center;
     font-weight: bold;
     height: 31px; }
+  #questions table .button-bar > .button:before, #questions table .button-bar > .button .icon:before {
+    line-height: 24px; }
   #questions table td:last-child {
-    width: 60px; }
+    width: 90px;
+    padding-left: 5px; }
   #questions table .button-bar > .button {
     padding: 0; }
 
+/* Question Edit Form */
 #question .question-infos .list .item {
   height: 54px; }
+#question .question-infos .list .item.item-divider {
+  height: auto; }
 #question .cards input {
   width: 100%; }
+#question .cards .button {
+  margin-left: 5px; }
 #question .cards .suggestion {
   cursor: pointer; }
   #question .cards .suggestion:hover {

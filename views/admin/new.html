@@ -1,5 +1,69 @@
 <ion-view>
-  <ion-content class="padding text-center" id="new">
-    New
+  <ion-content class="padding" id="question">
+    <!-- Submit a question -->
+    <form name="form" ng-submit="save()">
+      <div class="row question-infos responsive-sm">
+        <div class="col col-50 list">
+          <label class="item item-input">
+            <span class="input-label">Author</span>
+            <input ng-disabled="user.role != 'admin' && user.role != 'editor'" type="text" class="text-right" ng-model="question.author" placeholder="Name">
+          </label>
+          <label class="item item-input item-select">
+            <span class="input-label">Difficulty</span>
+            <select ng-model="question.difficulty">
+              <option value="0">Easy</option>
+              <option value="1">Medium</option>
+              <option value="2">Hard</option>
+            </select>
+          </label>
+          <div class="item" ng-show="question.changedate">
+            Last updated
+            <span class="item-note">{{question.changedate}}</span>
+          </div>
+        </div>
+        <div class="col col-50 list cards">
+          <div ng-repeat-start="(index, card) in question.cards" class="item item-input-inset">
+            <i class="icon placeholder-icon" ng-class="{'ion-checkmark positive':card.id, 'ion-close':!card.id}"></i>
+            <input ng-keypress="keypress($event, card)" type="text" ng-model="card.name" ng-change="suggest(card)" placeholder="Card Name">
+            <button ng-show="card.id" type="button" tabindex="-1" class="button button-small icon ion-image"
+                    ng-class="{active: card.preview}" ng-click="card.preview = !card.preview"></button>
+            <button type="button" tabindex="-1" class="button button-small button-dark icon ion-trash-a" ng-click="delete(index)"></button>
+            <input required="required" type="hidden" ng-model="card.id">
+          </div>
+          <div class="item preview item-divider" ng-show="card.preview && card.id">
+            <img ng-src="http://gatherer.wizards.com/Handlers/Image.ashx?type=card&name={{card.suggestestions[0].name || card.name}}" alt="">
+          </div>
+          <div ng-repeat-end class="suggestion item item-divider" ng-click="select(card, suggestion)"
+               ng-repeat="suggestion in card.suggestions">
+            {{suggestion.name}}
+          </div>
+          <label class="item item-button-right">
+            Add Card
+            <button type="button" class="button button-positive" ng-click="add()">
+              <i class="icon ion-plus"></i>
+            </button>
+          </label>
+        </div>
+      </div>
+      <div class="row responsive-sm">
+        <div class="col col-50 list">
+          <div class="item item-divider">Question:</div>
+          <div class="item">
+            <textarea required="required" ng-model="question.question"></textarea>
+          </div>
+        </div>
+        <div class="col col-50 list">
+          <div class="item item-divider">Answer:</div>
+          <div class="item">
+            <textarea required="required" ng-model="question.answer"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="button-bar padding">
+        <button type="button" ng-click="back()" class="button button-stable">Back</button>
+        <button ng-disabled="question.cards.length==0 || !form.$valid" type="submit"
+                class="button button-positive">Submit</button>
+      </div>
+    </form>
   </ion-content>
 </ion-view>

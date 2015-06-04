@@ -41,8 +41,11 @@
             </div>
           </td>
           <td>
-            <a class="button button-small button-positive icon ion-edit" ui-sref="app.admin.question({id:question.id})"></a>
-            <a class="button button-small button-dark icon ion-trash-a" ng-click="delete(question)"></a>
+            <div class="button-bar">
+              <a class="button button-small icon ion-link" ng-disabled="!question.live" ui-sref="app.question({id:question.id})"></a>
+              <a class="button button-small button-positive icon ion-edit" ui-sref="app.admin.question({id:question.id})"></a>
+              <a class="button button-small button-dark icon ion-trash-a" ng-click="delete(question)"></a>
+            </div>
           </td>
         </tr>
       </tbody>

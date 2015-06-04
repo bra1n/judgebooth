@@ -88,7 +88,8 @@ function getQuestions($db) {
 function getQuestion($db, $id = false, $lang = false) {
   $output = array();
   if($id && $lang && intval($id) && intval($lang)) {
-    $query = "SELECT c.*, IFNULL(ct.name, c.name) name, c.name name_en, qt.question, qt.answer FROM question_cards qc
+    $query = "SELECT c.*, IFNULL(ct.name, c.name) name, c.name name_en, qt.question, qt.answer
+          FROM question_cards qc
           LEFT JOIN cards c ON c.id = qc.card_id
           LEFT JOIN card_translations ct ON ct.card_id = qc.card_id AND ct.language_id = ".$db->real_escape_string($lang)."
           LEFT JOIN question_translations qt ON qt.question_id = qc.question_id AND qt.language_id = ".$db->real_escape_string($lang)."
@@ -452,6 +453,9 @@ if(isset($_GET['action'])) {
       break;
     case "admin-save":
       echo json_encode(postAdminSave($db));
+      break;
+    case "admin-create":
+      //echo json_encode(postAdminCreate($db));
       break;
     case "admin-delete":
       if(!isset($_GET['id'])) $_GET['id'] = 0;

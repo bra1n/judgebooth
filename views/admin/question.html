@@ -44,19 +44,24 @@
           <div ng-repeat-start="(index, card) in question.cards" class="item item-input-inset">
             <i class="icon placeholder-icon" ng-class="{'ion-checkmark positive':card.id, 'ion-close':!card.id}"></i>
             <input ng-keypress="keypress($event, card)" type="text" ng-model="card.name" ng-change="suggest(card)" placeholder="Card Name">
+            <button ng-show="card.id" type="button" tabindex="-1" class="button button-small icon ion-image"
+                    ng-class="{active: card.preview}" ng-click="card.preview = !card.preview"></button>
             <button type="button" tabindex="-1" class="button button-small button-dark icon ion-trash-a" ng-click="delete(index)"></button>
             <input required="required" type="hidden" ng-model="card.id">
+          </div>
+          <div class="item preview item-divider" ng-show="card.preview && card.id">
+            <img ng-src="http://gatherer.wizards.com/Handlers/Image.ashx?type=card&name={{card.suggestestions[0].name || card.name}}" alt="">
           </div>
           <div ng-repeat-end class="suggestion item item-divider" ng-click="select(card, suggestion)"
                ng-repeat="suggestion in card.suggestions">
             {{suggestion.name}}
           </div>
-          <div class="item item-button-right">
+          <label class="item item-button-right">
             Add Card
             <button type="button" class="button button-positive" ng-click="add()">
               <i class="icon ion-plus"></i>
             </button>
-          </div>
+          </label>
         </div>
       </div>
       <div class="row responsive-sm">

@@ -277,23 +277,25 @@ div.cards {
     td { vertical-align: middle; }
     td.toggle-small { text-align: center; }
     .toggle { margin-top: 0; }
-    .button-bar { padding-right: 5px; font-weight: bold; }
+    .button-bar { font-weight: bold; }
     td.nr {
       text-align: center;
       font-weight: bold;
       height: 31px;
     }
-    td:last-child { width: 60px; }
+    .button-bar > .button:before, .button-bar > .button .icon:before { line-height: 24px; }
+    td:last-child { width: 90px; padding-left: 5px; }
     .button-bar > .button { padding: 0; }
   }
 }
 
+/* Question Edit Form */
 #question {
-  .question-infos .list .item {
-    height: 54px;
-  }
+  .question-infos .list .item { height: 54px; }
+  .question-infos .list .item.item-divider { height: auto; }
   .cards {
     input { width: 100%; }
+    .button { margin-left: 5px; }
     .suggestion {
       cursor: pointer;
       &:hover { background: $positive; color: $light; }

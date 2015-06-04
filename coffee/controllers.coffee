@@ -111,24 +111,25 @@ controllers.controller 'QuestionCtrl', [
   "$scope", "questionsAPI", "$stateParams", "$state", "$ionicScrollDelegate"
   ($scope, questionsAPI, $stateParams, $state, $ionicScrollDelegate) ->
     gatherer = 'http://gatherer.wizards.com/Handlers/Image.ashx?type=card&name='
-    questionsAPI.question($stateParams.id).then (question) ->
-      $scope.question = question
-      for card in question.cards
-        card.src = gatherer + card.name
-        card.src = gatherer + card.full_name if card.layout is "split"
-        card.src = card.url if card.url
-        card.manacost = (card.manacost or "")
-        .replace /\{([wubrgx0-9]+)\}/ig, (a,b) -> "<i class='mtg mana-#{b.toLowerCase()}'></i>"
-        .replace /\{([2wubrg])\/([wubrg])\}/ig, (a,b,c) -> "<i class='mtg hybrid-#{(b+c).toLowerCase()}'></i>"
-        card.text = (card.text or "")
-        .replace /\{([wubrgx0-9]+)\}/ig, (a,b) -> "<i class='mtg mana-#{b.toLowerCase()}'></i>"
-        .replace /\{t\}/ig, "<i class='mtg tap'></i>"
-        .replace /\{q\}/ig, "<i class='mtg untap'></i>"
-        .replace /\{([2wubrg])\/([wubrg])\}/ig, (a,b,c) -> "<i class='mtg hybrid-#{(b+c).toLowerCase()}'></i>"
-        .replace /(\(.*?\))/ig, '<em>$1</em>'
-        question.question = question.question.replace RegExp("("+card.name+")", "ig"), "<b>$1</b>"
-        question.answer = question.answer.replace RegExp("("+card.name+")", "ig"), "<b>$1</b>"
-      $state.go "app.home" unless question.metadata?.id
+    $scope.$on "$ionicView.enter", ->
+      questionsAPI.question($stateParams.id).then (question) ->
+        return $state.go "app.home" unless question.metadata?.id
+        $scope.question = question
+        for card in question.cards
+          card.src = gatherer + card.name
+          card.src = gatherer + card.full_name if card.layout is "split"
+          card.src = card.url if card.url
+          card.manacost = (card.manacost or "")
+          .replace /\{([wubrgx0-9]+)\}/ig, (a,b) -> "<i class='mtg mana-#{b.toLowerCase()}'></i>"
+          .replace /\{([2wubrg])\/([wubrg])\}/ig, (a,b,c) -> "<i class='mtg hybrid-#{(b+c).toLowerCase()}'></i>"
+          card.text = (card.text or "")
+          .replace /\{([wubrgx0-9]+)\}/ig, (a,b) -> "<i class='mtg mana-#{b.toLowerCase()}'></i>"
+          .replace /\{t\}/ig, "<i class='mtg tap'></i>"
+          .replace /\{q\}/ig, "<i class='mtg untap'></i>"
+          .replace /\{([2wubrg])\/([wubrg])\}/ig, (a,b,c) -> "<i class='mtg hybrid-#{(b+c).toLowerCase()}'></i>"
+          .replace /(\(.*?\))/ig, '<em>$1</em>'
+          question.question = question.question.replace RegExp("("+card.name+")", "ig"), "<b>$1</b>"
+          question.answer = question.answer.replace RegExp("("+card.name+")", "ig"), "<b>$1</b>"
     $scope.toggleAnswer = ->
       $scope.answer = !$scope.answer
       $ionicScrollDelegate.resize()
@@ -140,10 +141,47 @@ controllers.controller 'QuestionCtrl', [
         when 38, 40 then $scope.toggleAnswer()
 ]
 
+#########################################
+#          Admin Controllers            #
+#########################################
 controllers.controller 'AdminNewCtrl', [
-  "$scope"
-  ($scope) ->
-    console.log "AdminNewCtrl"
+  "$scope", "questionsAPI", "$stateParams", "$window"
+  ($scope, questionsAPI, $stateParams, $window) ->
+    $scope.$on "$ionicView.enter", ->
+      $scope.question =
+        author: $scope.user.name
+        difficulty: 1
+        cards: []
+    $scope.add = -> $scope.question.cards.push {}
+    $scope.delete = (index) -> $scope.question.cards.splice index, 1
+    # suggest cards
+    $scope.suggest = (card) ->
+      card.id = ""
+      card.preview = no
+      if card.name.length > 1
+        questionsAPI.admin.suggest(card.name).then (response) ->
+          card.suggestions = response.data
+          card.id = card.suggestions[0].id if card.suggestions.length is 1
+      else
+        card.suggestions = []
+    # select a suggested card
+    $scope.select = (card, suggestion) ->
+      card.name = suggestion.name
+      card.id = suggestion.id
+      delete card.suggestions
+    # catch enter key in card fields
+    $scope.keypress = (event, card) ->
+      if event.keyCode is 13
+        $scope.select card, card.suggestions[0] if card.suggestions?.length
+        event.preventDefault()
+    $scope.back = -> $window.history.back()
+    $scope.save = ->
+      delete card.suggestions for card in $scope.question.cards
+      questionsAPI.admin.create($scope.question).then (response) ->
+        if response.data is "success"
+          $scope.back()
+        else
+          alert "Error when submitting question"
 ]
 
 controllers.controller 'AdminQuestionsCtrl', [
@@ -190,6 +228,7 @@ controllers.controller 'AdminQuestionCtrl', [
     # suggest cards
     $scope.suggest = (card) ->
       card.id = ""
+      card.preview = no
       if card.name.length > 1
         questionsAPI.admin.suggest(card.name).then (response) ->
           card.suggestions = response.data
