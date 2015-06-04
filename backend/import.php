@@ -124,8 +124,8 @@ if($argv == "questions") {
     if(!isset($row[11])) $row[11] = null;
     $author = $db->real_escape_string($row[11]);
     $difficulty = array_search(strtolower($row[12]),array("easy","medium","hard"));
-
-    $db->query("REPLACE INTO questions SET id='".$id."', live='".$live."', author='".$author."', difficulty='".$difficulty."'") or die($db->error);
+    $questionQuery = "id='".$id."', live='".$live."', author='".$author."', difficulty='".$difficulty."'";
+    $db->query("INSERT INTO questions SET $questionQuery ON DUPLICATE KEY UPDATE $questionQuery") or die($db->error);
     $db->query("REPLACE INTO question_translations SET question_id='".$id."', language_id='1', question='".$question."', answer='".$answer."'") or die($db->error);
     foreach($cards as $card) {
       $card = str_replace(" token", "", $card);

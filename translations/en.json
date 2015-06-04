@@ -20,6 +20,8 @@
     "logged_in": "Logged in as: {{user}}",
     "login_error": "Login error: {{error}}",
     "offline_mode": "Offline mode",
+    "go_offline": "Go Offline",
+    "go_online": "Go Online",
     "source": "Source Code",
     "button_filter": "Filter",
     "button_admin": "Admin",
@@ -38,6 +40,8 @@
     "title": "Question {{number}}",
     "title_by": "by {{author}}",
     "show_answer": "Show Answer",
-    "hide_answer": "Hide Answer"
+    "hide_answer": "Hide Answer",
+    "edit_question": "Edit Question",
+    "edit_translation": "Edit Translation"
   }
 }

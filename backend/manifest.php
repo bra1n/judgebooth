@@ -10,6 +10,7 @@ CACHE MANIFEST
 CACHE:
 /
 /index.html
+/offline.html
 /backend/?action=questions
 /backend/?action=sets
 /backend/?action=offline

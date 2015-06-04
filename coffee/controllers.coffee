@@ -3,11 +3,13 @@ controllers = angular.module "judgebooth.controllers", []
 controllers.controller 'SideCtrl', [
   "$scope", "questionsAPI", "$ionicScrollDelegate", "$location"
   ($scope, questionsAPI, $ionicScrollDelegate, $location) ->
-    # get data
+    # get data / basic vars
     $scope.filter = questionsAPI.filter()
     $scope.languages = questionsAPI.languages()
     $scope.languageCounts = {}
+    $scope.offlineMode = window.offlineMode
     questionsAPI.sets().then (response) -> $scope.sets = response.data
+
     # get questions and generate maps with counts
     questionsAPI.questions().then (response) ->
       $scope.setCounts = {}
@@ -57,6 +59,7 @@ controllers.controller 'SideCtrl', [
       $scope.setCount = Object.keys($scope.setCounts[$scope.filter.language]).length
       $scope.setCount-- for set in $scope.filter.sets when $scope.setCounts[$scope.filter.language][set]
 
+    # show the questions
     $scope.showQuestions = ->
       return unless $scope.filteredQuestions.length
       questionsAPI.filter $scope.filter

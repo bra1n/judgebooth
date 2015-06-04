@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="judgebooth" ng-keydown="keydown($event)">
+<html ng-app="judgebooth" ng-keydown="keydown($event)" manifest="/backend/manifest.php">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=0, width=device-width">
@@ -9,7 +9,6 @@
   <meta name="description" content="Interactive Judge Booth" />
 
   <title translate="common.title">Interactive Judge Booth</title>
-  <base href="/">
 
   <!-- css & fonts -->
   <link href='https://fonts.googleapis.com/css?family=Roboto:400,700&subset=cyrillic,latin' rel='stylesheet' type='text/css'>
@@ -21,8 +20,11 @@
   <script src="js/lib.min.js"></script>
   <script src="js/app.min.js"></script>
   <script src="js/translations.min.js"></script>
+  <script language="JavaScript" type="text/javascript">
+    window.offlineMode = true;
+  </script>
 </head>
 <body>
-  <ion-nav-view id="content"></ion-nav-view>
+<ion-nav-view id="content"></ion-nav-view>
 </body>
 </html>

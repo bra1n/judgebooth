@@ -52,6 +52,7 @@ services.service 'questionsAPI', [
         $q.all([@questions(), questionPromise]).then ([questionsResponse, questionResponse]) ->
           question = questionResponse.data
           question.metadata = metadata for metadata in questionsResponse.data when metadata.id is parseInt(id, 10)
+          question.language = language
           deferred.resolve question
         , -> deferred.reject()
       else
@@ -67,6 +68,7 @@ services.service 'questionsAPI', [
               card.name = card.translations[language] if card.translations?[language]
               question.cards.push card
             question.metadata = metadata for metadata in questionsResponse.data when metadata.id is parseInt(id, 10)
+            question.language = language
             deferred.resolve question
           else
             deferred.reject()
@@ -93,9 +95,9 @@ services.service 'questionsAPI', [
         deferred.resolve caches.memory.get "filteredQuestions"
       else
         filter or= @filter()
-        @questions().then (response) ->
+        @questions().then (response) =>
           questions = response.data
-          filteredQuestions = []
+          questionsByDifficulty = []
           for question in questions
             continue unless parseInt(filter.language, 10) in question.languages
             continue if filter.difficulty.length and question.difficulty in filter.difficulty
@@ -108,14 +110,14 @@ services.service 'questionsAPI', [
                 hasIllegalCard = !isLegalCard
                 break if hasIllegalCard # we stop as soon as we find a single illegal card
               continue if hasIllegalCard
-            filteredQuestions.push question.id
-          # shuffle questions - https://gist.github.com/ddgromit/859699
-          i = filteredQuestions.length
-          while --i > 0
-            j = ~~(Math.random() * (i + 1))
-            t = filteredQuestions[j]
-            filteredQuestions[j] = filteredQuestions[i]
-            filteredQuestions[i] = t
+            questionsByDifficulty[question.difficulty] or= []
+            questionsByDifficulty[question.difficulty].push question.id
+          filteredQuestions = []
+          for questions, difficulty in questionsByDifficulty
+            questions = @randomize questions
+            filteredQuestions[index*questionsByDifficulty.length+difficulty] = question for question, index in questions
+          filteredQuestions = filteredQuestions.filter (v) -> v isnt undefined
+          console.log filteredQuestions
           caches.memory.put "filteredQuestions", filteredQuestions if useCache
           deferred.resolve filteredQuestions
         , -> deferred.reject()
@@ -124,9 +126,10 @@ services.service 'questionsAPI', [
     nextQuestion: ->
       deferred = $q.defer()
       @filterQuestions().then (questions) ->
+        question = questions[0]
         questions.push questions.shift()
         caches.memory.put "filteredQuestions", questions
-        deferred.resolve questions[0]
+        deferred.resolve question
       , -> deferred.reject()
       deferred.promise
     # admin stuff
@@ -143,6 +146,15 @@ services.service 'questionsAPI', [
         deferred.resolve response.data
       , (response) -> deferred.reject response
       deferred.promise
+    randomize: (arr = []) ->
+      # randomize array - https://gist.github.com/ddgromit/859699
+      i = arr.length
+      while --i > 0
+        j = ~~(Math.random() * (i + 1))
+        t = arr[j]
+        arr[j] = arr[i]
+        arr[i] = t
+      arr
     admin:
       questions: (page) -> $http.get apiURL + "admin-questions&page="+page
       question: (id) -> $http.get apiURL + "admin-question&id="+id

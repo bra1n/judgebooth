@@ -99,7 +99,12 @@
         <span ng-show="user.name" translate-value-user="{{user.name}}" translate>menu.logged_in</span>
       </div>
       <div class="button-bar padding">
-        <span ng-show="!online && cacheStatus == 1" class="button button-small" disabled translate>menu.offline_mode</span>
+        <span ng-show="!online && cacheStatus == 1" class="button button-small" disabled translate>
+          menu.offline_mode</span>
+        <a ng-show="offlineMode" class="button button-light button-small" href="/" target="_self" translate>
+          menu.go_online</a>
+        <a ng-show="!offlineMode" class="button button-light button-small" href="/offline.html" target="_self" translate>
+          menu.go_offline</a>
         <span ng-show="online && !user" class="button button-small button-light" ng-click="login()" translate>menu.login</span>
         <span ng-show="online && user" class="button button-small button-light" ng-click="logout()" translate>menu.logout</span>
         <a class="button button-small button-light" href="https://github.com/bra1n/judgebooth" target="_blank" translate>menu.source</a>

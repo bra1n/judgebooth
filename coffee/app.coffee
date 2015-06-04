@@ -10,7 +10,7 @@ boothApp = angular.module 'judgebooth', [
 boothApp.config [
   '$locationProvider', '$stateProvider', '$urlRouterProvider'
   ($locationProvider, $stateProvider, $urlRouterProvider) ->
-    $locationProvider.html5Mode navigator.onLine
+    $locationProvider.html5Mode !window.offlineMode and navigator.onLine
     $stateProvider
     # base app route
     .state 'app',
