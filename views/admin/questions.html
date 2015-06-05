@@ -36,7 +36,7 @@
                     'button-dark':question.outdated.indexOf(language.id)>-1,
                   }"
                  ng-repeat="language in ::languages">
-                {{::language.code}}
+                <span class="icon-languages icon-languages-{{::language.code}}"></span>
               </a>
             </div>
           </td>

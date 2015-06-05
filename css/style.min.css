@@ -7659,6 +7659,43 @@ a.button {
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
 
+.icon-languages {
+  background-image: url('../images/languages.png');
+  background-repeat: no-repeat;
+  width: 16px;
+  height: 11px;
+  display: inline-block; }
+
+.icon-languages-cn, .icon-languages-9 {
+  background-position: 0 0; }
+
+.icon-languages-de, .icon-languages-2 {
+  background-position: -16px 0; }
+
+.icon-languages-en, .icon-languages-1 {
+  background-position: 0 -11px; }
+
+.icon-languages-fr, .icon-languages-11 {
+  background-position: -16px -11px; }
+
+.icon-languages-it, .icon-languages-3 {
+  background-position: 0 -22px; }
+
+.icon-languages-jp, .icon-languages-4 {
+  background-position: -16px -22px; }
+
+.icon-languages-ko, .icon-languages-5 {
+  background-position: -32px 0; }
+
+.icon-languages-pt, .icon-languages-6 {
+  background-position: -32px -11px; }
+
+.icon-languages-ru, .icon-languages-7 {
+  background-position: -32px -22px; }
+
+.icon-languages-tw, .icon-languages-10 {
+  background-position: 0 -33px; }
+
 /* General */
 #content ion-header-bar.bar-positive {
   background: url("../images/logo.png") no-repeat center center #e52628; }
@@ -7922,8 +7959,14 @@ div.cards {
     text-align: center; }
   #questions table .toggle {
     margin-top: 0; }
-  #questions table .button-bar {
-    font-weight: bold; }
+  #questions table .button-bar .button .icon-languages {
+    box-sizing: content-box;
+    vertical-align: middle;
+    border: 1px solid #fff; }
+  #questions table .button-bar .button.button-positive .icon-languages {
+    outline: 2px solid #e52628; }
+  #questions table .button-bar .button.button-dark .icon-languages {
+    outline: 2px solid #313131; }
   #questions table td.nr {
     text-align: center;
     font-weight: bold;
@@ -7975,3 +8018,27 @@ div.cards {
   max-width: 100%;
   height: 150px;
   max-height: 150px; }
+
+/* Users */
+#users table {
+  width: 100%; }
+  #users table thead td {
+    font-weight: bold; }
+  #users table tbody tr:nth-child(odd) {
+    background: #eee; }
+  #users table td {
+    vertical-align: middle;
+    padding: 5px;
+    height: 30px; }
+    #users table td:last-child {
+      width: 70px; }
+  #users table input, #users table select {
+    width: 100%;
+    height: 30px;
+    padding: 2px;
+    border: 1px solid black;
+    background: white; }
+  #users table select[multiple] {
+    height: auto; }
+  #users table .icon-languages {
+    margin-right: 5px; }

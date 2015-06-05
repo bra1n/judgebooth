@@ -11,6 +11,7 @@ $royal:                           #8a6de9 !default;
 $dark:                            #313131;
 
 @import "../lib/ionic/scss/ionic";
+@import "languages";
 
 /* General */
 #content ion-header-bar.bar-positive {
@@ -277,7 +278,15 @@ div.cards {
     td { vertical-align: middle; }
     td.toggle-small { text-align: center; }
     .toggle { margin-top: 0; }
-    .button-bar { font-weight: bold; }
+    .button-bar .button {
+      .icon-languages {
+        box-sizing: content-box;
+        vertical-align: middle;
+        border: 1px solid $light;
+      }
+       &.button-positive .icon-languages { outline: 2px solid $positive; }
+       &.button-dark .icon-languages { outline: 2px solid $dark; }
+    }
     td.nr {
       text-align: center;
       font-weight: bold;
@@ -328,5 +337,31 @@ div.cards {
     max-width: 100%;
     height: 150px;
     max-height: 150px;
+  }
+}
+
+/* Users */
+#users {
+  table {
+    width: 100%;
+    thead td { font-weight: bold; }
+    tbody tr:nth-child(odd) { background: $stable; }
+    td {
+      vertical-align: middle;
+      padding: 5px;
+      height: 30px;
+      &:last-child {
+        width: 70px;
+      }
+    }
+    input, select {
+      width: 100%;
+      height: 30px;
+      padding: 2px;
+      border: 1px solid black;
+      background: white;
+    }
+    select[multiple] { height: auto; }
+    .icon-languages { margin-right: 5px; }
   }
 }

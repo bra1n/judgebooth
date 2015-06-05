@@ -304,8 +304,21 @@ controllers.controller 'AdminTranslationCtrl', [
           alert "Error when saving question"
 ]
 
-controllers.controller 'AdminUserCtrl', [
-  "$scope"
-  ($scope) ->
-    console.log "AdminUserCtrl"
+controllers.controller 'AdminUsersCtrl', [
+  "$scope", "questionsAPI"
+  ($scope, questionsAPI) ->
+    $scope.languages = {}
+    $scope.roles = ["admin", "editor", "translator", "guest"]
+    $scope.languages[language.id] = language for language in questionsAPI.languages() when language.code isnt "en"
+    $scope.$on "$ionicView.enter", ->
+      questionsAPI.admin.users().then (response) ->
+        $scope.users = response.data
+      , ->
+        questionsAPI.logout()
+        $state.go "app.home"
+    $scope.add = -> $scope.users.push edit: yes
+    $scope.save = (index) ->
+      $scope.users[index].edit = no
+    $scope.delete = (index) ->
+      $scope.users.splice index, 1
 ]

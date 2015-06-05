@@ -64,12 +64,12 @@ boothApp.config [
         'menuContent@app':
           templateUrl: 'views/admin/translation.html'
           controller: 'AdminTranslationCtrl'
-    .state 'app.admin.user', # users
-      url: '/user'
+    .state 'app.admin.users', # users
+      url: '/users'
       views:
         'menuContent@app':
-          templateUrl: 'views/admin/user.html'
-          controller: 'AdminUserCtrl'
+          templateUrl: 'views/admin/users.html'
+          controller: 'AdminUsersCtrl'
     $urlRouterProvider.otherwise '/'
 ]
 

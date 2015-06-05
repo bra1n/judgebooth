@@ -272,6 +272,7 @@ function postAdminSave($db) {
       $query = "SELECT MAX(id)+1 id FROM questions";
       $result = $db->query($query) or die($db->error);
       $id = $result->fetch_assoc()['id'];
+      $result->free();
       $question->live = 0;
       if(!in_array($user['role'],array("admin", "editor"))) $question->author = $user['name'];
     }
@@ -388,7 +389,6 @@ function postAdminTranslate($db) {
   }
 }
 
-
 function getAdminTranslation($db, $language, $id) {
   $user = auth($db);
   $language = intval($language);
@@ -416,6 +416,25 @@ function getAdminTranslation($db, $language, $id) {
     }
     $result->free();
     return $question;
+  } else {
+    header('HTTP/1.0 401 Unauthorized');
+    return array();
+  }
+}
+
+function getAdminUsers($db) {
+  $user = auth($db);
+  if(isset($user['role']) && $user['role']=="admin") {
+    $query = "SELECT * FROM users ORDER BY role ASC, name ASC";
+    $result = $db->query($query) or die($db->error);
+    $users = array();
+    while($row = $result->fetch_assoc()) {
+      if(empty($row['languages'])) unset($row['languages']);
+      else $row['languages'] = array_map("intval",explode(",", $row['languages']));
+      $users[] = $row;
+    }
+    $result->free();
+    return $users;
   } else {
     header('HTTP/1.0 401 Unauthorized');
     return array();
@@ -475,6 +494,9 @@ if(isset($_GET['action'])) {
       break;
     case "admin-translate":
       echo json_encode(postAdminTranslate($db));
+      break;
+    case "admin-users":
+      echo json_encode(getAdminUsers($db));
       break;
   }
 }

@@ -163,4 +163,5 @@ services.service 'questionsAPI', [
       translations: (language) -> $http.get apiURL + "admin-translations&lang=" + language
       translation: (language, id) -> $http.get apiURL + "admin-translation&lang="+language+"&id="+id
       translate: (translation) -> $http.post apiURL + "admin-translate", translation
+      users: -> $http.get apiURL + "admin-users"
 ]

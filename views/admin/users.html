@@ -1,0 +1,59 @@
+<ion-view>
+  <ion-content overflow-scroll="true" class="padding" id="users">
+    <div class="loader" ng-hide="users">
+      <div class="inner one"></div>
+      <div class="inner two"></div>
+      <div class="inner three"></div>
+      <span class="positive" translate>common.loading</span>
+    </div>
+    <table ng-show="users">
+      <thead>
+        <tr>
+          <td>Name</td>
+          <td>Email</td>
+          <td>Role</td>
+          <td>Languages</td>
+          <td>Actions</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="(index, user) in users">
+          <td>
+            <span ng-hide="user.edit">{{user.name}}</span>
+            <input type="text" ng-model="user.name" ng-show="user.edit" placeholder="Name">
+          </td>
+          <td>
+            <span ng-hide="user.edit">{{user.email}}</span>
+            <input type="text" ng-model="user.email" ng-show="user.edit" placeholder="Email">
+          </td>
+          <td>
+            <span ng-hide="user.edit">{{user.role}}</span>
+            <select ng-model="user.role" ng-show="user.edit">
+              <option value="" disabled>Role</option>
+              <option ng-value="role" ng-repeat="role in roles">{{role}}</option>
+            </select>
+          </td>
+          <td>
+            <span ng-hide="user.edit" ng-repeat="language in user.languages"
+                  class="icon-languages icon-languages-{{languages[language].code}}"></span>
+            <select size="4" ng-model="user.languages" ng-multiple="true" multiple ng-show="user.edit"
+              ng-options="language.id as language.name for (key, language) in languages">
+            </select>
+          </td>
+          <td>
+            <button ng-click="save(index)" ng-show="user.edit" class="button button-small button-positive icon ion-checkmark-circled"></button>
+            <button ng-click="user.edit = 1" ng-hide="user.edit"
+                    class="button button-small button-positive icon ion-edit"></button>
+            <button ng-click="delete(index)" class="button button-small button-dark icon ion-trash-a"></button>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4" class="text-center">New User</td>
+          <td class="text-right">
+            <button class="button button-small button-positive icon ion-plus" ng-click="add()"></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ion-content>
+</ion-view>
