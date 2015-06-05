@@ -10,6 +10,8 @@ than 5 different languages.
 It is available online under [booth.mnt.me](http://booth.mnt.me) to everyone and supports all internet-ready devices
 and screen sizes. If you discover a bug, please [open a ticket](https://github.com/bra1n/judgebooth/issues)!
 
+![Judge Booth](bra1n.github.com/judgebooth/docs/booth1.jpg)
+
 Usage
 -----
 
