@@ -7950,6 +7950,8 @@ div.cards {
   #question .cards .suggestion:hover {
     background: #e52628;
     color: #fff; }
+#question input[disabled] {
+  background: transparent; }
 #question textarea {
   width: 100%;
   max-width: 100%;

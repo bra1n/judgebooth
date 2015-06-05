@@ -177,9 +177,13 @@ controllers.controller 'AdminNewCtrl', [
     $scope.back = -> $window.history.back()
     $scope.save = ->
       delete card.suggestions for card in $scope.question.cards
-      questionsAPI.admin.create($scope.question).then (response) ->
+      questionsAPI.admin.save($scope.question).then (response) ->
         if response.data is "success"
-          $scope.back()
+          alert "Question submitted"
+          $scope.question =
+            author: $scope.user.name
+            difficulty: 1
+            cards: []
         else
           alert "Error when submitting question"
 ]

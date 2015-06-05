@@ -264,37 +264,43 @@ function getAdminSuggest($db, $name) {
 
 function postAdminSave($db) {
   $user = auth($db);
-  if(isset($user['role']) && in_array($user['role'],array("admin", "editor"))){
-    $question = json_decode(file_get_contents('php://input'));
-    if(intval($question->id)) {
-      // question basics
-      $parameters = array();
-      if(isset($question->live)) $parameters[] = "live = '".intval($question->live)."'";
-      if(isset($question->author)) $parameters[] = "author = '".$db->real_escape_string($question->author)."'";
-      if(isset($question->difficulty)) $parameters[] = "difficulty = '".intval($question->difficulty)."'";
-      if(count($parameters)) $db->query("UPDATE questions SET ".join(",",$parameters)." WHERE id = '".intval($question->id)."' LIMIT 1") or die($db->error);
-      // english text
-      if(isset($question->question)) {
-        $query = "REPLACE INTO question_translations SET
-          question_id = '".intval($question->id)."', language_id = 1,
-          question = '".$db->real_escape_string($question->question)."',
-          answer = '".$db->real_escape_string($question->answer)."'";
-        $db->query($query) or die($db->error);
-      }
-      // cards
-      if(isset($question->cards)) {
-        $db->query("DELETE FROM question_cards WHERE question_id = '".intval($question->id)."'") or die($db->error);
-        $cards = array();
-        foreach($question->cards as $card) {
-          if(intval($card->id)) $cards[] = "(".intval($question->id).",".intval($card->id).")";
-        }
-        $query = "INSERT INTO question_cards (question_id, card_id) VALUES ".join(",",$cards);
-        $db->query($query) or die($db->error);
-      }
-      return "success";
-    } else {
-      return "missingid";
+  $question = json_decode(file_get_contents('php://input'));
+  $id = 0;
+  if(isset($question->id)) $id = intval($question->id);
+  if(isset($user['role']) && (!$id || ($id && in_array($user['role'],array("admin", "editor"))))){
+    if(!$id) {
+      $query = "SELECT MAX(id)+1 id FROM questions";
+      $result = $db->query($query) or die($db->error);
+      $id = $result->fetch_assoc()['id'];
+      $question->live = 0;
+      if(!in_array($user['role'],array("admin", "editor"))) $question->author = $user['name'];
     }
+    // question basics
+    $parameters = array("id = '".$id."'");
+    if(isset($question->live)) $parameters[] = "live = '".intval($question->live)."'";
+    if(isset($question->author)) $parameters[] = "author = '".$db->real_escape_string($question->author)."'";
+    if(isset($question->difficulty)) $parameters[] = "difficulty = '".intval($question->difficulty)."'";
+    $query = join(",",$parameters);
+    if(count($parameters)) $db->query("INSERT INTO questions SET $query ON DUPLICATE KEY UPDATE $query") or die($db->error);
+    // english text
+    if(isset($question->question)) {
+      $query = "REPLACE INTO question_translations SET
+        question_id = '".$id."', language_id = 1,
+        question = '".$db->real_escape_string($question->question)."',
+        answer = '".$db->real_escape_string($question->answer)."'";
+      $db->query($query) or die($db->error);
+    }
+    // cards
+    if(isset($question->cards)) {
+      $db->query("DELETE FROM question_cards WHERE question_id = '".$id."'") or die($db->error);
+      $cards = array();
+      foreach($question->cards as $card) {
+        if(intval($card->id)) $cards[] = "(".$id.",".intval($card->id).")";
+      }
+      $query = "INSERT INTO question_cards (question_id, card_id) VALUES ".join(",",$cards);
+      $db->query($query) or die($db->error);
+    }
+    return "success";
   } else {
     header('HTTP/1.0 401 Unauthorized');
     return "unauthorized";
@@ -453,9 +459,6 @@ if(isset($_GET['action'])) {
       break;
     case "admin-save":
       echo json_encode(postAdminSave($db));
-      break;
-    case "admin-create":
-      //echo json_encode(postAdminCreate($db));
       break;
     case "admin-delete":
       if(!isset($_GET['id'])) $_GET['id'] = 0;

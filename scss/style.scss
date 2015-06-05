@@ -301,6 +301,7 @@ div.cards {
       &:hover { background: $positive; color: $light; }
     }
   }
+  input[disabled] { background: transparent; }
   textarea {
     width: 100%;
     max-width: 100%;
