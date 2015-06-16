@@ -87,10 +87,10 @@ supported roles are:
 
 - **[Guest](#guest-add-new-questions)**: Is allowed to submit new questions
 - **[Translator](#translator-add-and-update-translations)**: Is allowed to add translations to questions in their predefined language(s)
-- **[Editor](#editor-verify-edit-and-delete-questions)**: Is allowed to edit, delete and publicise questions
+- **[Editor](#editor-verify-edit-and-delete-questions)**: Is allowed to edit, delete and publish questions
 - **[Admin](#admin-add-edit-and-delete-users)**: Is allowed to add, edit and delete users
 
-Each role includes all rights of the roles above it.
+*Each role includes all rights of the roles above it.*
 
 ### Guest: Add New Questions
 
