@@ -159,11 +159,11 @@ services.service 'questionsAPI', [
       question: (id) -> $http.get apiURL + "admin-question&id="+id
       suggest: (name) -> $http.get apiURL + "admin-suggest&name="+name
       save: (question) -> $http.post apiURL + "admin-save", question
-      delete: (id) -> $http.delete apiURL + "admin-delete&id="+id
+      delete: (id) -> $http.post apiURL + "admin-delete&id="+id
       translations: (language) -> $http.get apiURL + "admin-translations&lang=" + language
       translation: (language, id) -> $http.get apiURL + "admin-translation&lang="+language+"&id="+id
       translate: (translation) -> $http.post apiURL + "admin-translate", translation
       users: -> $http.get apiURL + "admin-users"
       saveUser: (user) -> $http.post apiURL + "admin-saveuser", user
-      deleteUser: (email) -> $http.delete apiURL + "admin-deleteuser&email="+encodeURIComponent(email)
+      deleteUser: (email) -> $http.post apiURL + "admin-deleteuser&email="+encodeURIComponent(email)
 ]

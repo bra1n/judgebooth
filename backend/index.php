@@ -310,7 +310,7 @@ function postAdminSave($db) {
 
 function deleteAdminQuestion($db, $id) {
   $user = auth($db);
-  if(isset($user['role']) && in_array($user['role'],array("admin", "editor"))){
+  if($_SERVER['REQUEST_METHOD'] == "POST" && isset($user['role']) && in_array($user['role'],array("admin", "editor"))){
     if(intval($id)) {
       $query = "DELETE FROM questions WHERE id = '".intval($id)."' LIMIT 1";
       $db->query($query) or die($db->error);
@@ -462,7 +462,7 @@ function postAdminUser($db) {
 
 function deleteAdminUser($db, $email) {
   $user = auth($db);
-  if(isset($user['role']) && $user['role']=="admin" && !empty($email)){
+  if($_SERVER['REQUEST_METHOD'] == "POST" && isset($user['role']) && $user['role']=="admin" && !empty($email)){
     $query = "DELETE FROM users WHERE email = '".$db->real_escape_string($email)."' LIMIT 1";
     $db->query($query) or die($db->error);
     return "success";
