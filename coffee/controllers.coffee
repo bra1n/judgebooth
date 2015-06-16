@@ -305,8 +305,8 @@ controllers.controller 'AdminTranslationCtrl', [
 ]
 
 controllers.controller 'AdminUsersCtrl', [
-  "$scope", "questionsAPI"
-  ($scope, questionsAPI) ->
+  "$scope", "questionsAPI", "$state"
+  ($scope, questionsAPI, $state) ->
     $scope.languages = {}
     $scope.roles = ["admin", "editor", "translator", "guest"]
     $scope.languages[language.id] = language for language in questionsAPI.languages() when language.code isnt "en"
