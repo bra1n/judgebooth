@@ -164,4 +164,6 @@ services.service 'questionsAPI', [
       translation: (language, id) -> $http.get apiURL + "admin-translation&lang="+language+"&id="+id
       translate: (translation) -> $http.post apiURL + "admin-translate", translation
       users: -> $http.get apiURL + "admin-users"
+      saveUser: (user) -> $http.post apiURL + "admin-saveuser", user
+      deleteUser: (email) -> $http.delete apiURL + "admin-deleteuser&email="+encodeURIComponent(email)
 ]

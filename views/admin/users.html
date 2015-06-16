@@ -24,7 +24,7 @@
           </td>
           <td>
             <span ng-hide="user.edit">{{user.email}}</span>
-            <input type="text" ng-model="user.email" ng-show="user.edit" placeholder="Email">
+            <input type="email" ng-model="user.email" ng-show="user.edit" placeholder="Email">
           </td>
           <td>
             <span ng-hide="user.edit">{{user.role}}</span>
@@ -41,16 +41,19 @@
             </select>
           </td>
           <td>
-            <button ng-click="save(index)" ng-show="user.edit" class="button button-small button-positive icon ion-checkmark-circled"></button>
+            <button ng-click="save(index)" ng-show="user.edit" ng-disabled="!user.name || !user.email || !user.role"
+                    class="button button-small button-positive icon ion-checkmark-circled"></button>
             <button ng-click="user.edit = 1" ng-hide="user.edit"
                     class="button button-small button-positive icon ion-edit"></button>
             <button ng-click="delete(index)" class="button button-small button-dark icon ion-trash-a"></button>
           </td>
         </tr>
         <tr>
-          <td colspan="4" class="text-center">New User</td>
+          <td colspan="4" class="text-center">
+            <label for="new">New User</label>
+          </td>
           <td class="text-right">
-            <button class="button button-small button-positive icon ion-plus" ng-click="add()"></button>
+            <button id="new" class="button button-small button-positive icon ion-plus" ng-click="add()"></button>
           </td>
         </tr>
       </tbody>

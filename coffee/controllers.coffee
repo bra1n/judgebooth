@@ -318,7 +318,10 @@ controllers.controller 'AdminUsersCtrl', [
         $state.go "app.home"
     $scope.add = -> $scope.users.push edit: yes
     $scope.save = (index) ->
-      $scope.users[index].edit = no
+      questionsAPI.admin.saveUser($scope.users[index]).then ->
+        $scope.users[index].edit = no
     $scope.delete = (index) ->
-      $scope.users.splice index, 1
+      return unless !$scope.users[index].email or confirm "Do you really want to delete this user?"
+      questionsAPI.admin.deleteUser($scope.users[index].email).then ->
+        $scope.users.splice index, 1
 ]

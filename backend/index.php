@@ -441,6 +441,37 @@ function getAdminUsers($db) {
   }
 }
 
+function postAdminUser($db) {
+  $user = auth($db);
+  $userObj = json_decode(file_get_contents('php://input'));
+  if(isset($user['role']) && $user['role']=="admin" && isset($userObj->email) && isset($userObj->name) && isset($userObj->role)){
+    $query = "REPLACE INTO users SET
+      name = '".$db->real_escape_string($userObj->name)."',
+      email = '".$db->real_escape_string($userObj->email)."',
+      role = '".$db->real_escape_string($userObj->role)."'";
+    if(isset($userObj->languages) && count($userObj->languages)) {
+      $query .= ", languages = '".$db->real_escape_string(join(',',$userObj->languages))."'";
+    }
+    $db->query($query) or die($db->error);
+    return "success";
+  } else {
+    header('HTTP/1.0 401 Unauthorized');
+    return "unauthorized";
+  }
+}
+
+function deleteAdminUser($db, $email) {
+  $user = auth($db);
+  if(isset($user['role']) && $user['role']=="admin" && !empty($email)){
+    $query = "DELETE FROM users WHERE email = '".$db->real_escape_string($email)."' LIMIT 1";
+    $db->query($query) or die($db->error);
+    return "success";
+  } else {
+    header('HTTP/1.0 401 Unauthorized');
+    return "unauthorized";
+  }
+}
+
 if(isset($_GET['action'])) {
   switch(strtolower($_GET['action'])) {
     case "questions":
@@ -497,6 +528,13 @@ if(isset($_GET['action'])) {
       break;
     case "admin-users":
       echo json_encode(getAdminUsers($db));
+      break;
+    case "admin-saveuser":
+      echo json_encode(postAdminUser($db));
+      break;
+    case "admin-deleteuser":
+      if(!isset($_GET['email'])) $_GET['email'] = "";
+      echo json_encode(deleteAdminUser($db, $_GET['email']));
       break;
   }
 }
