@@ -85,10 +85,10 @@ Once you're logged in, you'll find a second *admin menu* in the sidebar, which c
 There you will find a number of additional menu points, depending on the role that has been assigned to you. The currently
 supported roles are:
 
-- **Guest**: Is allowed to submit new questions
-- **Translator**: Is allowed to add translations to questions in their predefined language(s)
-- **Editor**: Is allowed to edit, delete and publicise questions
-- **Admin**: Is allowed to add, edit and delete users
+- **[Guest](#guest-add-new-questions)**: Is allowed to submit new questions
+- **[Translator](#editor-verify-edit-and-delete-questions)**: Is allowed to add translations to questions in their predefined language(s)
+- **[Editor](#translator-add-and-update-translations)**: Is allowed to edit, delete and publicise questions
+- **[Admin](#admin-add-edit-and-delete-users)**: Is allowed to add, edit and delete users
 
 Each role includes all rights of the roles above it.
 
