@@ -3,3 +3,4 @@ node_modules
 lib
 *.sh
 config.php
+.DS_Store
