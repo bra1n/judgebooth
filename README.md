@@ -86,8 +86,8 @@ There you will find a number of additional menu points, depending on the role th
 supported roles are:
 
 - **[Guest](#guest-add-new-questions)**: Is allowed to submit new questions
-- **[Translator](#editor-verify-edit-and-delete-questions)**: Is allowed to add translations to questions in their predefined language(s)
-- **[Editor](#translator-add-and-update-translations)**: Is allowed to edit, delete and publicise questions
+- **[Translator](#translator-add-and-update-translations)**: Is allowed to add translations to questions in their predefined language(s)
+- **[Editor](#editor-verify-edit-and-delete-questions)**: Is allowed to edit, delete and publicise questions
 - **[Admin](#admin-add-edit-and-delete-users)**: Is allowed to add, edit and delete users
 
 Each role includes all rights of the roles above it.
@@ -118,6 +118,29 @@ mention any of the cards you entered earlier by *full name*, they will be highli
 
 Once you're happy with your question, hit the *Submit* button and wait for the confirmation popup.
 
+### Translator: Add and Update Translations
+
+![Edit Translations](http://booth.mnt.me/docs/booth4.jpg)
+
+The translation interface shows you at a quick glance what the current translation status for each question is. Each entry
+has the question number, followed by the list of localized card names (where available). On the right hand side, you'll
+find a big button colored and labeled differently, depending on the current status. Below that button there will be a
+timestamp to indicate when the last change was made to this question's translation.
+
+To quickly navigate the translation list, you can use the *search* box in the top left corner. Just enter any question number,
+card name or translation status (*translated*, *untranslated*, *outdated*) to filter the list. It is also possible to negate
+your search term by prepending it with an exclamation mark: `!untranslated` would show only translated (and not outdated)
+entries. If you have access to more than one translation language, you can switch the current language in the top right
+corner.
+
+Questions that are *grayed out* are disabled and currently not live. Translating the live questions is more important, but
+once these are done, you can take a look at the newest non-live ones, since those will probably be set to live at
+some point in the future.
+
+To translate a question just click on it and fill in the question / answer text boxes on the new screen. If you need to
+look up a specific card text, just click on the card name in the list on the right side there. Sometimes the card will not
+have an image, unfortunately this is a problem with Gatherer and you'll have to look these up yourself.
+
 ### Editor: Verify, Edit and Delete Questions
 
 ![Edit Questions](http://booth.mnt.me/docs/booth3.jpg)
@@ -144,29 +167,6 @@ specific page by clicking on the page number.
 **Note:** Updating an English question causes all available translations to be flagged as *Outdated*, even if you don't
 end up changing anything important. So keep in mind to only edit an existing question if you have to, or update the translations
 yourself if you only make a minor edit!
-
-### Translator: Add and Update Translations
-
-![Edit Translations](http://booth.mnt.me/docs/booth4.jpg)
-
-The translation interface shows you at a quick glance what the current translation status for each question is. Each entry
-has the question number, followed by the list of localized card names (where available). On the right hand side, you'll
-find a big button colored and labeled differently, depending on the current status. Below that button there will be a
-timestamp to indicate when the last change was made to this question's translation.
-
-To quickly navigate the translation list, you can use the *search* box in the top left corner. Just enter any question number,
-card name or translation status (*translated*, *untranslated*, *outdated*) to filter the list. It is also possible to negate
-your search term by prepending it with an exclamation mark: `!untranslated` would show only translated (and not outdated)
-entries. If you have access to more than one translation language, you can switch the current language in the top right
-corner.
-
-Questions that are *grayed out* are disabled and currently not live. Translating the live questions is more important, but
-once these are done, you can take a look at the newest non-live ones, since those will probably be set to live at
-some point in the future.
-
-To translate a question just click on it and fill in the question / answer text boxes on the new screen. If you need to
-look up a specific card text, just click on the card name in the list on the right side there. Sometimes the card will not
-have an image, unfortunately this is a problem with Gatherer and you'll have to look these up yourself.
 
 ### Admin: Add, Edit and Delete Users
 
