@@ -151,7 +151,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` varchar(255) NOT NULL,
   `role` varchar(50) NOT NULL,
   `languages` varchar(255) NOT NULL,
-  UNIQUE KEY `name` (`name`)
+  UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
