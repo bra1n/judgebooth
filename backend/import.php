@@ -31,7 +31,7 @@ if($argv == "sets") {
 // Card texts, translations and printings
 if($argv == "cards") {
   $cards = json_decode(file_get_contents("http://mtgjson.com/json/AllCards-x.json"));
-  echo "loaded ".count($cards)." cards\n";
+  echo "loaded ".count((array) $cards)." cards\n";
 
   foreach($cards as $card) {
     $query = "name='".$db->real_escape_string($card->name)."',";
