@@ -42,6 +42,7 @@
     "show_answer": "Show Answer",
     "hide_answer": "Hide Answer",
     "edit_question": "Edit Question",
-    "edit_translation": "Edit Translation"
+    "edit_translation": "Edit Translation",
+    "not_live": "This question is not live!"
   }
 }
