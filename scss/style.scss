@@ -4,7 +4,7 @@ $button-stable-active-bg:         #ccc;
 $item-divider-bg:                 #eee;
 $positive:                        #e52628;
 $calm:                            #43cee6 !default;
-$balanced:                        #66cc33 !default;
+$balanced:                        #84e200;
 $energized:                       #f0b840 !default;
 $assertive:                       #ef4e3a !default;
 $royal:                           #8a6de9 !default;
@@ -272,7 +272,7 @@ div.cards {
 #questions {
   table {
     width: 100%;
-    margin-bottom: 20px;
+    margin: 20px 0;
     thead td { font-weight: bold; }
     tbody tr.odd { background: $stable; }
     td { vertical-align: middle; }

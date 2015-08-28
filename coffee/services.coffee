@@ -16,17 +16,17 @@ services.service 'questionsAPI', [
         maxAge: 3600 * 1000 # 1 hour
         capacity: 20
     availableLanguages = [
-      {id: 1,name: "English",code: "en"}
-      {id: 2,name: "German",code: "de"}
-      {id: 3,name: "Italian",code: "it"}
-      {id: 4,name: "Japanese",code: "jp"}
-      {id: 5,name: "Korean",code: "ko"}
-      {id: 6,name: "Portuguese (Brazil)",code: "pt"}
-      {id: 7,name: "Russian",code: "ru"}
-      {id: 8,name: "Spanish",code: "es"}
-      {id: 9,name: "Chinese Simplified",code: "cn"}
-      {id: 10,name: "Chinese Traditional",code: "tw"}
-      {id: 11,name: "French",code: "fr"}
+      {id:  1, code: "en", name: "English"}
+      {id:  2, code: "de", name: "German"}
+      {id:  3, code: "it", name: "Italian"}
+      {id:  4, code: "jp", name: "Japanese"}
+      {id:  5, code: "ko", name: "Korean"}
+      {id:  6, code: "pt", name: "Portuguese (Brazil)"}
+      {id:  7, code: "ru", name: "Russian"}
+      {id:  8, code: "es", name: "Spanish"}
+      {id:  9, code: "cn", name: "Chinese Simplified"}
+      {id: 10, code: "tw", name: "Chinese Traditional"}
+      {id: 11, code: "fr", name: "French"}
     ]
     apiURL = "/backend/?action="
     # set app language from cache
@@ -48,10 +48,8 @@ services.service 'questionsAPI', [
       language = @filter().language
       if navigator.onLine
         # we have internet access
-        questionPromise = $http.get apiURL + "question&lang=" + language + "&id=" + id, cache: caches.memory
-        $q.all([@questions(), questionPromise]).then ([questionsResponse, questionResponse]) ->
+        $http.get(apiURL + "question&lang=" + language + "&id=" + id, cache: caches.memory).then (questionResponse) ->
           question = questionResponse.data
-          question.metadata = metadata for metadata in questionsResponse.data when metadata.id is parseInt(id, 10)
           question.language = language
           deferred.resolve question
         , -> deferred.reject()
@@ -166,4 +164,6 @@ services.service 'questionsAPI', [
       users: -> $http.get apiURL + "admin-users"
       saveUser: (user) -> $http.post apiURL + "admin-saveuser", user
       deleteUser: (email) -> $http.post apiURL + "admin-deleteuser&email="+encodeURIComponent(email)
+      clearMemoryCache: -> caches.memory.removeAll()
+      clearShortCache: -> caches.short.removeAll()
 ]

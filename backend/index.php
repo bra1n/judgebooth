@@ -88,20 +88,31 @@ function getQuestions($db) {
 function getQuestion($db, $id = false, $lang = false) {
   $output = array();
   if($id && $lang && intval($id) && intval($lang)) {
-    $query = "SELECT c.*, IFNULL(ct.name, c.name) name, c.name name_en, qt.question, qt.answer
+    // get question metadata
+    $query = "SELECT q.*, qt.question, qt.answer
+          FROM questions q
+          LEFT JOIN question_translations qt ON qt.question_id = q.id AND qt.language_id = ".$db->real_escape_string($lang)."
+          WHERE q.id = ".$db->real_escape_string($id)."
+          LIMIT 1";
+    $result = $db->query($query) or die($db->error);
+    $output = array("metadata"=>$result->fetch_assoc());
+    $output['cards'] = array();
+    $output["question"] = strip_tags($output["metadata"]["question"]);
+    unset($output["metadata"]["question"]);
+    $output["answer"] = strip_tags($output["metadata"]["answer"]);
+    unset($output["metadata"]["answer"]);
+    $output["metadata"]["live"] = !!($output["metadata"]["live"]);
+    $output["metadata"]["id"] = intval($output["metadata"]["id"]);
+    $output["metadata"]["difficulty"] = intval($output["metadata"]["difficulty"]);
+    $result->free();
+    $query = "SELECT c.*, IFNULL(ct.name, c.name) name, c.name name_en
           FROM question_cards qc
           LEFT JOIN cards c ON c.id = qc.card_id
           LEFT JOIN card_translations ct ON ct.card_id = qc.card_id AND ct.language_id = ".$db->real_escape_string($lang)."
-          LEFT JOIN question_translations qt ON qt.question_id = qc.question_id AND qt.language_id = ".$db->real_escape_string($lang)."
           WHERE qc.question_id = ".$db->real_escape_string($id)."
-          ORDER BY c.layout, c.id ASC";
+          ORDER BY c.layout, name ASC";
     $result = $db->query($query) or die($db->error);
-    $output = array("cards"=>array());
     while($row = $result->fetch_assoc()) {
-      $output["question"] = strip_tags($row["question"]);
-      $output["answer"] = strip_tags($row["answer"]);
-      unset($row["question"]);
-      unset($row["answer"]);
       $row["text"] = nl2br($row["text"]);
       foreach($row as $field=>$value) {
         if($value === "" || $value === null || $field == "id") unset($row[$field]);
@@ -150,8 +161,9 @@ function getQuestionsAndCards($db) {
     LEFT JOIN card_translations ct ON ct.card_id = c.id
     LEFT JOIN question_cards qc ON qc.card_id = c.id
     WHERE question_id
-    GROUP BY c.id";
-  $result = $db->query($cardQuery) or die($db->error());
+    GROUP BY c.id
+    ORDER BY c.layout, c.name ASC";
+  $result = $db->query($cardQuery) or die($db->error);
   $cards = array();
   while($row = $result->fetch_assoc()) {
     if ( $row['translations'] != null ) {

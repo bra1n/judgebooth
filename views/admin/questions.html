@@ -1,5 +1,16 @@
 <ion-view>
   <ion-content class="padding" id="questions">
+    <div class="button-bar">
+      <a ng-disabled="page<1" class="button icon ion-ios-skipbackward button-light"
+         ui-sref="app.admin.questions({page:0})"></a>
+      <a ng-disabled="page<1" class="button button-light icon ion-arrow-left-b"
+         ui-sref="app.admin.questions({page:page-1})"></a>
+      <a class="button icon button-light" ng-click="goto()">{{page+1}}</a>
+      <a ng-disabled="page>=pages-1" class="button icon button-light ion-arrow-right-b"
+         ui-sref="app.admin.questions({page:page+1})"></a>
+      <a ng-disabled="page>=pages-1" class="button icon ion-ios-skipforward button-light"
+         ui-sref="app.admin.questions({page:pages-1})"></a>
+    </div>
     <!-- Question list -->
     <table>
       <thead>
@@ -16,7 +27,7 @@
           <td>{{::question.cards.join("; ")}}</td>
           <td>{{::question.author}}</td>
           <td class="toggle-small">
-            <label class="toggle toggle-positive">
+            <label class="toggle toggle-balanced">
               <input type="checkbox" ng-model="question.live" ng-change="toggle(question)">
               <div class="track">
                 <div class="handle"></div>
@@ -42,7 +53,7 @@
           </td>
           <td>
             <div class="button-bar">
-              <a class="button button-small icon ion-link" ng-disabled="!question.live" ui-sref="app.question({id:question.id})"></a>
+              <a class="button button-small icon ion-link" ui-sref="app.question({id:question.id})"></a>
               <a class="button button-small button-positive icon ion-edit" ui-sref="app.admin.question({id:question.id})"></a>
               <a class="button button-small button-dark icon ion-trash-a" ng-click="delete(question)"></a>
             </div>

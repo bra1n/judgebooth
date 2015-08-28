@@ -180,6 +180,7 @@ controllers.controller 'AdminNewCtrl', [
       questionsAPI.admin.save($scope.question).then (response) ->
         if response.data is "success"
           alert "Question submitted"
+          questionsAPI.admin.clearShortCache()
           $scope.question =
             author: $scope.user.name
             difficulty: 1
@@ -213,6 +214,7 @@ controllers.controller 'AdminQuestionsCtrl', [
     $scope.delete = (question) ->
       if confirm "Are you sure?"
         questionsAPI.admin.delete(question.id).then ->
+          questionsAPI.admin.clearShortCache()
           question.deleted = yes
           $scope.reload()
 
@@ -254,6 +256,7 @@ controllers.controller 'AdminQuestionCtrl', [
       delete card.suggestions for card in $scope.question.cards
       questionsAPI.admin.save($scope.question).then (response) ->
         if response.data is "success"
+          questionsAPI.admin.clearMemoryCache()
           $scope.back()
         else
           alert "Error when saving question"
@@ -299,6 +302,7 @@ controllers.controller 'AdminTranslationCtrl', [
         answer: $scope.translation.answer_translated
       questionsAPI.admin.translate(translation).then (response) ->
         if response.data is "success"
+          questionsAPI.admin.clearMemoryCache()
           $scope.back()
         else
           alert "Error when saving question"

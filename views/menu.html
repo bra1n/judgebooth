@@ -138,14 +138,14 @@
     </ion-content>
 
     <!-- Bottom Tabs -->
-    <div ng-show="user.role" class="tabs-striped tabs-color-positive tabs-background-stable">
-      <div class="tabs">
-        <a class="tab-item"  ng-class="{active:tab == 'filter'}" ng-click="toggleTab('filter')">
-          <i class="ion-search"></i>
+    <div ng-show="user.role">
+      <div class="tabs tabs-icon-left">
+        <a class="tab-item"  ng-class="{'active positive':tab == 'filter'}" ng-click="toggleTab('filter')">
+          <i class="icon ion-search"></i>
           <span translate>menu.button_filter</span>
         </a>
-        <a class="tab-item" ng-class="{active:tab == 'admin'}" ng-click="toggleTab('admin')">
-          <i class="ion-settings"></i>
+        <a class="tab-item" ng-class="{'active positive':tab == 'admin'}" ng-click="toggleTab('admin')">
+          <i class="icon ion-settings"></i>
           <span translate>menu.button_admin</span>
         </a>
       </div>
