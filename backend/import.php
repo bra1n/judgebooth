@@ -84,7 +84,7 @@ if($argv == "tokens") {
     layout='".$db->real_escape_string($token->layout)."',
     url='".$db->real_escape_string($token->url)."',
     type='".$db->real_escape_string($token->type)."',
-    text='".$db->real_escape_string($token->text)."',
+    text='".$db->real_escape_string(isset($token->text) ? $token->text:"")."',
     power='".$db->real_escape_string($token->power)."',
     toughness='".$db->real_escape_string($token->toughness)."'";
     $query = "INSERT INTO cards SET $query ON DUPLICATE KEY UPDATE $query";
