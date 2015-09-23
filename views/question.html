@@ -42,7 +42,7 @@
            ng-show="user.role == 'admin' || user.role == 'editor'" translate>
           question.edit_question
         </a>
-        <button class="button icon-right" ng-click="toggleAnswer()"
+        <button type="button" class="button icon-right" ng-click="toggleAnswer()"
                 ng-class="{'button-positive ion-checkmark-circled':!answer, 'button-dark ion-close-circled':answer}">
           <span ng-hide="answer" translate>question.show_answer</span>
           <span ng-show="answer" translate>question.hide_answer</span>
