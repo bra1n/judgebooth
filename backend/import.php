@@ -2,7 +2,7 @@
 require("config.php");
 if(php_sapi_name() != "cli") exit;
 if(count($_SERVER['argv']) < 2) die("possible arguments: sets, cards, questions, translations, tokens\n");
-ini_set('memory_limit', '512M');
+ini_set('memory_limit', '1024M');
 ini_set('max_execution_time', '0');
 $db = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 $db->set_charset("utf8");
@@ -53,13 +53,13 @@ if($argv == "cards") {
 
     # printings
     foreach($card->printings as $printing) {
-      $result = $db->query("SELECT id FROM sets WHERE name = '".$db->real_escape_string($printing)."' LIMIT 1");
+      $result = $db->query("SELECT id FROM sets WHERE code = '".$db->real_escape_string($printing)."' LIMIT 1");
       while($row = $result->fetch_assoc()) {
         $db->query("INSERT IGNORE INTO card_sets SET card_id='".$card->id."', set_id='".$row['id']."'") or die($db->error);
       }
       $result->free();
     }
-    # translations
+    # translations - currently doesnt work
     if(isset($card->foreignNames) && count($card->foreignNames)) {
       foreach($card->foreignNames as $translation) {
         $result = $db->query("SELECT id FROM languages WHERE name = '".$db->real_escape_string($translation->language)."' LIMIT 1");
@@ -67,6 +67,40 @@ if($argv == "cards") {
           $db->query("INSERT IGNORE INTO card_translations SET card_id='".$card->id."', language_id='".$row['id']."', name='".$db->real_escape_string($translation->name)."'");
         }
         $result->free();
+      }
+    }
+  }
+}
+#*/
+
+#/*
+// Card translations
+if($argv == "cardtranslations") {
+  $sets = json_decode(file_get_contents("http://mtgjson.com/json/AllSets-x.json"));
+  echo "loaded ".count((array) $sets)." sets\n";
+
+  $result = $db->query("SELECT name, id FROM languages");
+  $languages = array();
+  while($row = $result->fetch_assoc()) {
+    $languages[$row['name']] = $row['id'];
+  }
+  $result->free();
+
+  foreach($sets as $set) {
+    echo "loaded ".count((array) $set->cards)." cards\n";
+    foreach($set->cards as $card) {
+      $result = $db->query("SELECT id FROM cards WHERE name = '".$db->real_escape_string($card->name)."' LIMIT 1");
+      while($row = $result->fetch_assoc()) {
+        $card->id = $row['id'];
+      }
+      $result->free();
+      # translations
+      if(isset($card->foreignNames) && count($card->foreignNames)) {
+        foreach($card->foreignNames as $translation) {
+          if(isset($languages[$translation->language])) {
+            $db->query("INSERT IGNORE INTO card_translations SET card_id='".$card->id."', language_id='".$languages[$translation->language]."', name='".$db->real_escape_string($translation->name)."'");
+          }
+        }
       }
     }
   }
