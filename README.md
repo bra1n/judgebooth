@@ -194,11 +194,12 @@ If you want to contribute to the source code, feel free to fork the project and 
 
 To get started, you need PHP and a MySQL database with the structure from backend/structure.sql.
 Once that is in place, adjust the database configuration in backend/config.php and import the existing booth questions
-via backend/import.php script from the command line.
+via backend/import.php script from the command line. Example command: `php import.php sets`
 You should import the data in this order: sets, cards, tokens, questions, translations
 
 When the database is ready, you need to install the Gulp Node modules (`npm install`) and the Bower dependencies. (`bower install`)
 This allows you to build the application files via running `gulp` or `gulp watch`.
+Once everything has been built and the database is ready, point your local webserver to the project root folder. If you're using something other than Apache, make sure to set up a similar path rewrite like the one provided in the `.htaccess`. If you're serving the project from a subpath (example: `localhost/booth/`), make sure to update the `<base>` tag in the `index.html` accordingly.
 
 License and Copyright
 ---------------------
