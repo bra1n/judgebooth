@@ -199,7 +199,14 @@ You should import the data in this order: sets, cards, tokens, questions, transl
 
 When the database is ready, you need to install the Gulp Node modules (`npm install`) and the Bower dependencies. (`bower install`)
 This allows you to build the application files via running `gulp` or `gulp watch`.
-Once everything has been built and the database is ready, point your local webserver to the project root folder. If you're using something other than Apache, make sure to set up a similar path rewrite like the one provided in the `.htaccess`. If you're serving the project from a subpath (example: `localhost/booth/`), make sure to update the `<base>` tag in the `index.html` accordingly.
+Once everything has been built and the database is ready, point your local webserver to the project root folder. If you're using something other than Apache, make sure to set up a similar path rewrite like the one provided in the `.htaccess`. 
+
+**Running the project from a subfolder**
+
+If you want to serve the project from a subpath (example: `localhost/booth/`), you need to make 2 little changes for now to make it work:
+
+- update the `<base>` tag in the `index.html` to reflect the current subpath, example: `<base href="/booth/">`
+- update the `services.coffee` line 31 where the API path is configured, example: `apiURL = "/booth/backend/?action="` and recompile with Gulp (this will be fixed in an upcoming commit)
 
 License and Copyright
 ---------------------
