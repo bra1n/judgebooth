@@ -208,6 +208,10 @@ If you want to serve the project from a subpath (example: `localhost/booth/`), y
 - update the `<base>` tag in the `index.html` to reflect the current subpath, example: `<base href="/booth/">`
 - update the `services.coffee` line 31 where the API path is configured, example: `apiURL = "/booth/backend/?action="` and recompile with Gulp (this will be fixed in an upcoming commit)
 
+**Using the admin interface**
+
+In order to be able to use the admin interface, you need to generate OAuth 2.0 credentials for the Google APIs. This process is outlined [here](https://developers.google.com/identity/protocols/OAuth2). Once you have your redirect URL, ClientID and ClientSecret, enter these values into your `backend/config.php` file.
+
 License and Copyright
 ---------------------
 
