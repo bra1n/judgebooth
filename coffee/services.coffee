@@ -28,7 +28,7 @@ services.service 'questionsAPI', [
       {id: 10, code: "tw", name: "Chinese Traditional"}
       {id: 11, code: "fr", name: "French"}
     ]
-    apiURL = "/backend/?action="
+    apiURL = "backend/?action="
     # set app language from cache
     if caches.persistent.get "filter"
       for language in availableLanguages when language.id is parseInt caches.persistent.get("filter").language, 10
