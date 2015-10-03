@@ -197,20 +197,27 @@ Once that is in place, adjust the database configuration in backend/config.php a
 via backend/import.php script from the command line. Example command: `php import.php sets`
 You should import the data in this order: sets, cards, tokens, questions, translations
 
-When the database is ready, you need to install the Gulp Node modules (`npm install`) and the Bower dependencies. (`bower install`)
-This allows you to build the application files via running `gulp` or `gulp watch`.
-Once everything has been built and the database is ready, point your local webserver to the project root folder. If you're using something other than Apache, make sure to set up a similar path rewrite like the one provided in the `.htaccess`. 
+The set icon list and the "Modern" / "Standard" filters depend on the content of the `sets` database table. Each set
+ there has a flag for `modern`, `standard` and `regular`. These flags need to be manually set in the database and will
+ affect which set icons are listed at all (`regular = 1`), listed as a Standard set (`standard = 1`) and listed as a
+ Modern set. (`modern = 1`)
+
+When the database is ready, you need to install the Gulp Node modules (`npm install`) and the Bower dependencies.
+(`bower install`) This allows you to build the application files via running `gulp` or `gulp watch`.
+Once everything has been built and the database is ready, point your local webserver to the project root folder. If
+you're using something other than Apache, make sure to set up a similar path rewrite like the one provided in the
+`.htaccess`.
 
 **Running the project from a subfolder**
 
-If you want to serve the project from a subpath (example: `localhost/booth/`), you need to make 2 little changes for now to make it work:
-
-- update the `<base>` tag in the `index.html` to reflect the current subpath, example: `<base href="/booth/">`
-- update the `services.coffee` line 31 where the API path is configured, example: `apiURL = "/booth/backend/?action="` and recompile with Gulp (this will be fixed in an upcoming commit)
+If you want to serve the project from a subfolder (example: `localhost/booth/`), you need to update the `<base>` tag in
+the `index.html` to reflect the current path, for example: `<base href="/booth/">`
 
 **Using the admin interface**
 
-In order to be able to use the admin interface, you need to generate OAuth 2.0 credentials for the Google APIs. This process is outlined [here](https://developers.google.com/identity/protocols/OAuth2). Once you have your redirect URL, ClientID and ClientSecret, enter these values into your `backend/config.php` file.
+In order to be able to use the admin interface, you need to generate OAuth 2.0 credentials for the Google APIs.
+This process is outlined [here](https://developers.google.com/identity/protocols/OAuth2).
+Once you have your redirect URL, ClientID and ClientSecret, enter these values into your `backend/config.php` file.
 
 License and Copyright
 ---------------------
