@@ -123,6 +123,17 @@ if($argv == "tokens") {
     toughness='".$db->real_escape_string($token->toughness)."'";
     $query = "INSERT INTO cards SET $query ON DUPLICATE KEY UPDATE $query";
     $db->query($query) or die($db->error);
+    // get ID
+    $result = $db->query("SELECT id FROM cards WHERE name = '".$db->real_escape_string($token->name)."' LIMIT 1");
+    while($row = $result->fetch_assoc()) {
+      $token->id = $row['id'];
+    }
+    $result->free();
+    if(isset($token->translations)) {
+      foreach($token->translations as $language=>$translation) {
+        $db->query("REPLACE INTO card_translations SET card_id='".$token->id."', language_id='".$language."', name='".$db->real_escape_string($translation)."'");
+      }
+    }
   }
 }
 #*/
