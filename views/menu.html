@@ -59,8 +59,8 @@
             <button type="button" class="button button-small set" ng-repeat="set in sets" ng-if="setCounts[filter.language][set.id]"
                     ng-click="toggleSet(set.id)" ng-class="{'active':filter.sets.indexOf(set.id)<0}"
                     title="{{::set.name}}">
-              <i class="icon-sets icon-sets-{{::set.code}}" title="{{::set.name}}"></i>
-              <!--<i class="mtg e-{{::set.code.toLowerCase()}}" ng-class="{'rare':filter.sets.indexOf(set.id)<0}" title="{{::set.name}}"></i>-->
+              <!--<i class="icon-sets icon-sets-{{::set.code}}" title="{{::set.name}}"></i>-->
+              <i class="mtg e-{{::set.code.toLowerCase()}}" ng-class="{'rare':filter.sets.indexOf(set.id)<0}" title="{{::set.name}}"></i>
             </button>
           </div>
         </div>

@@ -145,7 +145,18 @@ div.scroll { min-height: 90%; }
       min-width: 45px;
       padding: 0;
       line-height: 16px;
-      i { vertical-align: middle; }
+      i {
+        vertical-align: middle;
+        font-size: 1.7em;
+        &:before, &:after {
+          -webkit-transition: all 0.5s;
+          -moz-transition: all 0.5s;
+          -ms-transition: all 0.5s;
+          -o-transition: all 0.5s;
+          transition: all 0.5s;
+        }
+        &.e-al, &.e-ex { font-size: 16px; }
+      }
       img { vertical-align: middle }
     }
   }

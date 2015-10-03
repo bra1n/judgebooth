@@ -7838,7 +7838,16 @@ div.scroll {
     padding: 0;
     line-height: 16px; }
     .side-content div.sets .button.set i {
-      vertical-align: middle; }
+      vertical-align: middle;
+      font-size: 1.7em; }
+      .side-content div.sets .button.set i:before, .side-content div.sets .button.set i:after {
+        -webkit-transition: all 0.5s;
+        -moz-transition: all 0.5s;
+        -ms-transition: all 0.5s;
+        -o-transition: all 0.5s;
+        transition: all 0.5s; }
+      .side-content div.sets .button.set i.e-al, .side-content div.sets .button.set i.e-ex {
+        font-size: 16px; }
     .side-content div.sets .button.set img {
       vertical-align: middle; }
 .side-content div.difficulty {
