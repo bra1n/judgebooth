@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `question_cards` (
   `question_id` int(11) unsigned NOT NULL,
   `card_id` int(11) unsigned NOT NULL,
   `sort` tinyint(2) unsigned NOT NULL DEFAULT '0',
-  UNIQUE KEY `question_id` (`question_id`,`card_id`),
+  UNIQUE KEY `question_id` (`question_id`,`card_id`,`sort`),
   KEY `card_id` (`card_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

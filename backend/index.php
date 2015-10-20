@@ -234,7 +234,7 @@ function getAdminQuestions($db, $page) {
 function getAdminQuestion($db, $id) {
   $user = auth($db);
   if(isset($user['role']) && in_array($user['role'],array("admin", "editor", "translator"))){
-    $query = "SELECT q.*, qt.question, qt.answer, qt.changedate, GROUP_CONCAT(DISTINCT c.id,':',c.name ORDER BY sort ASC SEPARATOR '|') cards
+    $query = "SELECT q.*, qt.question, qt.answer, qt.changedate, GROUP_CONCAT(c.id,':',c.name ORDER BY sort ASC SEPARATOR '|') cards
        FROM questions q
        LEFT JOIN question_cards qc ON qc.question_id = q.id
        LEFT JOIN cards c ON c.id = qc.card_id

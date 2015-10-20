@@ -39,7 +39,7 @@
             Cards
             <span class="item-note positive">{{translation.cards.length}}</span>
           </div>
-          <div ng-repeat-start="(index, card) in translation.cards" class="item item-icon-right"
+          <div ng-repeat-start="(index, card) in translation.cards track by index" class="item item-icon-right"
                ng-click="showCard[index]=!showCard[index]">
             <i class="icon ion-image"></i>
             {{card}}
