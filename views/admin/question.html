@@ -8,10 +8,11 @@
       <span class="positive" translate>common.loading</span>
     </div>
     <form name="form" ng-show="question" ng-submit="save()">
+      <!-- Question details-->
       <div class="row question-infos responsive-sm">
         <div class="col col-50 list">
-          <div class="item">
-            <span class="item-note dark">{{question.id}}</span>
+          <div class="item item-divider">
+            <span class="item-note positive">{{question.id}}</span>
             Question
           </div>
           <label class="item item-input">
@@ -26,27 +27,44 @@
               <option value="2">Hard</option>
             </select>
           </label>
-          <div class="item item-toggle">
+          <label class="item-checkbox-right item item-checkbox">
+            <span class="item-note">visible in the booth</span>
+            <div class="checkbox">
+              <input type="checkbox" value="1" ng-model="question.live">
+            </div>
             Live
-            <label class="toggle toggle-balanced">
-              <input type="checkbox" ng-model="question.live">
-              <div class="track">
-                <div class="handle"></div>
-              </div>
-            </label>
-          </div>
+          </label>
           <div class="item" ng-show="question.changedate">
             Last updated
-            <span class="item-note">{{question.changedate}}</span>
+            <span class="item-note dark">{{question.changedate}}</span>
           </div>
+          <label class="item-checkbox-right item item-checkbox">
+            <span class="item-note">translations stay valid</span>
+            <div class="checkbox">
+              <input type="checkbox" value="1" ng-model="question.minor">
+            </div>
+            Minor edit
+          </label>
         </div>
+
+        <!-- Card list -->
         <div class="col col-50 list cards">
+          <div class="item item-divider">
+            Cards
+            <span class="item-note positive">{{question.cards.length}}</span>
+          </div>
           <div ng-repeat-start="(index, card) in question.cards" class="item item-input-inset">
             <i class="icon placeholder-icon" ng-class="{'ion-checkmark positive':card.id, 'ion-close':!card.id}"></i>
-            <input ng-keypress="keypress($event, card)" type="text" ng-model="card.name" ng-change="suggest(card)" placeholder="Card Name">
+            <input ng-keypress="keypress($event, card)" type="text" ng-model="card.name" ng-change="suggest(card)"
+                   placeholder="Card Name">
             <button ng-show="card.id" type="button" tabindex="-1" class="button button-small icon ion-image"
                     ng-class="{active: card.preview}" ng-click="card.preview = !card.preview"></button>
-            <button type="button" tabindex="-1" class="button button-small button-dark icon ion-trash-a" ng-click="delete(index)"></button>
+            <button type="button" tabindex="-1" class="button button-small icon ion-arrow-up-a"
+                    ng-disabled="index == 0" ng-click="movecard(index,-1)"></button>
+            <button type="button" tabindex="-1" class="button button-small icon ion-arrow-down-a"
+                    ng-disabled="index == question.cards.length - 1"ng-click="movecard(index,1)"></button>
+            <button type="button" tabindex="-1" class="button button-small button-dark icon ion-trash-a"
+                    ng-click="delete(index)"></button>
             <input required="required" type="hidden" ng-model="card.id">
           </div>
           <div class="item preview item-divider" ng-show="card.preview && card.id">
@@ -64,20 +82,24 @@
           </label>
         </div>
       </div>
+
+      <!-- Question & Answer -->
       <div class="row responsive-sm">
         <div class="col col-50 list">
-          <div class="item item-divider">Question:</div>
+          <div class="item item-divider">Question text:</div>
           <div class="item">
             <textarea required="required" ng-model="question.question"></textarea>
           </div>
         </div>
         <div class="col col-50 list">
-          <div class="item item-divider">Answer:</div>
+          <div class="item item-divider">Answer text:</div>
           <div class="item">
             <textarea required="required" ng-model="question.answer"></textarea>
           </div>
         </div>
       </div>
+
+      <!-- Back & Submit -->
       <div class="button-bar padding">
         <button type="button" ng-click="back()" class="button button-stable">Back</button>
         <button ng-disabled="question.cards.length==0 || !form.$valid" type="submit" class="button button-positive">Save</button>

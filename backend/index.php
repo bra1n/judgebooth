@@ -110,7 +110,7 @@ function getQuestion($db, $id = false, $lang = false) {
           LEFT JOIN cards c ON c.id = qc.card_id
           LEFT JOIN card_translations ct ON ct.card_id = qc.card_id AND ct.language_id = ".$db->real_escape_string($lang)."
           WHERE qc.question_id = ".$db->real_escape_string($id)."
-          ORDER BY c.layout, name ASC";
+          ORDER BY qc.sort ASC, c.layout, name ASC";
     $result = $db->query($query) or die($db->error);
     while($row = $result->fetch_assoc()) {
       $row["text"] = nl2br($row["text"]);
@@ -162,7 +162,7 @@ function getQuestionsAndCards($db) {
     LEFT JOIN question_cards qc ON qc.card_id = c.id
     WHERE question_id
     GROUP BY c.id
-    ORDER BY c.layout, c.name ASC";
+    ORDER BY qc.sort ASC, c.layout, c.name ASC";
   $result = $db->query($cardQuery) or die($db->error);
   $cards = array();
   while($row = $result->fetch_assoc()) {
@@ -193,7 +193,7 @@ function getAdminQuestions($db, $page) {
   if(isset($user['role']) && in_array($user['role'],array("admin", "editor", "translator"))){
     $start = intval($page) * $pagesize;
     $query = "SELECT SQL_CALC_FOUND_ROWS q.*,
-      GROUP_CONCAT(DISTINCT c.name SEPARATOR '|') cards,
+      GROUP_CONCAT(DISTINCT c.name ORDER BY sort ASC SEPARATOR '|') cards,
       GROUP_CONCAT(DISTINCT qt2.language_id) languages,
       GROUP_CONCAT(DISTINCT qt3.language_id) outdated
       FROM questions q
@@ -234,7 +234,7 @@ function getAdminQuestions($db, $page) {
 function getAdminQuestion($db, $id) {
   $user = auth($db);
   if(isset($user['role']) && in_array($user['role'],array("admin", "editor", "translator"))){
-    $query = "SELECT q.*, qt.question, qt.answer, qt.changedate, GROUP_CONCAT(DISTINCT c.id,':',c.name SEPARATOR '|') cards
+    $query = "SELECT q.*, qt.question, qt.answer, qt.changedate, GROUP_CONCAT(DISTINCT c.id,':',c.name ORDER BY sort ASC SEPARATOR '|') cards
        FROM questions q
        LEFT JOIN question_cards qc ON qc.question_id = q.id
        LEFT JOIN cards c ON c.id = qc.card_id
@@ -286,6 +286,7 @@ function postAdminSave($db) {
       $id = $result->fetch_assoc()['id'];
       $result->free();
       $question->live = 0;
+      $question->minor = 0;
       if(!in_array($user['role'],array("admin", "editor"))) $question->author = $user['name'];
     }
     // question basics
@@ -301,16 +302,19 @@ function postAdminSave($db) {
         question_id = '".$id."', language_id = 1,
         question = '".$db->real_escape_string($question->question)."',
         answer = '".$db->real_escape_string($question->answer)."'";
+      if(isset($question->minor) && $question->minor && isset($question->changedate)) {
+        $query .= ", changedate = '".$db->real_escape_string($question->changedate)."'";
+      }
       $db->query($query) or die($db->error);
     }
     // cards
     if(isset($question->cards)) {
       $db->query("DELETE FROM question_cards WHERE question_id = '".$id."'") or die($db->error);
       $cards = array();
-      foreach($question->cards as $card) {
-        if(intval($card->id)) $cards[] = "(".$id.",".intval($card->id).")";
+      foreach($question->cards as $index=>$card) {
+        if(intval($card->id)) $cards[] = "(".$id.",".intval($card->id).",".intval($index).")";
       }
-      $query = "INSERT INTO question_cards (question_id, card_id) VALUES ".join(",",$cards);
+      $query = "INSERT INTO question_cards (question_id, card_id, sort) VALUES ".join(",",$cards);
       $db->query($query) or die($db->error);
     }
     return "success";
@@ -341,7 +345,7 @@ function getAdminTranslations($db, $language) {
   $language = intval($language);
   if(isset($user['role']) && in_array($user['role'],array("admin", "editor", "translator"))
      && (!count($user['languages']) || in_array($language,$user['languages']))) {
-    $query = "SELECT qt.question_id, qt2.changedate, q.live, GROUP_CONCAT(IFNULL(ct.name, c.name) SEPARATOR '|') cards,
+    $query = "SELECT qt.question_id, qt2.changedate, q.live, GROUP_CONCAT(IFNULL(ct.name, c.name) ORDER BY sort ASC SEPARATOR '|') cards,
       IF(qt2.question IS NULL OR qt2.answer IS NULL,'untranslated',IF(qt.changedate > qt2.changedate,'outdated','translated')) status
       FROM question_translations qt
       LEFT JOIN question_translations qt2 ON qt2.question_id = qt.question_id AND qt2.language_id = '$language'
@@ -407,7 +411,7 @@ function getAdminTranslation($db, $language, $id) {
   if(isset($user['role']) && in_array($user['role'],array("admin", "editor", "translator"))
      && (!count($user['languages']) || in_array($language,$user['languages']))) {
     $query = "SELECT q.*, qt.*, qt2.question question_translated, qt2.answer answer_translated,
-       qt2.changedate changedate_translated, GROUP_CONCAT(IFNULL(ct.name, c.name) SEPARATOR '|') cards
+       qt2.changedate changedate_translated, GROUP_CONCAT(IFNULL(ct.name, c.name) ORDER BY sort ASC SEPARATOR '|') cards
        FROM questions q
        LEFT JOIN question_cards qc ON qc.question_id = q.id
        LEFT JOIN question_translations qt ON qt.question_id = q.id

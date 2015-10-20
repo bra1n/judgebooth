@@ -153,7 +153,11 @@ controllers.controller 'AdminNewCtrl', [
         difficulty: 1
         cards: []
     $scope.add = -> $scope.question.cards.push {}
-    $scope.delete = (index) -> $scope.question.cards.splice index, 1
+    # delete a card
+    $scope.delete = (index) ->
+      message = "Do you really want to delete '"+$scope.question.cards[index].name+"'?"
+      if !$scope.question.cards[index].id or confirm message
+        $scope.question.cards.splice index, 1
     # suggest cards
     $scope.suggest = (card) ->
       card.id = ""
@@ -174,7 +178,14 @@ controllers.controller 'AdminNewCtrl', [
       if event.keyCode is 13
         $scope.select card, card.suggestions[0] if card.suggestions?.length
         event.preventDefault()
+    # change card order
+    $scope.movecard = (index, direction) ->
+      card = $scope.question.cards[index]
+      $scope.question.cards[index] = $scope.question.cards[index+direction]
+      $scope.question.cards[index+direction] = card
+    # go back
     $scope.back = -> $window.history.back()
+    # save question
     $scope.save = ->
       delete card.suggestions for card in $scope.question.cards
       questionsAPI.admin.save($scope.question).then (response) ->
@@ -230,7 +241,10 @@ controllers.controller 'AdminQuestionCtrl', [
         questionsAPI.logout()
         $state.go "app.home"
     $scope.add = -> $scope.question.cards.push {}
-    $scope.delete = (index) -> $scope.question.cards.splice index, 1
+    $scope.delete = (index) ->
+      message = "Do you really want to delete "+$scope.question.cards[index].name+"?"
+      if !$scope.question.cards[index].id or confirm message
+        $scope.question.cards.splice index, 1
     # suggest cards
     $scope.suggest = (card) ->
       card.id = ""
@@ -251,7 +265,14 @@ controllers.controller 'AdminQuestionCtrl', [
       if event.keyCode is 13
         $scope.select card, card.suggestions[0] if card.suggestions?.length
         event.preventDefault()
+    # change card order
+    $scope.movecard = (index, direction) ->
+      card = $scope.question.cards[index]
+      $scope.question.cards[index] = $scope.question.cards[index+direction]
+      $scope.question.cards[index+direction] = card
+    # go back
     $scope.back = -> $window.history.back()
+    # save the question
     $scope.save = ->
       delete card.suggestions for card in $scope.question.cards
       questionsAPI.admin.save($scope.question).then (response) ->

@@ -3,7 +3,9 @@
     <!-- Submit a question -->
     <form name="form" ng-submit="save()">
       <div class="row question-infos responsive-sm">
+        <!-- Question details -->
         <div class="col col-50 list">
+          <div class="item item-divider">New Question</div>
           <label class="item item-input">
             <span class="input-label">Author</span>
             <input ng-disabled="user.role != 'admin' && user.role != 'editor'" type="text" class="text-right" ng-model="question.author" placeholder="Name">
@@ -18,15 +20,25 @@
           </label>
           <div class="item" ng-show="question.changedate">
             Last updated
-            <span class="item-note">{{question.changedate}}</span>
+            <span class="item-note dark">{{question.changedate}}</span>
           </div>
         </div>
+
+        <!-- Card list -->
         <div class="col col-50 list cards">
+          <div class="item item-divider">
+            Cards
+            <span class="item-note positive">{{question.cards.length}}</span>
+          </div>
           <div ng-repeat-start="(index, card) in question.cards" class="item item-input-inset">
             <i class="icon placeholder-icon" ng-class="{'ion-checkmark positive':card.id, 'ion-close':!card.id}"></i>
             <input ng-keypress="keypress($event, card)" type="text" ng-model="card.name" ng-change="suggest(card)" placeholder="Card Name">
             <button ng-show="card.id" type="button" tabindex="-1" class="button button-small icon ion-image"
                     ng-class="{active: card.preview}" ng-click="card.preview = !card.preview"></button>
+            <button type="button" tabindex="-1" class="button button-small icon ion-arrow-up-a"
+                    ng-disabled="index == 0" ng-click="movecard(index,-1)"></button>
+            <button type="button" tabindex="-1" class="button button-small icon ion-arrow-down-a"
+                    ng-disabled="index == question.cards.length - 1"ng-click="movecard(index,1)"></button>
             <button type="button" tabindex="-1" class="button button-small button-dark icon ion-trash-a" ng-click="delete(index)"></button>
             <input required="required" type="hidden" ng-model="card.id">
           </div>
@@ -47,13 +59,13 @@
       </div>
       <div class="row responsive-sm">
         <div class="col col-50 list">
-          <div class="item item-divider">Question:</div>
+          <div class="item item-divider">Question text:</div>
           <div class="item">
             <textarea required="required" ng-model="question.question"></textarea>
           </div>
         </div>
         <div class="col col-50 list">
-          <div class="item item-divider">Answer:</div>
+          <div class="item item-divider">Answer text:</div>
           <div class="item">
             <textarea required="required" ng-model="question.answer"></textarea>
           </div>

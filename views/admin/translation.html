@@ -9,10 +9,14 @@
     </div>
     <form name="form" ng-show="translation" ng-submit="save()">
       <div class="row responsive-sm">
+        <!-- Question details -->
         <div class="col col-50 list">
-          <div class="item">
-            <span class="item-note">{{translation.id}}</span>
+          <div class="item item-divider item-icon-right">
+            <span class="item-note positive">{{translation.id}}</span>
             Question
+            <a class="icon ion-edit dark" ui-sref="app.admin.question({id:translation.id})"
+               ng-show="user.role == 'admin' || user.role == 'editor'">
+            </a>
           </div>
           <div class="item" ng-show="translation.author">
             <span class="item-note">{{translation.author}}</span>
@@ -29,9 +33,15 @@
             <i class="icon" ng-class="{'ion-checkmark positive':translation.live,'ion-close':!translation.live}"></i>
           </div>
         </div>
+        <!-- Card list -->
         <div class="col col-50 list cards">
-          <div ng-repeat-start="(index, card) in translation.cards" class="item"
+          <div class="item item-divider">
+            Cards
+            <span class="item-note positive">{{translation.cards.length}}</span>
+          </div>
+          <div ng-repeat-start="(index, card) in translation.cards" class="item item-icon-right"
                ng-click="showCard[index]=!showCard[index]">
+            <i class="icon ion-image"></i>
             {{card}}
           </div>
           <div ng-repeat-end ng-show="showCard[index]" class="item stable-bg">
@@ -39,34 +49,37 @@
           </div>
         </div>
       </div>
+      <!-- Question & Answer -->
       <div class="row responsive-sm">
+        <!-- English -->
         <div class="col col-50 list">
           <div class="item item-divider">
             <span class="item-note" ng-show="translation.changedate">{{translation.changedate}}</span>
-            English Question:
+            English Question text:
           </div>
-          <div class="item item-text-wrap">
+          <textarea class="item item-text-wrap" disabled="disabled">
             {{translation.question}}
-          </div>
+          </textarea>
           <div class="item item-divider">
             <span class="item-note" ng-show="translation.changedate_translated">{{translation.changedate_translated}}</span>
-            {{language.name}} Question:
+            {{language.name}} Question text:
           </div>
           <div class="item">
             <textarea ng-required="translation.answer_translated" ng-model="translation.question_translated"></textarea>
           </div>
         </div>
+        <!-- Translations -->
         <div class="col col-50 list">
           <div class="item item-divider">
             <span class="item-note" ng-show="translation.changedate">{{translation.changedate}}</span>
-            English Answer:
+            English Answer text:
           </div>
-          <div class="item item-text-wrap">
+          <textarea disabled="disabled" class="item item-text-wrap">
             {{translation.answer}}
-          </div>
+          </textarea>
           <div class="item item-divider">
             <span class="item-note" ng-show="translation.changedate_translated">{{translation.changedate_translated}}</span>
-            {{language.name}} Answer:
+            {{language.name}} Answer text:
           </div>
           <div class="item">
             <textarea ng-required="translation.question_translated" ng-model="translation.answer_translated"></textarea>

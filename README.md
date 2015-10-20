@@ -109,7 +109,8 @@ Second, select the card or cards that your question uses. Make sure that you don
 to keep the question simple enough and reduce the space that the cards take up. Split cards and Double-Faced cards need to
 be added with each half / side separately. If you use the same card more than once, you should still add it only once to
 the list. If you need to use tokens, just enter the name of the token. Once the gray `X` turns into a colored checkmark,
-your card has been accepted by the system and can be used in the question.
+your card has been accepted by the system and can be used in the question. The order of the cards can be changed with
+the up and down arrow next to the card name.
 
 Finally, enter the question and answer text in the appropriate boxes. Try not to turn the question into a "yes/no" question,
 which would allow the players to guess the answer. Use *you* and *your opponent* when describing the board situation and

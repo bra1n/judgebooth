@@ -8025,6 +8025,8 @@ div.cards {
   right: 16px;
   bottom: 6px; }
 
+#translation a {
+  text-decoration: none; }
 #translation textarea {
   width: 100%;
   max-width: 100%;
