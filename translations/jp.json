@@ -1,0 +1,48 @@
+{
+  "common": {
+    "title": "マジック・ジャッジブース",
+    "loading": "ロード中"
+  },
+  "menu": {
+    "title_filter": "問題の選択",
+    "title_admin": "問題の管理",
+    "language": "言語",
+    "sets": "セット",
+    "sets_selected": "{{number}} 選択中",
+    "sets_all": "全て",
+    "sets_modern": "モダン",
+    "sets_standard": "スタンダード",
+    "sets_none": "なし",
+    "difficulty": "難易度",
+    "select": "{{number}}問 選択中",
+    "login": "ログイン",
+    "logout": "ログアウト",
+    "logged_in": "ログイン中: {{user}}",
+    "login_error": "ログイン失敗: {{error}}",
+    "offline_mode": "オフラインモード",
+    "go_offline": "オフライン化",
+    "go_online": "オンライン化",
+    "source": "ソース表示",
+    "button_filter": "選択",
+    "button_admin": "管理",
+    "admin_new": "新規問題",
+    "admin_all": "全問題",
+    "admin_translations": "翻訳",
+    "admin_users": "ユーザー"
+  },
+  "home": {
+    "title": "ジャッジブースへようこそ！",
+    "description": "ジャッジとプレイヤーが、ただそれぞれの立場にいる存在としてではなく、情熱を共有する仲間としてともに時を過ごし、交流できるようにするためにジャッジブースは作られました。ジャッジブースはジャッジとプレイヤーの架け橋として作られたものです。",
+    "statistics": "現在の問題数は{{questions}}問、セットは{{sets}}個、言語は{{languages}}言語に対応しています。問題の投稿者は{{authors}}人以上います。あなたが現在選択している問題数は{{filtered}}問です。",
+    "start": "Show Questions"
+  },
+  "question": {
+    "title": "問題 {{number}}",
+    "title_by": "出題者 {{author}}",
+    "show_answer": "解答を見る",
+    "hide_answer": "解答を隠す",
+    "edit_question": "問題を編集する",
+    "edit_translation": "翻訳を編集する",
+    "not_live": "この問題は無効です！"
+  }
+}

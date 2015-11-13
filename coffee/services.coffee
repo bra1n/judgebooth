@@ -10,11 +10,13 @@ services.service 'questionsAPI', [
       short: CacheFactory 'shortCache',
         maxAge: 24 * 3600 * 1000 # 24 hours
         storageMode: 'localStorage'
+        deleteOnExpire: 'passive'
       session: CacheFactory 'sessionCache',
         storageMode: 'sessionStorage' # session cache
       memory: CacheFactory 'memoryCache',
         maxAge: 3600 * 1000 # 1 hour
         capacity: 20
+        deleteOnExpire: 'passive'
     availableLanguages = [
       {id:  1, code: "en", name: "English"}
       {id:  2, code: "de", name: "German"}

@@ -1,0 +1,48 @@
+{
+  "common": {
+    "title": "Magic Judge Booth",
+    "loading": "Cargando"
+  },
+  "menu": {
+    "title_filter": "Filtrar preguntas",
+    "title_admin": "Administrar Preguntas",
+    "language": "Idioma",
+    "sets": "Conjuntos",
+    "sets_selected": "{{number}} Seleccionado(s)",
+    "sets_all": "Todos",
+    "sets_modern": "Moderno",
+    "sets_standard": "Estándar",
+    "sets_none": "Ninguno",
+    "difficulty": "Dificultad",
+    "select": "Elige {{number}} Pregunta(s)",
+    "login": "Entrar",
+    "logout": "Salir",
+    "logged_in": "Sesion iniciada como: {{user}}",
+    "login_error": "Error de inicio de sesion: {{error}}",
+    "offline_mode": "Modo desconectado",
+    "go_offline": "Desconectarse",
+    "go_online": "Conectarse",
+    "source": "Codigo fuente",
+    "button_filter": "Filtrar",
+    "button_admin": "Administrar",
+    "admin_new": "Nueva Pregunta",
+    "admin_all": "Todas las preguntas",
+    "admin_translations": "Traducciones",
+    "admin_users": "Usuarios"
+  },
+  "home": {
+    "title": "Bienvenido a Judge Booth!",
+    "description": "Judge Booth fue creado para permitir a los jugadores interactuar con los jueeces como un grupo de individuos que comparten una pasión, con quien es divertido pasar el tiempo, y con quien pueden entablar amistad y confiar, en lugar de ser sólo personas en una posición de autoridad. Judge Booth quiere crear una conexión entre jugadores y jueces.",
+    "statistics": "Hay {{questions}} preguntas en {{sets}} conjuntos y {{languages}} idiomas, escritas por mas de {{authors}} autores. Actualmente has seleccionado {{filtered}} de estas preguntas.",
+    "start": "Mostrar preguntas"
+  },
+  "question": {
+    "title": "Pregunta {{number}}",
+    "title_by": "por {{author}}",
+    "show_answer": "Mostrar respuesta",
+    "hide_answer": "Ocultar respuesta",
+    "edit_question": "Editar pregunta",
+    "edit_translation": "Editar traducción",
+    "not_live": "¡Esta pregunta no es publica!"
+  }
+}
