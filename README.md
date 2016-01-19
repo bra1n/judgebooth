@@ -105,7 +105,7 @@ To add a new question, first select the *Difficulty* of the question, choosing b
 moment, most of the questions in the database are classified as *Medium*, so we're always in need of new Easy or Hard
 questions.
 
-Second, select the card or cards that your question uses. Make sure that you don't select **less than 5** cards, in order
+Second, select the card or cards that your question uses. Make sure that you don't select **more than 5** cards, in order
 to keep the question simple enough and reduce the space that the cards take up. Split cards and Double-Faced cards need to
 be added with each half / side separately. If you use the same card more than once, you should still add it only once to
 the list. If you need to use tokens, just enter the name of the token. Once the gray `X` turns into a colored checkmark,
