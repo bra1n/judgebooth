@@ -22,7 +22,7 @@ if($argv == "sets") {
     }
     $query .= "releasedate='".$db->real_escape_string($set->releaseDate)."'";
     $query = "INSERT INTO sets SET $query ON DUPLICATE KEY UPDATE $query";
-    $db->query($query) or die($db->error);
+    $db->query($query) or die($db->error." ".$query);
   }
 }
 #*/
