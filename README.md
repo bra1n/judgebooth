@@ -7,7 +7,7 @@ The booth wants to make a connection between judges and players by providing a d
 and testing the player's knowledge in a fun environment. The questions are available in 3 levels of difficulty and more
 than 5 different languages.
 
-It is available online under [booth.mnt.me](http://booth.mnt.me) to everyone and supports all internet-ready devices
+It is available online under [booth.magicjudges.org](http://booth.magicjudges.org) to everyone and supports all internet-ready devices
 and screen sizes. If you discover a bug, please [open a ticket](https://github.com/bra1n/judgebooth/issues)!
 
 ![Judge Booth](http://booth.mnt.me/docs/booth1.jpg)
