@@ -98,7 +98,7 @@ if($argv == "cardtranslations") {
       if(isset($card->foreignNames) && count($card->foreignNames)) {
         foreach($card->foreignNames as $translation) {
           if(isset($languages[$translation->language])) {
-            $db->query("INSERT IGNORE INTO card_translations SET card_id='".$card->id."', language_id='".$languages[$translation->language]."', name='".$db->real_escape_string($translation->name)."'");
+            $db->query("REPLACE INTO card_translations SET card_id='".$card->id."', language_id='".$languages[$translation->language]."', name='".$db->real_escape_string($translation->name)."'");
           }
         }
       }
