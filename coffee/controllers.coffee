@@ -197,7 +197,7 @@ controllers.controller 'AdminNewCtrl', [
           questionsAPI.admin.clearShortCache()
           $scope.question =
             author: $scope.user.name
-            difficulty: 1
+            difficulty: "1"
             cards: []
         else
           alert "Error when submitting question"
