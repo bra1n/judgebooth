@@ -13,9 +13,8 @@
       </div>
       <label class="col-50 item item-input item-select">
         <div class="input-label">Language</div>
-        <select ng-model="selected.language" ng-change="reload(true)" ng-disabled="languages.length <= 1">
-          <option ng-repeat="lang in languages" ng-if="lang.code != 'en'" value="{{lang.id}}"
-                  ng-selected="lang.id == selected.language">{{lang.name}}</option>
+        <select ng-model="selected.language" ng-change="reload(true)" ng-disabled="languages.length <= 1"
+                ng-options="language.id as language.name for language in languages | filter:{code:'!en'}">
         </select>
       </label>
     </div>

@@ -10,6 +10,8 @@ controllers.controller 'SideCtrl', [
     $scope.offlineMode = window.offlineMode
     questionsAPI.sets().then (response) -> $scope.sets = response.data
 
+    $scope.languageFilter = (language) -> $scope.languageCounts[language.id] > 0
+
     # get questions and generate maps with counts
     questionsAPI.questions().then (response) ->
       $scope.setCounts = {}
@@ -110,20 +112,21 @@ controllers.controller 'HomeCtrl', [
 controllers.controller 'QuestionCtrl', [
   "$scope", "questionsAPI", "$stateParams", "$state", "$ionicScrollDelegate"
   ($scope, questionsAPI, $stateParams, $state, $ionicScrollDelegate) ->
-    gatherer = 'http://gatherer.wizards.com/Handlers/Image.ashx?type=card&name='
+    gatherer = 'http://gatherer.wizards.com/Handlers/Image.ashx?type=card&'
     $scope.$on "$ionicView.enter", ->
       questionsAPI.question($stateParams.id).then (question) ->
         return $state.go "app.home" unless question.metadata?.id
         $scope.question = question
         for card in question.cards
-          card.src = gatherer + card.name
+          card.src = gatherer + 'name=' + card.name
+          card.src = gatherer + 'multiverseid=' + card.multiverseid if card.multiverseid
           card.src = gatherer + card.full_name if card.layout is "split"
           card.src = card.url if card.url
           card.manacost = (card.manacost or "")
-          .replace /\{([wubrgx0-9]+)\}/ig, (a,b) -> "<i class='mtg mana-#{b.toLowerCase()}'></i>"
+          .replace /\{([cwubrgx0-9]+)\}/ig, (a,b) -> "<i class='mtg mana-#{b.toLowerCase()}'></i>"
           .replace /\{([2wubrg])\/([wubrg])\}/ig, (a,b,c) -> "<i class='mtg hybrid-#{(b+c).toLowerCase()}'></i>"
           card.text = (card.text or "")
-          .replace /\{([wubrgx0-9]+)\}/ig, (a,b) -> "<i class='mtg mana-#{b.toLowerCase()}'></i>"
+          .replace /\{([cwubrgx0-9]+)\}/ig, (a,b) -> "<i class='mtg mana-#{b.toLowerCase()}'></i>"
           .replace /\{t\}/ig, "<i class='mtg tap'></i>"
           .replace /\{q\}/ig, "<i class='mtg untap'></i>"
           .replace /\{([2wubrg])\/([wubrg])\}/ig, (a,b,c) -> "<i class='mtg hybrid-#{(b+c).toLowerCase()}'></i>"
@@ -150,7 +153,7 @@ controllers.controller 'AdminNewCtrl', [
     $scope.$on "$ionicView.enter", ->
       $scope.question =
         author: $scope.user.name
-        difficulty: 1
+        difficulty: "1"
         cards: []
     $scope.add = -> $scope.question.cards.push {}
     # delete a card

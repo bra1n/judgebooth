@@ -57,9 +57,9 @@
             <span class="item-note" ng-show="translation.changedate">{{translation.changedate}}</span>
             English Question text:
           </div>
-          <textarea class="item item-text-wrap" disabled="disabled">
-            {{translation.question}}
-          </textarea>
+          <div class="item disabled">
+            <textarea disabled="disabled">{{translation.question}}</textarea>
+          </div>
           <div class="item item-divider">
             <span class="item-note" ng-show="translation.changedate_translated">{{translation.changedate_translated}}</span>
             {{language.name}} Question text:
@@ -74,9 +74,9 @@
             <span class="item-note" ng-show="translation.changedate">{{translation.changedate}}</span>
             English Answer text:
           </div>
-          <textarea disabled="disabled" class="item item-text-wrap">
-            {{translation.answer}}
-          </textarea>
+          <div class="item disabled">
+            <textarea disabled="disabled">{{translation.answer}}</textarea>
+          </div>
           <div class="item item-divider">
             <span class="item-note" ng-show="translation.changedate_translated">{{translation.changedate_translated}}</span>
             {{language.name}} Answer text:
@@ -86,7 +86,7 @@
           </div>
         </div>
       </div>
-      <div class="button-bar padding">
+      <div class="button-bar padding-horizontal">
         <button type="button" ng-click="back()" class="button button-stable">Back</button>
         <button ng-disabled="question.cards.length==0 || !form.$valid" type="submit" class="button button-positive">Save</button>
       </div>

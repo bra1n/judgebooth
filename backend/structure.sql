@@ -3,9 +3,6 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 21. Mai 2015 um 21:47
--- Server Version: 5.5.43-0ubuntu0.14.04.1
--- PHP-Version: 5.5.9-1ubuntu4.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -34,9 +31,10 @@ CREATE TABLE IF NOT EXISTS `cards` (
   `toughness` varchar(3) DEFAULT NULL,
   `loyalty` varchar(2) DEFAULT NULL,
   `url` varchar(255) DEFAULT NULL,
+  `multiverseid` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -61,6 +59,7 @@ CREATE TABLE IF NOT EXISTS `card_translations` (
   `card_id` int(11) unsigned NOT NULL,
   `language_id` int(11) unsigned NOT NULL,
   `name` varchar(255) NOT NULL DEFAULT '',
+  `multiverseid` int(11) unsigned DEFAULT NULL,
   UNIQUE KEY `card_id` (`card_id`,`language_id`),
   KEY `language_id` (`language_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -131,7 +130,7 @@ CREATE TABLE IF NOT EXISTS `question_translations` (
 CREATE TABLE IF NOT EXISTS `sets` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
-  `code` varchar(5) DEFAULT NULL,
+  `code` varchar(8) DEFAULT NULL,
   `releasedate` datetime DEFAULT NULL,
   `regular` tinyint(1) NOT NULL DEFAULT '1',
   `standard` tinyint(1) NOT NULL DEFAULT '1',
@@ -139,7 +138,7 @@ CREATE TABLE IF NOT EXISTS `sets` (
   `legacy` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 

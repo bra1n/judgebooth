@@ -27,11 +27,9 @@
         <!-- Languages -->
         <label class="item item-input item-select">
           <span class="input-label" translate>menu.language</span>
-          <select ng-model="filter.language" ng-change="updateCount()">
-            <option ng-repeat="language in languages" ng-if="languageCounts[language.id]"
-                    ng-selected="filter.language == language.id" value="{{language.id}}">
-              {{language.name}}
-            </option>
+          <select ng-model="filter.language" ng-change="updateCount()"
+              ng-options="language.id as language.name for language in languages | filter:languageFilter">
+            <!--<option ng-repeat="language in languages" ng-if="languageCounts[language.id]"-->
           </select>
         </label>
         <!-- Sets -->

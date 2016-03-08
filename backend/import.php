@@ -64,7 +64,7 @@ if($argv == "cards") {
       foreach($card->foreignNames as $translation) {
         $result = $db->query("SELECT id FROM languages WHERE name = '".$db->real_escape_string($translation->language)."' LIMIT 1");
         while($row = $result->fetch_assoc()) {
-          $db->query("INSERT IGNORE INTO card_translations SET card_id='".$card->id."', language_id='".$row['id']."', name='".$db->real_escape_string($translation->name)."'");
+          $db->query("INSERT IGNORE INTO card_translations SET card_id='".$card->id."', language_id='".$row['id']."', name='".$db->real_escape_string($translation->name)."', multiverseid='".$db->real_escape_string($translation->multiverseid)."'");
         }
         $result->free();
       }
@@ -94,11 +94,16 @@ if($argv == "cardtranslations") {
         $card->id = $row['id'];
       }
       $result->free();
+      # multiverse id
+      if(isset($card->multiverseid)) {
+	      $db->query("UPDATE cards SET multiverseid = '".$db->real_escape_string($card->multiverseid)."' WHERE id = '".$card->id."' LIMIT 1");
+      }
+
       # translations
       if(isset($card->foreignNames) && count($card->foreignNames)) {
         foreach($card->foreignNames as $translation) {
           if(isset($languages[$translation->language])) {
-            $db->query("REPLACE INTO card_translations SET card_id='".$card->id."', language_id='".$languages[$translation->language]."', name='".$db->real_escape_string($translation->name)."'");
+            $db->query("REPLACE INTO card_translations SET card_id='".$card->id."', language_id='".$languages[$translation->language]."', name='".$db->real_escape_string($translation->name)."', multiverseid='".$db->real_escape_string($translation->multiverseid)."'");
           }
         }
       }

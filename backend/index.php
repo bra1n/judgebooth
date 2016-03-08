@@ -105,7 +105,7 @@ function getQuestion($db, $id = false, $lang = false) {
     $output["metadata"]["id"] = intval($output["metadata"]["id"]);
     $output["metadata"]["difficulty"] = intval($output["metadata"]["difficulty"]);
     $result->free();
-    $query = "SELECT c.*, IFNULL(ct.name, c.name) name, c.name name_en
+    $query = "SELECT c.*, IFNULL(ct.name, c.name) name, c.name name_en, IFNULL(ct.multiverseid, c.multiverseid) multiverseid
           FROM question_cards qc
           LEFT JOIN cards c ON c.id = qc.card_id
           LEFT JOIN card_translations ct ON ct.card_id = qc.card_id AND ct.language_id = ".$db->real_escape_string($lang)."
@@ -114,6 +114,7 @@ function getQuestion($db, $id = false, $lang = false) {
     $result = $db->query($query) or die($db->error);
     while($row = $result->fetch_assoc()) {
       $row["text"] = nl2br($row["text"]);
+      $row["multiverseid"] = intval($row["multiverseid"]);
       foreach($row as $field=>$value) {
         if($value === "" || $value === null || $field == "id") unset($row[$field]);
       }
@@ -243,7 +244,6 @@ function getAdminQuestion($db, $id) {
        GROUP BY q.id";
     $result = $db->query($query) or die($db->error);
     $question = $result->fetch_assoc();
-    $question['difficulty'] = intval($question['difficulty']);
     $question['id'] = intval($question['id']);
     $question['live'] = !!$question['live'];
     $cards = explode("|",$question['cards']);
