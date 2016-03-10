@@ -96,14 +96,16 @@ function getQuestion($db, $id = false, $lang = false) {
           LIMIT 1";
     $result = $db->query($query) or die($db->error);
     $output = array("metadata"=>$result->fetch_assoc());
-    $output['cards'] = array();
-    $output["question"] = strip_tags($output["metadata"]["question"]);
-    unset($output["metadata"]["question"]);
-    $output["answer"] = strip_tags($output["metadata"]["answer"]);
-    unset($output["metadata"]["answer"]);
-    $output["metadata"]["live"] = !!($output["metadata"]["live"]);
-    $output["metadata"]["id"] = intval($output["metadata"]["id"]);
-    $output["metadata"]["difficulty"] = intval($output["metadata"]["difficulty"]);
+    if(isset($output['metadata'])) {
+      $output['cards'] = array();
+      $output["question"] = strip_tags($output["metadata"]["question"]);
+      unset($output["metadata"]["question"]);
+      $output["answer"] = strip_tags($output["metadata"]["answer"]);
+      unset($output["metadata"]["answer"]);
+      $output["metadata"]["live"] = !!($output["metadata"]["live"]);
+      $output["metadata"]["id"] = intval($output["metadata"]["id"]);
+      $output["metadata"]["difficulty"] = intval($output["metadata"]["difficulty"]);
+    }
     $result->free();
     $query = "SELECT c.*, IFNULL(ct.name, c.name) name, c.name name_en, IFNULL(ct.multiverseid, c.multiverseid) multiverseid
           FROM question_cards qc
