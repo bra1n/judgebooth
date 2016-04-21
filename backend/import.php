@@ -1,7 +1,7 @@
 <?php
 require("config.php");
 if(php_sapi_name() != "cli") exit;
-if(count($_SERVER['argv']) < 2) die("possible arguments: sets, cards, questions, translations, tokens\n");
+if(count($_SERVER['argv']) < 2) die("possible arguments: sets, cards, questions, cardtranslations, tokens, questiontranslations\n");
 ini_set('memory_limit', '1024M');
 ini_set('max_execution_time', '0');
 $db = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
@@ -193,7 +193,7 @@ if($argv == "questions") {
 #*/
 
 #/* Import translations
-if($argv == "translations") {
+if($argv == "questiontranslations") {
   $translations = array(
     "cn" => 'https://spreadsheets.google.com/feeds/cells/0AqlIQacaL79AdDZoM0toVk5YTG9CWndTSldQODVuVlE/oda/public/values?alt=json',
     "tw" => 'https://spreadsheets.google.com/feeds/cells/0AvKY1T4Hb-_GdG1LZFhDNFpmcFNKZmt0LTZHcmllM2c/oda/public/values?alt=json',
