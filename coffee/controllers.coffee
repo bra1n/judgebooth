@@ -128,8 +128,8 @@ controllers.controller 'QuestionCtrl', [
         $scope.question = question
         for card in question.cards
           card.src = gatherer + 'name=' + card.name
+          card.src = gatherer + 'name=' + card.full_name if card.layout is "split"
           card.src = gatherer + 'multiverseid=' + card.multiverseid if card.multiverseid
-          card.src = gatherer + card.full_name if card.layout is "split"
           card.src = card.url if card.url
           card.manacost = (card.manacost or "")
           .replace /\{([cwubrgx0-9]+)\}/ig, (a,b) -> "<i class='mtg mana-#{b.toLowerCase()}'></i>"
