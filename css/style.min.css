@@ -7901,7 +7901,23 @@ div.cards {
     margin: auto;
     -webkit-perspective: 1000px;
     perspective: 1000px;
-    cursor: pointer; }
+    cursor: pointer;
+    -webkit-transition: transform 0.5s;
+    -moz-transition: transform 0.5s;
+    -ms-transition: transform 0.5s;
+    -o-transition: transform 0.5s;
+    transition: transform 0.5s;
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg); }
+    div.cards .card-container.split.show-scan {
+      -webkit-transform: rotate(90deg);
+      -moz-transform: rotate(90deg);
+      -ms-transform: rotate(90deg);
+      -o-transform: rotate(90deg);
+      transform: rotate(90deg); }
     div.cards .card-container div.oracle, div.cards .card-container .scan {
       position: absolute;
       -webkit-backface-visibility: hidden;
