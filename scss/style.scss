@@ -1,3 +1,12 @@
+/* Beleren Font */
+@font-face {
+  font-family: "Beleren Bold";
+  src: url(../fonts/BELEREN-BOLD.eot);
+  src: url(../fonts/BELEREN-BOLD.eot?#iefix) format("embedded-opentype"),
+  url(../fonts/BELEREN-BOLD.woff) format("woff"),
+  url(../fonts/BELEREN-BOLD.svg?Beleren-Bold) format("svg");
+}
+
 $light:                           #fff !default;
 $stable:                          #eee;
 $button-stable-active-bg:         #ccc;
@@ -9,6 +18,8 @@ $energized:                       #f0b840 !default;
 $assertive:                       #ef4e3a !default;
 $royal:                           #8a6de9 !default;
 $dark:                            #313131;
+
+$headings-font-family: "Beleren Bold", "Roboto", "Segoe UI", sans-serif;
 
 @import "../lib/ionic/scss/ionic";
 @import "languages";
@@ -236,6 +247,7 @@ div.cards {
       transform: rotateY(0deg) scale(1);
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+      overflow: hidden;
       .right { float: right; }
       .bottom {
         position: absolute;
@@ -252,7 +264,7 @@ div.cards {
         margin: 0 -9px 4px;
         padding: 4px 8px;
       }
-      .title { margin-bottom: 50px; display: block; }
+      .title { margin-bottom: 20px; display: block; }
       .ability br { line-height: 20px; }
       .ability em { font-style: italic; }
     }
@@ -275,6 +287,13 @@ div.cards {
         transform: rotateY(0deg) scale(1);
       }
     }
+  }
+}
+
+div.question, div.answer {
+  b {
+    font-family: $headings-font-family;
+    font-size: 110%;
   }
 }
 
@@ -320,6 +339,10 @@ div.cards {
       cursor: pointer;
       &:hover { background: $positive; color: $light; }
     }
+  }
+  .metadata .button {
+    margin-left: 5px;
+    margin-top: -5px;
   }
   input[disabled] { background: transparent; }
   textarea {

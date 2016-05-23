@@ -70,19 +70,28 @@ controllers.controller 'SideCtrl', [
     # auth handling
     $scope.tab = "filter"
     $scope.user = questionsAPI.user()
+
+    # login
     $scope.login = ->
       questionsAPI.auth().then (auth) ->
         window.location.href = auth.login if auth.login?
         $scope.user = auth if auth.role?
       , (response) -> $scope.user = response.data
+
+    # logout
     $scope.logout = ->
       questionsAPI.logout()
       $scope.user = false
       $scope.tab = "filter"
+
+    # toggle sidebar tab
     $scope.toggleTab = (tab) -> $scope.tab = tab
+
+    # login 2nd step (oauth)
     if $location.search().code?
       questionsAPI.auth($location.search().code).then (auth) ->
         $location.search('code',null)
+        $location.path auth.redirect if auth.redirect?
         $scope.user = auth if auth.role?
       , (response) ->
         $location.search('code',null)
@@ -335,7 +344,7 @@ controllers.controller 'AdminTranslationCtrl', [
 controllers.controller 'AdminUsersCtrl', [
   "$scope", "questionsAPI", "$state"
   ($scope, questionsAPI, $state) ->
-    $scope.languages = {}
+    $scope.languages = []
     $scope.roles = ["admin", "editor", "translator", "guest"]
     $scope.languages[language.id] = language for language in questionsAPI.languages() when language.code isnt "en"
     $scope.$on "$ionicView.enter", ->

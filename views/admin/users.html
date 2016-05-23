@@ -37,7 +37,7 @@
             <span ng-hide="user.edit" ng-repeat="language in user.languages"
                   class="icon-languages icon-languages-{{languages[language].code}}"></span>
             <select size="4" ng-model="user.languages" ng-multiple="true" multiple ng-show="user.edit"
-              ng-options="language.id as language.name for (key, language) in languages">
+              ng-options="language.id as language.name for (key, language) in languages | orderBy:'name'">
             </select>
           </td>
           <td>

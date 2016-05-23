@@ -1,8 +1,8 @@
 services = angular.module "judgebooth.services", []
 
 services.service 'questionsAPI', [
-  "$http", "CacheFactory", "$q", "$translate"
-  ($http, CacheFactory, $q, $translate) ->
+  "$http", "CacheFactory", "$q", "$translate", "$location"
+  ($http, CacheFactory, $q, $translate, $location) ->
     # vars
     caches =
       persistent: CacheFactory 'persistentCache', # forever
@@ -23,12 +23,13 @@ services.service 'questionsAPI', [
       {id:  3, code: "it", name: "Italian"}
       {id:  4, code: "jp", name: "Japanese"}
       {id:  5, code: "ko", name: "Korean"}
-      {id:  6, code: "pt", name: "Portuguese (Brazil)"}
+      {id:  6, code: "br", name: "Portuguese (Brazil)"}
       {id:  7, code: "ru", name: "Russian"}
       {id:  8, code: "es", name: "Spanish"}
       {id:  9, code: "cn", name: "Chinese Simplified"}
       {id: 10, code: "tw", name: "Chinese Traditional"}
       {id: 11, code: "fr", name: "French"}
+      {id: 12, code: "pt", name: "Portuguese (Portugal)"}
     ]
     apiURL = "backend/?action="
     # set app language from cache
@@ -38,12 +39,16 @@ services.service 'questionsAPI', [
         break
 
     #################  API methods   ###################
+
     # get all sets
     sets: -> $http.get apiURL + "sets", cache: caches.short
+
     # list of available languages
     languages: -> availableLanguages
+
     # get all questions with basic metadata
     questions: -> $http.get apiURL + "questions", cache: caches.short
+
     # get a single question with translations
     question: (id) ->
       deferred = $q.defer()
@@ -74,6 +79,7 @@ services.service 'questionsAPI', [
             deferred.reject()
         , -> deferred.reject()
       deferred.promise
+
     # set or get the question filter
     # purge cached filtered question lists when updating the filter
     filter: (filter) ->
@@ -87,6 +93,7 @@ services.service 'questionsAPI', [
         caches.persistent.put "filter", filter
         caches.memory.remove "filteredQuestions"
       caches.persistent.get("filter") or filterDefault
+
     # filter all questions with the passed / cached filter
     # return an array of question IDs
     filterQuestions: (filter, useCache = yes) ->
@@ -121,6 +128,7 @@ services.service 'questionsAPI', [
           deferred.resolve filteredQuestions
         , -> deferred.reject()
       deferred.promise
+
     # get next question ID
     nextQuestion: ->
       deferred = $q.defer()
@@ -131,22 +139,37 @@ services.service 'questionsAPI', [
         deferred.resolve question
       , -> deferred.reject()
       deferred.promise
-    # admin stuff
+
+    ### admin stuff ###
+
+    # get user
     user: -> caches.session.get "user"
+
+    # logout user
     logout: ->
       $http.get apiURL + "logout"
       caches.session.remove "user"
+      caches.session.remove "loginRedirect"
+
+    # login user
     auth: (token) ->
       deferred = $q.defer()
       url = apiURL + "auth"
-      url+= "&token=" + encodeURIComponent(token) if token
+      if token
+        url+= "&token=" + encodeURIComponent(token)
+      else
+        caches.session.put "loginRedirect", $location.path()
       $http.get(url).then (response) ->
-        caches.session.put 'user', response.data if response.data.role?
+        if response.data.role?
+          caches.session.put 'user', response.data
+          response.data.redirect = caches.session.get "loginRedirect"
+          caches.session.remove "loginRedirect"
         deferred.resolve response.data
       , (response) -> deferred.reject response
       deferred.promise
+
+    # randomize array - https://gist.github.com/ddgromit/859699
     randomize: (arr = []) ->
-      # randomize array - https://gist.github.com/ddgromit/859699
       i = arr.length
       while --i > 0
         j = ~~(Math.random() * (i + 1))
@@ -154,6 +177,8 @@ services.service 'questionsAPI', [
         arr[j] = arr[i]
         arr[i] = t
       arr
+
+    # admin API
     admin:
       questions: (page) -> $http.get apiURL + "admin-questions&page="+page
       question: (id) -> $http.get apiURL + "admin-question&id="+id

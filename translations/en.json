@@ -43,6 +43,7 @@
     "hide_answer": "Hide Answer",
     "edit_question": "Edit Question",
     "edit_translation": "Edit Translation",
-    "not_live": "This question is not live!"
+    "not_live": "This question is not live!",
+    "outdated": "This question might be wrong or outdated!"
   }
 }

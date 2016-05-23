@@ -10,7 +10,7 @@
     <form name="form" ng-show="question" ng-submit="save()">
       <!-- Question details-->
       <div class="row question-infos responsive-sm">
-        <div class="col col-50 list">
+        <div class="col col-50 list metadata">
           <div class="item item-divider">
             <span class="item-note positive">{{question.id}}</span>
             Question
@@ -38,7 +38,16 @@
             Last updated
             <span class="item-note dark">{{question.changedate}}</span>
           </div>
-          <label class="item-checkbox-right item item-checkbox">
+          <div class="item" ng-show="question.languages.length > 1">
+            Available translations
+            <span class="item-note">
+              <button ng-hide="::language == 1" ng-repeat="language in question.languages" class="button button-small"
+                      ui-sref="app.admin.translation({id:question.id, language:language})">
+                <span class="icon-languages icon-languages-{{::language}}"></span>
+              </button>
+            </span>
+          </div>
+          <label class="item-checkbox-right item item-checkbox" ng-show="question.languages.length > 1">
             <span class="item-note">translations stay valid</span>
             <div class="checkbox">
               <input type="checkbox" value="1" ng-model="question.minor">

@@ -28,6 +28,8 @@
     <!-- text -->
     <div class="card" ng-show="question">
       <div class="item item-divider text-center">
+        <i class="icon positive ion-alert-circled" ng-show="::question.metadata.outdated"
+           ng-click="question.showWarning = !question.showWarning"></i>
         <b translate translate-value-number="{{::question.metadata.id}}">question.title</b>
         <i class="icon positive ion-android-star"></i>
         <i class="icon positive" ng-class="{'ion-android-star':question.metadata.difficulty>=1}"></i>
@@ -35,6 +37,7 @@
         <span ng-show="question.metadata.author" translate translate-value-author="{{::question.metadata.author}}">question.title_by</span>
       </div>
       <div ng-show="!question.metadata.live" class="positive text-center padding" translate>question.not_live</div>
+      <div ng-show="question.showWarning && question.metadata.outdated" class="positive text-center padding" translate>question.outdated</div>
       <div class="question item tabs-icon-right item-text-wrap" ng-bind-html="question.question"></div>
       <div ng-show="answer" class="answer positive item item-text-wrap ng-hide" ng-bind-html="question.answer"></div>
       <div class="item tabs item-divider text-center">

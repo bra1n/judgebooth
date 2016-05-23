@@ -89,9 +89,10 @@ function getQuestion($db, $id = false, $lang = false) {
   $output = array();
   if($id && $lang && intval($id) && intval($lang)) {
     // get question metadata
-    $query = "SELECT q.*, qt.question, qt.answer
+    $query = "SELECT q.*, qt.question, qt.answer, IF(qto.changedate > qt.changedate, true, false) as outdated
           FROM questions q
           LEFT JOIN question_translations qt ON qt.question_id = q.id AND qt.language_id = ".$db->real_escape_string($lang)."
+          LEFT JOIN question_translations qto ON qto.question_id = q.id AND qto.language_id = 1
           WHERE q.id = ".$db->real_escape_string($id)."
           LIMIT 1";
     $result = $db->query($query) or die($db->error);
@@ -103,6 +104,7 @@ function getQuestion($db, $id = false, $lang = false) {
       $output["answer"] = strip_tags($output["metadata"]["answer"]);
       unset($output["metadata"]["answer"]);
       $output["metadata"]["live"] = !!($output["metadata"]["live"]);
+      $output["metadata"]["outdated"] = !!($output["metadata"]["outdated"]);
       $output["metadata"]["id"] = intval($output["metadata"]["id"]);
       $output["metadata"]["difficulty"] = intval($output["metadata"]["difficulty"]);
     }
@@ -237,18 +239,21 @@ function getAdminQuestions($db, $page) {
 function getAdminQuestion($db, $id) {
   $user = auth($db);
   if(isset($user['role']) && in_array($user['role'],array("admin", "editor", "translator"))){
-    $query = "SELECT q.*, qt.question, qt.answer, qt.changedate, GROUP_CONCAT(c.id,':',c.name ORDER BY sort ASC SEPARATOR '|') cards
+    $query = "SELECT q.*, qt.question, qt.answer, qt.changedate,
+       GROUP_CONCAT(DISTINCT c.id,':',c.name ORDER BY sort ASC SEPARATOR '|') cards,
+       GROUP_CONCAT(DISTINCT qt.language_id SEPARATOR '|') languages
        FROM questions q
        LEFT JOIN question_cards qc ON qc.question_id = q.id
        LEFT JOIN cards c ON c.id = qc.card_id
        LEFT JOIN question_translations qt ON qt.question_id = q.id
-       WHERE q.id = '".$db->real_escape_string($id)."' AND qt.language_id = 1
+       WHERE q.id = '".$db->real_escape_string($id)."'
        GROUP BY q.id";
     $result = $db->query($query) or die($db->error);
     $question = $result->fetch_assoc();
     $question['id'] = intval($question['id']);
     $question['live'] = !!$question['live'];
     $cards = explode("|",$question['cards']);
+    $question['languages'] = explode("|",$question['languages']);
     $question['cards'] = array();
     foreach($cards as $card) {
       $card = explode(":",$card,2);
