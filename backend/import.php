@@ -70,6 +70,9 @@ if($argv == "cards") {
       }
     }
   }
+
+  // mirror PT-BR (6) to PT-PT (12)
+  $db->query("INSERT INTO card_translations SELECT card_id, 12 AS language_id, name, multiverseid FROM `card_translations` WHERE language_id = 6");
 }
 #*/
 
@@ -109,6 +112,9 @@ if($argv == "cardtranslations") {
       }
     }
   }
+
+  // mirror PT-BR (6) to PT-PT (12)
+  $db->query("INSERT INTO card_translations SELECT card_id, 12 as language_id, name, multiverseid FROM `card_translations` WHERE language_id = 6");
 }
 #*/
 
