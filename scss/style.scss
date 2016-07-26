@@ -159,6 +159,7 @@ div.scroll { min-height: 90%; }
       i {
         vertical-align: middle;
         font-size: 1.7em;
+        white-space: nowrap;
         &:before, &:after {
           -webkit-transition: all 0.5s;
           -moz-transition: all 0.5s;
