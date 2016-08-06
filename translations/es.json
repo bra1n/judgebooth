@@ -32,7 +32,7 @@
   },
   "home": {
     "title": "Bienvenido a Judge Booth!",
-    "description": "Judge Booth fue creado para permitir a los jugadores interactuar con los jueeces como un grupo de individuos que comparten una pasión, con quien es divertido pasar el tiempo, y con quien pueden entablar amistad y confiar, en lugar de ser sólo personas en una posición de autoridad. Judge Booth quiere crear una conexión entre jugadores y jueces.",
+    "description": "Judge Booth fue creado para permitir a los jugadores interactuar con los jueces como un grupo de individuos que comparten una pasión, con quien es divertido pasar el tiempo, y con quien pueden entablar amistad y confiar, en lugar de ser sólo personas en una posición de autoridad. Judge Booth quiere crear una conexión entre jugadores y jueces.",
     "statistics": "Hay {{questions}} preguntas en {{sets}} conjuntos y {{languages}} idiomas, escritas por mas de {{authors}} autores. Actualmente has seleccionado {{filtered}} de estas preguntas.",
     "start": "Mostrar preguntas"
   },
