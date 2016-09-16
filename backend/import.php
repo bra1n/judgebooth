@@ -72,7 +72,7 @@ if($argv == "cards") {
   }
 
   // mirror PT-BR (6) to PT-PT (12)
-  $db->query("INSERT INTO card_translations SELECT card_id, 12 AS language_id, name, multiverseid FROM `card_translations` WHERE language_id = 6");
+  $db->query("REPLACE INTO card_translations SELECT card_id, 12 AS language_id, name, multiverseid FROM `card_translations` WHERE language_id = 6");
 }
 #*/
 
@@ -106,7 +106,14 @@ if($argv == "cardtranslations") {
       if(isset($card->foreignNames) && count($card->foreignNames)) {
         foreach($card->foreignNames as $translation) {
           if(isset($languages[$translation->language])) {
-            $db->query("REPLACE INTO card_translations SET card_id='".$card->id."', language_id='".$languages[$translation->language]."', name='".$db->real_escape_string($translation->name)."', multiverseid='".$db->real_escape_string($translation->multiverseid)."'");
+            $query = "REPLACE INTO card_translations 
+                      SET card_id='".$card->id."', 
+                      language_id='".$languages[$translation->language]."', 
+                      name='".$db->real_escape_string($translation->name)."'";
+            if(isset($translation->multiverseid)) {
+              $query .= ", multiverseid='".$db->real_escape_string($translation->multiverseid)."'";
+            }
+            $db->query($query);
           }
         }
       }
@@ -114,7 +121,7 @@ if($argv == "cardtranslations") {
   }
 
   // mirror PT-BR (6) to PT-PT (12)
-  $db->query("INSERT INTO card_translations SELECT card_id, 12 as language_id, name, multiverseid FROM `card_translations` WHERE language_id = 6");
+  $db->query("REPLACE INTO card_translations SELECT card_id, 12 as language_id, name, multiverseid FROM `card_translations` WHERE language_id = 6");
 }
 #*/
 
