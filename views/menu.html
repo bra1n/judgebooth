@@ -27,7 +27,7 @@
         <!-- Languages -->
         <label class="item item-input item-select">
           <span class="input-label" translate>menu.language</span>
-          <select ng-model="filter.language" ng-change="updateCount()"
+          <select data-tap-disabled="true" ng-model="filter.language" ng-change="updateCount()"
               ng-options="language.id as language.name for language in languages | filter:languageFilter">
             <!--<option ng-repeat="language in languages" ng-if="languageCounts[language.id]"-->
           </select>
