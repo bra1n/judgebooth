@@ -193,7 +193,7 @@ Development
 
 If you want to contribute to the source code, feel free to fork the project and run your own version.
 
-To get started, you need PHP and a MySQL database with the structure from backend/structure.sql.
+To get started, you need PHP (wiht Curl support) and a MySQL database with the structure from backend/structure.sql.
 Once that is in place, adjust the database configuration in backend/config.php and import the existing booth questions
 via backend/import.php script from the command line. Example command: `php import.php sets`
 You should import the data in this order: sets, cards, tokens, questions, translations
@@ -217,8 +217,8 @@ the `index.html` to reflect the current path, for example: `<base href="/booth/"
 **Using the admin interface**
 
 In order to be able to use the admin interface, you need to generate OAuth 2.0 credentials for the Google APIs.
-This process is outlined [here](https://developers.google.com/identity/protocols/OAuth2).
-Once you have your redirect URL, ClientID and ClientSecret, enter these values into your `backend/config.php` file.
+This process is outlined [here](https://developers.google.com/identity/protocols/OAuth2). Make sure that the redirect URL points to your online project URL. Once you have your redirect URL, ClientID and ClientSecret, enter these values into your `backend/config.php` file.
+After that, you only need to add a user to the `user` table with a Google Mail account and the role `admin`. `user.languages` can be left empty for admins.
 
 License and Copyright
 ---------------------
