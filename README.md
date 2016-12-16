@@ -193,7 +193,7 @@ Development
 
 If you want to contribute to the source code, feel free to fork the project and run your own version.
 
-To get started, you need PHP and a MySQL database with the structure and data from `backend/judgebooth.sql.gz`.
+To get started, you need PHP (with Curl support) and a MySQL database with the structure and data from `backend/judgebooth.sql.gz`.
 Once that is in place, adjust the database configuration in backend/config.php and update the existing booth data
 via backend/import.php script from the command line. Example command: `php import.php sets`
 You should update the data in this order: sets, cards, tokens, translations
@@ -218,10 +218,8 @@ the `index.html` to reflect the current path, for example: `<base href="/booth/"
 **Using the admin interface**
 
 In order to be able to use the admin interface, you need to generate OAuth 2.0 credentials for the Google APIs.
-This process is outlined [here](https://developers.google.com/identity/protocols/OAuth2).
-Once you have your redirect URL, ClientID and ClientSecret, enter these values into your `backend/config.php` file.
-In the database, you will find a single dummy admin user in the `user` table, which should be updated to use your own
- Google Email address and name.
+This process is outlined [here](https://developers.google.com/identity/protocols/OAuth2). Make sure that the redirect URL points to your online project URL. Once you have your redirect URL, ClientID and ClientSecret, enter these values into your `backend/config.php` file.
+After that, you only need to add a user to the `user` table with a Google Mail account and the role `admin`. `user.languages` can be left empty for admins.
 
 License and Copyright
 ---------------------
