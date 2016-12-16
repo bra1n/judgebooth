@@ -193,10 +193,11 @@ Development
 
 If you want to contribute to the source code, feel free to fork the project and run your own version.
 
-To get started, you need PHP and a MySQL database with the structure from backend/structure.sql.
-Once that is in place, adjust the database configuration in backend/config.php and import the existing booth questions
+To get started, you need PHP and a MySQL database with the structure and data from `backend/judgebooth.sql.gz`.
+Once that is in place, adjust the database configuration in backend/config.php and update the existing booth data
 via backend/import.php script from the command line. Example command: `php import.php sets`
-You should import the data in this order: sets, cards, tokens, questions, translations
+You should update the data in this order: sets, cards, tokens, translations
+With this data, there should already be a single question in several different languages in your own booth visible.
 
 The set icon list and the "Modern" / "Standard" filters depend on the content of the `sets` database table. Each set
  there has a flag for `modern`, `standard` and `regular`. These flags need to be manually set in the database and will
@@ -219,6 +220,8 @@ the `index.html` to reflect the current path, for example: `<base href="/booth/"
 In order to be able to use the admin interface, you need to generate OAuth 2.0 credentials for the Google APIs.
 This process is outlined [here](https://developers.google.com/identity/protocols/OAuth2).
 Once you have your redirect URL, ClientID and ClientSecret, enter these values into your `backend/config.php` file.
+In the database, you will find a single dummy admin user in the `user` table, which should be updated to use your own
+ Google Email address and name.
 
 License and Copyright
 ---------------------

@@ -58,8 +58,10 @@ controllers.controller 'SideCtrl', [
     # calculate number of resulting questions and selected sets
     $scope.updateCount = ->
       questionsAPI.filterQuestions($scope.filter, no).then (questions) -> $scope.filteredQuestions = questions
-      $scope.setCount = Object.keys($scope.setCounts[$scope.filter.language]).length
-      $scope.setCount-- for set in $scope.filter.sets when $scope.setCounts[$scope.filter.language][set]
+      $scope.setCount = 0
+      if $scope.setCounts[$scope.filter.language]
+        $scope.setCount = Object.keys($scope.setCounts[$scope.filter.language]).length
+        $scope.setCount-- for set in $scope.filter.sets when $scope.setCounts[$scope.filter.language][set]
 
     # show the questions
     $scope.showQuestions = ->
@@ -104,7 +106,7 @@ controllers.controller 'HomeCtrl', [
     $scope.sets = []
     $scope.languages = []
     $scope.authors = []
-    $scope.questions = []
+    $scope.questions = null
     $scope.filtered = []
     $scope.$on "$ionicView.enter", ->
       questionsAPI.questions().then (response) ->

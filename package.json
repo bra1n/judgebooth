@@ -19,7 +19,7 @@
     "gulp-uglify": "*",
     "gulp-util": "*",
     "gulp-wrap": "*",
-    "gulp.spritesmith": "^3.6.0",
-    "node-sass": "^3.4.2"
+    "gulp.spritesmith": "*",
+    "node-sass": "*"
   }
 }
