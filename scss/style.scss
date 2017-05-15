@@ -321,6 +321,12 @@ div.cards {
 }
 
 div.question, div.answer {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-touch-callout: initial;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
   b {
     font-family: $headings-font-family;
     font-size: 110%;

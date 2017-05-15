@@ -10129,9 +10129,16 @@ div.cards {
       -webkit-transform: rotateY(0deg) scale(1);
       transform: rotateY(0deg) scale(1); }
 
-div.question b, div.answer b {
-  font-family: "Beleren Bold", "Roboto", "Segoe UI", sans-serif;
-  font-size: 110%; }
+div.question, div.answer {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: initial;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text; }
+  div.question b, div.answer b {
+    font-family: "Beleren Bold", "Roboto", "Segoe UI", sans-serif;
+    font-size: 110%; }
 
 /* Admin */
 /* Questions */

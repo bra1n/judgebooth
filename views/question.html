@@ -38,7 +38,7 @@
       </div>
       <div ng-show="!question.metadata.live" class="positive text-center padding" translate>question.not_live</div>
       <div ng-show="question.showWarning && question.metadata.outdated" class="positive text-center padding" translate>question.outdated</div>
-      <div class="question item tabs-icon-right item-text-wrap" ng-bind-html="question.question"></div>
+      <div class="question item tabs-icon-right item-text-wrap" data-tap-disabled="true" ng-bind-html="question.question"></div>
       <div ng-show="answer" class="answer positive item item-text-wrap ng-hide" ng-bind-html="question.answer"></div>
       <div class="item tabs item-divider text-center">
         <a class="tab-item" ui-sref="app.admin.question({id:question.metadata.id})"
