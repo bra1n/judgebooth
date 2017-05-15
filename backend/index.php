@@ -239,7 +239,8 @@ function getAdminQuestions($db, $page) {
 function getAdminQuestion($db, $id) {
   $user = auth($db);
   if(isset($user['role']) && in_array($user['role'],array("admin", "editor", "translator"))){
-    $query = "SELECT q.*, qt.question, qt.answer, qt.changedate,
+    // get question details
+    $query = "SELECT q.*,
        GROUP_CONCAT(DISTINCT c.id,':',c.name ORDER BY sort ASC SEPARATOR '|') cards,
        GROUP_CONCAT(DISTINCT qt.language_id SEPARATOR '|') languages
        FROM questions q
@@ -260,6 +261,15 @@ function getAdminQuestion($db, $id) {
       $question['cards'][] = array("id"=>intval($card[0]),"name"=>$card[1]);
     }
     $result->free();
+
+    // get english question text
+    $query = "SELECT qt.question, qt.answer, qt.changedate
+           FROM question_translations qt
+           WHERE qt.question_id = '".$db->real_escape_string($id)."' AND qt.language_id = 1";
+    $result = $db->query($query) or die($db->error);
+    $question = array_merge($question, $result->fetch_assoc());
+    $result->free();
+
     return $question;
   } else {
     header('HTTP/1.0 401 Unauthorized');
@@ -268,7 +278,7 @@ function getAdminQuestion($db, $id) {
 }
 
 function getAdminSuggest($db, $name) {
-  $query = "SELECT id, name FROM `cards`
+  $query = "SELECT id, name, full_name FROM `cards`
      WHERE name LIKE '".$db->real_escape_string($name)."%'
      ORDER BY name ASC LIMIT 10";
   $result = $db->query($query) or die($db->error);

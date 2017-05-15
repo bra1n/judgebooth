@@ -130,7 +130,7 @@ controllers.controller 'QuestionCtrl', [
         $scope.question = question
         for card in question.cards
           card.src = gatherer + 'name=' + card.name
-          card.src = gatherer + 'name=' + card.full_name if card.layout is "split"
+          card.src = gatherer + 'name=' + card.full_name if card.layout in ["split","aftermath"]
           card.src = gatherer + 'multiverseid=' + card.multiverseid if card.multiverseid
           card.src = card.url if card.url
           card.manacost = (card.manacost or "")

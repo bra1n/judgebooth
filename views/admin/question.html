@@ -77,11 +77,12 @@
             <input required="required" type="hidden" ng-model="card.id">
           </div>
           <div class="item preview item-divider" ng-show="card.preview && card.id">
-            <img ng-src="http://gatherer.wizards.com/Handlers/Image.ashx?type=card&name={{card.suggestestions[0].name || card.name}}" alt="">
+            <img ng-src="http://gatherer.wizards.com/Handlers/Image.ashx?type=card&name={{card.suggestions[0].name || card.name}}" alt="">
           </div>
           <div ng-repeat-end class="suggestion item item-divider" ng-click="select(card, suggestion)"
                ng-repeat="suggestion in card.suggestions">
             {{suggestion.name}}
+            <span ng-if="suggestion.full_name">({{suggestion.full_name}})</span>
           </div>
           <label class="item item-button-right">
             Add Card

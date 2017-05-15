@@ -48,6 +48,7 @@
           <div ng-repeat-end class="suggestion item item-divider" ng-click="select(card, suggestion)"
                ng-repeat="suggestion in card.suggestions">
             {{suggestion.name}}
+            <span ng-if="suggestion.full_name">({{suggestion.full_name}})</span>
           </div>
           <label class="item item-button-right">
             Add Card
