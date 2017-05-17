@@ -1,8 +1,8 @@
 controllers = angular.module "judgebooth.controllers", []
 
 controllers.controller 'SideCtrl', [
-  "$scope", "questionsAPI", "$ionicScrollDelegate", "$location"
-  ($scope, questionsAPI, $ionicScrollDelegate, $location) ->
+  "$scope", "questionsAPI", "$ionicScrollDelegate", "$location", "$ionicSideMenuDelegate"
+  ($scope, questionsAPI, $ionicScrollDelegate, $location, $ionicSideMenuDelegate) ->
     # get data / basic vars
     $scope.filter = questionsAPI.filter()
     $scope.languages = questionsAPI.languages()
@@ -68,6 +68,11 @@ controllers.controller 'SideCtrl', [
       return unless $scope.filteredQuestions.length
       questionsAPI.filter $scope.filter
       $scope.next()
+
+    # save filter when sidebar is closed
+    $scope.$watch (() => $ionicSideMenuDelegate.isOpenLeft()), (isOpen) =>
+      if !isOpen and $scope.filteredQuestions.length
+        questionsAPI.filter $scope.filter
 
     # auth handling
     $scope.tab = "filter"
