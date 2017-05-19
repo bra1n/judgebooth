@@ -247,6 +247,13 @@ div.cards {
       -o-transform: rotate(90deg);
       transform: rotate(90deg);
     }
+    &.aftermath.show-scan {
+      -webkit-transform: rotate(-90deg);
+      -moz-transform: rotate(-90deg);
+      -ms-transform: rotate(-90deg);
+      -o-transform: rotate(-90deg);
+      transform: rotate(-90deg);
+    }
     div.oracle, .scan {
       position: absolute;
       -webkit-backface-visibility: hidden;

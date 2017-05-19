@@ -10,7 +10,8 @@
     <div class="cards row">
       <div class="col col-bottom" ng-repeat="card in question.cards">
         <h4>{{::card.name}}</h4>
-        <div class="card-container" ng-class="{'show-scan':card.scan, 'split':card.layout == 'split'}" ng-click="card.scan = !card.scan && online">
+        <div class="card-container" ng-click="card.scan = !card.scan && online"
+             ng-class="{'show-scan':card.scan, split:card.layout == 'split', aftermath:card.layout == 'aftermath'}" >
           <img ng-src="{{::card.src}}" ng-if="online" ng-load="card.scan = true" class="scan">
           <div class="oracle">
             <span class="title">

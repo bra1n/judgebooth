@@ -138,6 +138,9 @@ controllers.controller 'QuestionCtrl', [
           card.src = gatherer + 'name=' + card.full_name if card.layout in ["split","aftermath"]
           card.src = gatherer + 'multiverseid=' + card.multiverseid if card.multiverseid
           card.src = card.url if card.url
+          # aftermath layout only for the second half of the card
+          if card.layout is 'aftermath' and card.name_en is card.full_name.substr(0, card.name_en.length)
+            card.layout = 'normal'
           card.manacost = (card.manacost or "")
           .replace /\{([cwubrgx0-9]+)\}/ig, (a,b) -> "<i class='mtg mana-#{b.toLowerCase()}'></i>"
           .replace /\{([2wubrg])\/([wubrg])\}/ig, (a,b,c) -> "<i class='mtg hybrid-#{(b+c).toLowerCase()}'></i>"
