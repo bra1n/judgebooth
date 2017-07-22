@@ -428,7 +428,9 @@ function getAdminTranslation($db, $language, $id) {
   if(isset($user['role']) && in_array($user['role'],array("admin", "editor", "translator"))
      && (!count($user['languages']) || in_array($language,$user['languages']))) {
     $query = "SELECT q.*, qt.*, qt2.question question_translated, qt2.answer answer_translated,
-       qt2.changedate changedate_translated, GROUP_CONCAT(IFNULL(ct.name, c.name) ORDER BY sort ASC SEPARATOR '|') cards
+       qt2.changedate changedate_translated,
+       GROUP_CONCAT(IFNULL(ct.name, c.name) ORDER BY sort ASC SEPARATOR '|') cards,
+       GROUP_CONCAT(IFNULL(ct.multiverseid, 0) ORDER BY sort ASC SEPARATOR '|') cardids
        FROM questions q
        LEFT JOIN question_cards qc ON qc.question_id = q.id
        LEFT JOIN question_translations qt ON qt.question_id = q.id
@@ -446,6 +448,7 @@ function getAdminTranslation($db, $language, $id) {
       $question['id'] = intval($question['id']);
       $question['live'] = !!$question['live'];
       if(isset($question['cards'])) $question['cards'] = explode("|", $question['cards']);
+      if(isset($question['cardids'])) $question['cardids'] = explode("|", $question['cardids']);
     }
     $result->free();
     return $question;

@@ -45,7 +45,8 @@
             {{card}}
           </div>
           <div ng-repeat-end ng-show="showCard[index]" class="item stable-bg">
-            <img ng-src="http://gatherer.wizards.com/Handlers/Image.ashx?type=card&name={{card}}" alt="">
+            <img ng-if="translation.cardids[index]" ng-src="http://gatherer.wizards.com/Handlers/Image.ashx?type=card&multiverseid={{translation.cardids[index]}}" alt="">
+            <img ng-if="!translation.cardids[index]" ng-src="http://gatherer.wizards.com/Handlers/Image.ashx?type=card&name={{card}}" alt="">
           </div>
         </div>
       </div>
