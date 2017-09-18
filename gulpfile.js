@@ -49,7 +49,7 @@ gulp.task('sass', function(done) {
 gulp.task('coffee', function() {
   gulp.src(paths.coffee)
     .pipe(coffee({bare: true}).on('error', gutil.log))
-    //.pipe(uglify())
+    .pipe(uglify())
     .pipe(concat('app.min.js'))
     .pipe(gulp.dest('./js/'))
 });

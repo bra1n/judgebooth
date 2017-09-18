@@ -76,7 +76,7 @@ boothApp.config [
 boothApp.config [
   '$translateProvider', ($translateProvider) ->
     # detect language
-    availableLanguages = ["en", "br", "ru", "cn", "tw", "fr", "pt", "es", "jp"]
+    availableLanguages = ["en", "br", "ru", "cn", "tw", "fr", "pt", "es", "jp", "de"]
     navigatorLanguage = (navigator.language or navigator.userLanguage)
     navigatorLanguage = navigatorLanguage.replace(/^(zh|pt)_/i,'').toLowerCase().substr(0,2)
     language = "en"

@@ -9,17 +9,17 @@
     "url": "https://github.com/bra1n/judgebooth.git"
   },
   "dependencies": {
-    "bower": "*",
+    "bower": "^1.8.2",
     "gulp": "*",
     "gulp-coffee": "*",
     "gulp-concat": "*",
     "gulp-minify-css": "*",
     "gulp-rename": "*",
     "gulp-sass": "*",
-    "gulp-uglify": "*",
+    "gulp-uglify": "^3.0.0",
     "gulp-util": "*",
     "gulp-wrap": "*",
-    "gulp.spritesmith": "*",
-    "node-sass": "*"
+    "gulp.spritesmith": "^6.5.1",
+    "node-sass": "^4.5.3"
   }
 }
