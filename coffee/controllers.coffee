@@ -5,6 +5,7 @@ controllers.controller 'SideCtrl', [
   ($scope, questionsAPI, $ionicScrollDelegate, $location, $ionicSideMenuDelegate) ->
     # get data / basic vars
     $scope.filter = questionsAPI.filter()
+    $scope.filteredQuestions = []
     $scope.languages = questionsAPI.languages()
     $scope.languageCounts = {}
     $scope.offlineMode = window.offlineMode

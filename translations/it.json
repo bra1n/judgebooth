@@ -1,0 +1,49 @@
+{
+  "common": {
+    "title": "Magic Judge Booth",
+    "loading": "Loading"
+  },
+  "menu": {
+    "title_filter": "Filtro Domande",
+    "title_admin": "Gestione Domande",
+    "language": "Lingua",
+    "sets": "Set",
+    "sets_selected": "{{number}} selezionata/e",
+    "sets_all": "Tutti",
+    "sets_modern": "Modern",
+    "sets_standard": "Standard",
+    "sets_none": "Nessuno",
+    "difficulty": "Difficoltà",
+    "select": "Scegli {{number}} Domanda/e",
+    "login": "Login",
+    "logout": "Logout",
+    "logged_in": "Connesso come: {{user}}",
+    "login_error": "Errore Login: {{error}}",
+    "offline_mode": "Modalità Offline",
+    "go_offline": "Vai Offline",
+    "go_online": "Vai Online",
+    "source": "Codice Sorgente",
+    "button_filter": "Filtra",
+    "button_admin": "Admin",
+    "admin_new": "Aggiungi Domanda",
+    "admin_all": "Tutte le Domande",
+    "admin_translations": "Traduzioni",
+    "admin_users": "Utenti"
+  },
+  "home": {
+    "title": "Benvenuti nel Judge Booth!",
+    "description": "Il Judge Booth è stato creato per permettere ai giocatori di interagire con gli arbitri come un gruppo di individui che condivide una passione, con cui è divertente passare del tempo insieme e ai quali affidarsi, invece di vederli solo come persone in posizioni di autorità. Il Booth vuole creare un collegamento fra giocatori e arbitri.",
+    "statistiche": "Ci sono {{questions}} domande da {{sets}} set e {{languages}} lingue, scritte da più di {{authors}} autori. Al momento hai selezionato {{filtered}} di queste domande.",
+    "start": "Mostra le Domande"
+  },
+  "question": {
+    "title": "Domanda {{number}}",
+    "title_by": "creata da {{author}}",
+    "show_answer": "Mostra Risposta",
+    "hide_answer": "Nascondi Risposta",
+    "edit_question": "Modifica Domanda",
+    "edit_translation": "Modifica Traduzione",
+    "not_live": "Questa domanda non è live!",
+    "outdated": "Questa domanda può essere sbagliata o non aggiornata!"
+  }
+}
