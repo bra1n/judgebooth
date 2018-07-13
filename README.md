@@ -10,7 +10,7 @@ than 5 different languages.
 It is available online under [booth.magicjudges.org](http://booth.magicjudges.org) to everyone and supports all internet-ready devices
 and screen sizes. If you discover a bug, please [open a ticket](https://github.com/bra1n/judgebooth/issues)!
 
-![Judge Booth](http://booth.mnt.me/docs/booth1.jpg)
+![Judge Booth](./docs/booth1.jpg)
 
 Usage
 -----
@@ -22,7 +22,7 @@ title bar, or by swiping the screen from left to right.
 
 ### Sidebar options
 
-![Sidebar](http://booth.mnt.me/docs/booth7.jpg)
+![Sidebar](./docs/booth7.jpg)
 
 In the sidebar menu you'll finde several options to customize the list of questions.
 
@@ -39,7 +39,7 @@ booth.
 
 ### Questions
 
-![A Question](http://booth.mnt.me/docs/booth6.jpg)
+![A Question](./docs/booth6.jpg)
 
 Once you're on the question page, you'll see a number of cards that are relevant for this question. If you want to see
 the oracle text for any of the cards, just click on the card image and it will flip to the "oracle text" side.
@@ -94,7 +94,7 @@ supported roles are:
 
 ### Guest: Add New Questions
 
-![Add Questions](http://booth.mnt.me/docs/booth2.jpg)
+![Add Questions](./docs/booth2.jpg)
 
 New questions can be added to the system easily. Each newly added question will be *disabled* at first and needs to be
 manually approved by an *Editor* or *Admin* user. Once the question is set `live`, it will be visible on the booth. The
@@ -121,7 +121,7 @@ Once you're happy with your question, hit the *Submit* button and wait for the c
 
 ### Translator: Add and Update Translations
 
-![Edit Translations](http://booth.mnt.me/docs/booth4.jpg)
+![Edit Translations](./docs/booth4.jpg)
 
 The translation interface shows you at a quick glance what the current translation status for each question is. Each entry
 has the question number, followed by the list of localized card names (where available). On the right hand side, you'll
@@ -144,7 +144,7 @@ have an image, unfortunately this is a problem with Gatherer and you'll have to 
 
 ### Editor: Verify, Edit and Delete Questions
 
-![Edit Questions](http://booth.mnt.me/docs/booth3.jpg)
+![Edit Questions](./docs/booth3.jpg)
 
 As an editor, it is your job to take care of the questions that get submitted by the other judges, fix any logical and
 textual mistakes in the English questions and keep an eye on the translation status for each language. Since the English
@@ -171,7 +171,7 @@ yourself if you only make a minor edit!
 
 ### Admin: Add, Edit and Delete Users
 
-![Manage Users](http://booth.mnt.me/docs/booth5.jpg)
+![Manage Users](./docs/booth5.jpg)
 
 Administrators are able to manage the users that have access to the backend through the list on this screen.
 For each user you will see (and can edit) their *full name*, email address, *role* and assigned *languages*, if they are a
