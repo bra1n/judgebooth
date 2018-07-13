@@ -33,7 +33,7 @@
   "home": {
     "title": "Benvenuti nel Judge Booth!",
     "description": "Il Judge Booth è stato creato per permettere ai giocatori di interagire con gli arbitri come un gruppo di individui che condivide una passione, con cui è divertente passare del tempo insieme e ai quali affidarsi, invece di vederli solo come persone in posizioni di autorità. Il Booth vuole creare un collegamento fra giocatori e arbitri.",
-    "statistiche": "Ci sono {{questions}} domande da {{sets}} set e {{languages}} lingue, scritte da più di {{authors}} autori. Al momento hai selezionato {{filtered}} di queste domande.",
+    "statistics": "Ci sono {{questions}} domande da {{sets}} set e {{languages}} lingue, scritte da più di {{authors}} autori. Al momento hai selezionato {{filtered}} di queste domande.",
     "start": "Mostra le Domande"
   },
   "question": {
