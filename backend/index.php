@@ -1,5 +1,10 @@
 <?php
 require("config.php");
+define('MONTH', 60*60*24*30);
+// server should keep session data for AT LEAST 1 month
+ini_set('session.gc_maxlifetime', MONTH);
+// each client should remember their session id for EXACTLY 1 month
+session_set_cookie_params(MONTH);
 session_start();
 $db = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 $db->set_charset("utf8");
