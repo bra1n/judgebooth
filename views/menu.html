@@ -58,7 +58,8 @@
                     ng-click="toggleSet(set.id)" ng-class="{'active':filter.sets.indexOf(set.id)<0}"
                     title="{{::set.name}}">
               <!--<i class="icon-sets icon-sets-{{::set.code}}" title="{{::set.name}}"></i>-->
-              <i class="mtg e-{{::set.code.toLowerCase()}}" ng-class="{'rare':filter.sets.indexOf(set.id)<0}" title="{{::set.name}}"></i>
+              <!--<i class="mtg e-{{::set.code.toLowerCase()}}" ng-class="{'rare':filter.sets.indexOf(set.id)<0}" title="{{::set.name}}"></i>-->
+			  <i class="ss ss-{{::set.code.toLowerCase()}} ss-grad ss-3x" ng-class="{'ss-rare':filter.sets.indexOf(set.id)<0}" title="{{::set.name}}"></i>
             </button>
           </div>
         </div>
@@ -67,16 +68,16 @@
           <span translate>menu.difficulty</span>
           <div class="button-bar">
             <button type="button" class="button button-small" ng-click="toggleDifficulty(0)"
-                    ng-class="{active:filter.difficulty.indexOf(0)<0}">
+                    ng-class="{'button-energized':filter.difficulty.indexOf(0)<0}">
               <i class="icon ion-android-star"></i>
             </button>
             <button type="button" class="button button-small" ng-click="toggleDifficulty(1)"
-                    ng-class="{active:filter.difficulty.indexOf(1)<0}">
+                    ng-class="{'button-energized':filter.difficulty.indexOf(1)<0}">
               <i class="icon ion-android-star"></i>
               <i class="icon ion-android-star"></i>
             </button>
             <button type="button" class="button button-small" ng-click="toggleDifficulty(2)"
-                    ng-class="{active:filter.difficulty.indexOf(2)<0}">
+                    ng-class="{'button-energized':filter.difficulty.indexOf(2)<0}">
               <i class="icon ion-android-star"></i>
               <i class="icon ion-android-star"></i>
               <i class="icon ion-android-star"></i>

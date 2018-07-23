@@ -22,11 +22,12 @@
 $light:                           #fff !default;
 $stable:                          #eee;
 $button-stable-active-bg:         #ccc;
+$button-energized-text:           #A58E4A;
 $item-divider-bg:                 #eee;
 $positive:                        #e52628;
 $calm:                            #43cee6 !default;
 $balanced:                        #84e200;
-$energized:                       #f0b840 !default;
+$energized:                       #ccc !default;
 $assertive:                       #ef4e3a !default;
 $royal:                           #8a6de9 !default;
 $dark:                            #313131;
@@ -170,7 +171,7 @@ div.scroll { min-height: 90%; }
       line-height: 16px;
       i {
         vertical-align: middle;
-        font-size: 1.7em;
+        font-size: 2.7em;
         white-space: nowrap;
         &:before, &:after {
           -webkit-transition: all 0.5s;
@@ -196,6 +197,7 @@ div.scroll { min-height: 90%; }
       -ms-flex-align: center;
       -webkit-align-items: center;
       -moz-align-items: center;
+      -webkit-text-stroke: .05em #333; 
       align-items: center;
       width: 165px;
       .button { padding: 0; }
@@ -203,7 +205,9 @@ div.scroll { min-height: 90%; }
     }
   }
 
-  .button-bar .button-small { padding: 0; }
+  .button-bar .button-small { 
+	padding: 0; 
+  }
 }
 ion-side-menu .tabs-striped .tabs {
   z-index: 20;

@@ -38,16 +38,18 @@
         <tr ng-repeat-end ng-class-odd="'odd'">
           <td colspan="3">
             <div class="button-bar">
-              <a class="button button-outline button-small language"
+              <a class="button button-small language"
                  ui-sref="app.admin.translation({id:question.id, language:language.id})"
                  ng-if="::language.code != 'en'"
                  ng-disabled="::user.languages.length && user.languages.indexOf(language.id)<0"
                  ng-class="::{
-                    'button-positive':question.languages.indexOf(language.id)>-1,
+					'button-stable': true,
+                    'button-balanced':question.languages.indexOf(language.id)>-1,
                     'button-dark':question.outdated.indexOf(language.id)>-1,
                   }"
                  ng-repeat="language in ::languages">
                 <span class="icon-languages icon-languages-{{::language.code}}"></span>
+				<i class = "icon {{question.languages.indexOf(language.id)<1 ? 'ion-plus-circled' : (question.outdated.indexOf(language.id)>-1 ? 'ion-alert-circled' : 'ion-checkmark-circled')}}"></i>
               </a>
             </div>
           </td>
