@@ -11,7 +11,7 @@ $argv = strtolower($_SERVER['argv'][1]);
 #/*------- card data --------
 // Sets
 if($argv == "sets") {
-  $sets = json_decode(file_get_contents("http://mtgjson.com/json/AllSetsArray.json"));
+  $sets = json_decode(file_get_contents("https://mtgjson.com/json/SetList.json"));
   echo "loaded ".count($sets)." sets\n";
   foreach($sets as $set) {
     $query = "name='".$db->real_escape_string($set->name)."',";
@@ -90,7 +90,7 @@ if($argv == "cardtranslations") {
   $result->free();
 
   foreach($sets as $set) {
-    echo "loaded ".count((array) $set->cards)." cards\n";
+    echo "loaded ".count((array) $set->cards)." cards from ".$set->name."\n";
     foreach($set->cards as $card) {
       $result = $db->query("SELECT id FROM cards WHERE name = '".$db->real_escape_string($card->name)."' LIMIT 1");
       while($row = $result->fetch_assoc()) {
@@ -99,20 +99,38 @@ if($argv == "cardtranslations") {
       $result->free();
       # multiverse id
       if(isset($card->multiverseid)) {
-	      $db->query("UPDATE cards SET multiverseid = '".$db->real_escape_string($card->multiverseid)."' WHERE id = '".$card->id."' LIMIT 1");
+	      if ($db->query("UPDATE cards SET multiverseid = '".$db->real_escape_string($card->multiverseid)."' WHERE id = '".$card->id."' and multiverseid < '".$db->real_escape_string($card->multiverseid)."'") === TRUE) {
+            if ($db->affected_rows) {
+			  echo "Record updated successfully for ".$db->real_escape_string($card->name) . " -> " .$db->real_escape_string($card->multiverseid)." (newer multiverseid)\n";
+			}
+          } else {
+            echo "Error updating record: " . $conn->error;
+          };
       }
 
       # translations
       if(isset($card->foreignNames) && count($card->foreignNames)) {
         foreach($card->foreignNames as $translation) {
-          if(isset($languages[$translation->language])) {
+	      if(isset($languages[$translation->language])) {
+			# Look for multiverseid
+			$act_multiverseid = 0;
+		    $result = $db->query("SELECT multiverseid FROM card_translations WHERE card_id='".$card->id."' and language_id='".$languages[$translation->language]."' LIMIT 1");
+            while($row = $result->fetch_assoc()) {
+              $act_multiverseid = $row['multiverseid'];
+            }
+            $result->free();
             $query = "REPLACE INTO card_translations 
                       SET card_id='".$card->id."', 
                       language_id='".$languages[$translation->language]."', 
                       name='".$db->real_escape_string($translation->name)."'";
-            if(isset($translation->multiverseid)) {
+            if(isset($translation->multiverseid) and ($act_multiverseid < $translation->multiverseid)) {
               $query .= ", multiverseid='".$db->real_escape_string($translation->multiverseid)."'";
-            }
+			  echo "Updating translation '".$db->real_escape_string($translation->name)."' from multiverseid=".$act_multiverseid." to ".$translation->multiverseid."\n";
+            } else {
+			  if ($act_multiverseid) {
+			    $query .= ", multiverseid='".$db->real_escape_string($act_multiverseid)."'";
+			  }
+			}
             $db->query($query);
           }
         }
