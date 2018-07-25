@@ -194,8 +194,10 @@ Development
 If you want to contribute to the source code, feel free to fork the project and run your own version.
 
 To get started, you need PHP (with Curl support) and a MySQL database with the structure and data from `backend/judgebooth.sql.gz`.
-Once that is in place, adjust the database configuration in backend/config.php and update the existing booth data
-via backend/import.php script from the command line. Example command: `php import.php sets`
+
+If you are familiar with Docker, just run `docker-compose up -d`. You have to adjust the database host configuration in `backend/config.php` with `judgebooth-mysql` and then go to [localhost:8080](http://localhost:8080).
+
+You can update the existing booth data via backend/import.php script from the command line. Example command: `php import.php sets`
 You should update the data in this order: sets, cards, tokens, translations
 With this data, there should already be a single question in several different languages in your own booth visible.
 
