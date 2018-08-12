@@ -1,0 +1,204 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot /?action=admin-question n. 58 with auth 1`] = `
+Object {
+  "answer": "0 Damage. Copy Enchantment can't copy anything that enters the battlefield at the same time as it does. Pandemonium does not have any ability, because of Humility and Opalescence.",
+  "author": "",
+  "cards": Array [
+    Object {
+      "id": 8122,
+      "name": "Copy Enchantment",
+    },
+    Object {
+      "id": 4202,
+      "name": "Replenish",
+    },
+    Object {
+      "id": 4187,
+      "name": "Opalescence",
+    },
+    Object {
+      "id": 3384,
+      "name": "Pandemonium",
+    },
+    Object {
+      "id": 2827,
+      "name": "Humility",
+    },
+  ],
+  "changedate": "2015-05-21 18:39:53",
+  "difficulty": "2",
+  "id": 58,
+  "languages": Array [
+    "1",
+    "2",
+    "4",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "11",
+  ],
+  "live": true,
+  "question": "With Pandemonium, Humility, Copy Enchantment, and Opalescence in the graveyard, I cast Replenish. What's the highest amount of damage that I could deal?",
+}
+`;
+
+exports[`snapshot /?action=admin-question n.58 without auth 1`] = `Array []`;
+
+exports[`snapshot /?action=admin-questions with auth 1`] = `
+Object {
+  "pages": 1,
+  "questions": Array [
+    Object {
+      "cards": Array [
+        "Copy Enchantment",
+        "Replenish",
+        "Opalescence",
+        "Pandemonium",
+        "Humility",
+      ],
+      "difficulty": 2,
+      "id": 58,
+      "languages": Array [
+        1,
+        2,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+      ],
+      "live": true,
+    },
+  ],
+}
+`;
+
+exports[`snapshot /?action=admin-questions without auth 1`] = `Array []`;
+
+exports[`snapshot /?action=admin-questions&page=2 1`] = `
+Object {
+  "pages": 1,
+  "questions": Array [],
+}
+`;
+
+exports[`snapshot /?action=admin-saveuser with auth 1`] = `"success"`;
+
+exports[`snapshot /?action=admin-saveuser without auth 1`] = `"unauthorized"`;
+
+exports[`snapshot /?action=admin-suggest with auth 1`] = `
+Array [
+  Object {
+    "full_name": null,
+    "id": 1454,
+    "name": "Black Carriage",
+  },
+  Object {
+    "full_name": null,
+    "id": 12613,
+    "name": "Black Cat",
+  },
+  Object {
+    "full_name": null,
+    "id": 18,
+    "name": "Black Knight",
+  },
+  Object {
+    "full_name": null,
+    "id": 19,
+    "name": "Black Lotus",
+  },
+  Object {
+    "full_name": null,
+    "id": 486,
+    "name": "Black Mana Battery",
+  },
+  Object {
+    "full_name": null,
+    "id": 4286,
+    "name": "Black Market",
+  },
+  Object {
+    "full_name": null,
+    "id": 14080,
+    "name": "Black Oak of Odunos",
+  },
+  Object {
+    "full_name": null,
+    "id": 9567,
+    "name": "Black Poplar Shaman",
+  },
+  Object {
+    "full_name": null,
+    "id": 1116,
+    "name": "Black Scarab",
+  },
+  Object {
+    "full_name": null,
+    "id": 9513,
+    "name": "Black Sun's Zenith",
+  },
+]
+`;
+
+exports[`snapshot /?action=admin-suggest without auth 1`] = `Array []`;
+
+exports[`snapshot /?action=admin-translations with auth 1`] = `
+Array [
+  Object {
+    "cards": Array [
+      "Copy Enchantment",
+      "Replenish",
+      "Opalescence",
+      "Pandemonium",
+      "Humility",
+    ],
+    "live": true,
+    "question_id": 58,
+    "status": "untranslated",
+  },
+]
+`;
+
+exports[`snapshot /?action=admin-translations without auth 1`] = `Array []`;
+
+exports[`snapshot /?action=admin-users with auth 1`] = `
+Array [
+  Object {
+    "email": "boothadmin@gmail.com",
+    "name": "Admin Istrator",
+    "role": "admin",
+  },
+  Object {
+    "email": "john.doe@gmail.com",
+    "languages": Array [
+      1,
+      2,
+    ],
+    "name": "John Doe",
+    "role": "editor",
+  },
+]
+`;
+
+exports[`snapshot /?action=admin-users without auth 1`] = `Array []`;
+
+exports[`snapshot /?action=auth with auth 1`] = `
+Object {
+  "email": "boothadmin@gmail.com",
+  "languages": Array [],
+  "name": "Admin Istrator",
+  "role": "admin",
+}
+`;
+
+exports[`snapshot /?action=auth without auth 1`] = `
+Object {
+  "error": "No account found",
+}
+`;

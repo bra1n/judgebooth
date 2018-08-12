@@ -8,6 +8,7 @@ services:
       image: mysql:5.7
       container_name: judgebooth-mysql
       working_dir: /application
+      command: --sql_mode=""
       volumes:
         - ./backend/judgebooth.sql.gz:/docker-entrypoint-initdb.d/dump.sql.gz
       environment:

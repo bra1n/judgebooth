@@ -4,6 +4,9 @@
   "name": "JudgeBooth",
   "version": "2.0.0",
   "description": "Interactive Judge Booth",
+  "scripts": {
+    "test": "jest"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/bra1n/judgebooth.git"
@@ -21,5 +24,14 @@
     "gulp-wrap": "^0.14.0",
     "gulp.spritesmith": "^6.9.0",
     "node-sass": "^4.9.2"
+  },
+  "devDependencies": {
+    "axios": "^0.18.0",
+    "axios-cookiejar-support": "^0.3.5",
+    "jest": "^23.4.1",
+    "tough-cookie": "^2.4.3"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }
