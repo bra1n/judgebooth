@@ -195,7 +195,7 @@ If you want to contribute to the source code, feel free to fork the project and 
 
 To get started, you need PHP (with Curl support) and a MySQL database with the structure and data from `backend/judgebooth.sql.gz`.
 
-If you are familiar with Docker, just run `docker-compose up -d`. You have to adjust the database host configuration in `backend/config.php` with `judgebooth-mysql` and then go to [localhost:8080](http://localhost:8080).
+If you are familiar with Docker, just run `docker-compose up -d` and then go to [localhost:8080](http://localhost:8080).
 
 You can update the existing booth data via backend/import.php script from the command line. Example command: `php import.php sets`
 You should update the data in this order: sets, cards, tokens, translations
@@ -211,6 +211,11 @@ When the database is ready, you need to install the Gulp Node modules (`npm inst
 Once everything has been built and the database is ready, point your local webserver to the project root folder. If
 you're using something other than Apache, make sure to set up a similar path rewrite like the one provided in the
 `.htaccess`.
+
+**Run tests**
+
+Currently, there are snapshot tests that check API responses. They are written in `javascript` with `jest`. To run tests `npm test` or, via docker, `docker-compose -f docker-compose.yml -f docker-compose.test.yml run tests`.
+
 
 **Running the project from a subfolder**
 

@@ -1,0 +1,20 @@
+# run with `docker-compose -f docker-compose.yml -f docker-compose.test.yml run tests`
+
+version: "3.1"
+services:
+    mysql:
+      volumes:
+        - ./backend/judgebooth.sql.gz:/docker-entrypoint-initdb.d/dump.sql.gz
+    tests:
+      image: node:9
+      volumes:
+        - .:/app
+      working_dir: /app
+      depends_on:
+        - mysql
+        - webserver
+      environment:
+        - DB_HOST=judgebooth-mysql
+        - DB_PORT=3306
+        - BACKEND_URL=http://judgebooth-webserver/backend
+      command: bash -c "npm install && npm test"

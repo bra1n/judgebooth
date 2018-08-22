@@ -8,6 +8,7 @@ services:
       image: mysql:5.7
       container_name: judgebooth-mysql
       working_dir: /application
+      command: --sql_mode=""
       volumes:
         - ./backend/judgebooth.sql.gz:/docker-entrypoint-initdb.d/dump.sql.gz
       environment:
@@ -46,4 +47,5 @@ services:
       volumes:
         - .:/application
         - ./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/7.2/fpm/conf.d/99-overrides.ini
-
+      environment:
+        - DB_HOST=judgebooth-mysql
