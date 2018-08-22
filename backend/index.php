@@ -284,6 +284,13 @@ function getAdminQuestion($db, $id) {
 }
 
 function getAdminSuggest($db, $name) {
+  $user = auth($db);
+
+  if(!isset($user['role']) || !in_array($user['role'], array("admin", "editor", "translator"))){
+    header('HTTP/1.0 401 Unauthorized');
+    return array();
+  }
+
   $query = "SELECT id, name, full_name FROM `cards`
      WHERE name LIKE '".$db->real_escape_string($name)."%'
      ORDER BY name ASC LIMIT 10";
