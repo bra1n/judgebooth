@@ -17,4 +17,4 @@ services:
         - DB_HOST=judgebooth-mysql
         - DB_PORT=3306
         - BACKEND_URL=http://judgebooth-webserver/backend
-      command: bash -c "npm test"
+      command: bash -c "npm install && npm test"

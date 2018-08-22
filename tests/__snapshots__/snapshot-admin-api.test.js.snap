@@ -1,5 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`snapshot /?action=admin-delete n.58 with auth 1`] = `"success"`;
+
+exports[`snapshot /?action=admin-delete n.58 without auth 1`] = `"unauthorized"`;
+
+exports[`snapshot /?action=admin-deleteuser with auth 1`] = `"success"`;
+
+exports[`snapshot /?action=admin-deleteuser without auth 1`] = `"unauthorized"`;
+
 exports[`snapshot /?action=admin-question n. 58 with auth 1`] = `
 Object {
   "answer": "0 Damage. Copy Enchantment can't copy anything that enters the battlefield at the same time as it does. Pandemonium does not have any ability, because of Humility and Opalescence.",
@@ -87,6 +95,82 @@ Object {
 }
 `;
 
+exports[`snapshot /?action=admin-save n. 58 with auth 1`] = `"success"`;
+
+exports[`snapshot /?action=admin-save n. 58 with auth 2`] = `
+Object {
+  "answer": "0 Damage. Copy Enchantment can't copy anything that enters the battlefield at the same time as it does. Pandemonium does not have any ability, because of Humility and Opalescence.",
+  "author": "",
+  "cards": Array [
+    Object {
+      "id": 8122,
+      "name": "Copy Enchantment",
+    },
+    Object {
+      "id": 4202,
+      "name": "Replenish",
+    },
+    Object {
+      "id": 4187,
+      "name": "Opalescence",
+    },
+    Object {
+      "id": 3384,
+      "name": "Pandemonium",
+    },
+    Object {
+      "id": 2827,
+      "name": "Humility",
+    },
+  ],
+  "changedate": null,
+  "difficulty": "2",
+  "id": 58,
+  "languages": Array [
+    "1",
+    "2",
+    "4",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "11",
+  ],
+  "live": false,
+  "question": "With Pandemonium, Humility, Copy Enchantment, and Opalescence in the graveyard, I cast Replenish. What's the highest amount of damage that I could deal?",
+}
+`;
+
+exports[`snapshot /?action=admin-save n.58 without auth 1`] = `"unauthorized"`;
+
+exports[`snapshot /?action=admin-save new question with auth 1`] = `"success"`;
+
+exports[`snapshot /?action=admin-save new question with auth 2`] = `
+Object {
+  "answer": "SBA loves",
+  "author": "John Doe",
+  "cards": Array [
+    Object {
+      "id": 146,
+      "name": "Lightning Bolt",
+    },
+    Object {
+      "id": 9496,
+      "name": "Tarmogoyf",
+    },
+  ],
+  "changedate": null,
+  "difficulty": "3",
+  "id": 59,
+  "languages": Array [
+    "1",
+  ],
+  "live": false,
+  "question": "This is a temporary question",
+}
+`;
+
 exports[`snapshot /?action=admin-saveuser with auth 1`] = `"success"`;
 
 exports[`snapshot /?action=admin-saveuser without auth 1`] = `"unauthorized"`;
@@ -147,6 +231,70 @@ Array [
 `;
 
 exports[`snapshot /?action=admin-suggest without auth 1`] = `Array []`;
+
+exports[`snapshot /?action=admin-translate n.58 lang=2 with auth 1`] = `"success"`;
+
+exports[`snapshot /?action=admin-translate n.58 lang=2 with auth 2`] = `
+Object {
+  "answer": "0 Damage. Copy Enchantment can't copy anything that enters the battlefield at the same time as it does. Pandemonium does not have any ability, because of Humility and Opalescence.",
+  "answer_translated": "The answer is changed",
+  "author": "",
+  "cardids": Array [
+    "111640",
+    "0",
+    "0",
+    "131326",
+    "0",
+  ],
+  "cards": Array [
+    "Verzauberungskopie",
+    "Replenish",
+    "Opalescence",
+    "Pandämonium",
+    "Humility",
+  ],
+  "changedate": null,
+  "changedate_translated": null,
+  "difficulty": 2,
+  "id": 58,
+  "language_id": 2,
+  "live": true,
+  "question": "With Pandemonium, Humility, Copy Enchantment, and Opalescence in the graveyard, I cast Replenish. What's the highest amount of damage that I could deal?",
+  "question_translated": "The question is changed",
+}
+`;
+
+exports[`snapshot /?action=admin-translation n.58 lang=2 with auth 1`] = `
+Object {
+  "answer": "0 Damage. Copy Enchantment can't copy anything that enters the battlefield at the same time as it does. Pandemonium does not have any ability, because of Humility and Opalescence.",
+  "answer_translated": "0 Schaden. Die Verzauberungskopie kann nichts kopieren, das gleichzeitig mit ihr das Schlachtfeld betritt. Pandämonium hat keine Fähigkeiten, da sie von Opalessenz und Humility betroffen ist.",
+  "author": "",
+  "cardids": Array [
+    "111640",
+    "0",
+    "0",
+    "131326",
+    "0",
+  ],
+  "cards": Array [
+    "Verzauberungskopie",
+    "Replenish",
+    "Opalescence",
+    "Pandämonium",
+    "Humility",
+  ],
+  "changedate": "2015-05-21 18:39:53",
+  "changedate_translated": "2015-06-04 12:07:33",
+  "difficulty": 2,
+  "id": 58,
+  "language_id": 2,
+  "live": true,
+  "question": "With Pandemonium, Humility, Copy Enchantment, and Opalescence in the graveyard, I cast Replenish. What's the highest amount of damage that I could deal?",
+  "question_translated": "Während ich Pandämonium, Humility, Verzauberungskopie und Opalessenz auf meinem Firedhof habe, wirke ich Replenish. Wie hoch ist die größte Anzahl an Schaden, die ich zufügen könnte?",
+}
+`;
+
+exports[`snapshot /?action=admin-translation n.58 lang=2 without auth 1`] = `Array []`;
 
 exports[`snapshot /?action=admin-translations with auth 1`] = `
 Array [
