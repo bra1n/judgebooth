@@ -54,10 +54,10 @@ Object {
     Object {
       "cards": Array [
         "Copy Enchantment",
-        "Replenish",
+        "Humility",
         "Opalescence",
         "Pandemonium",
-        "Humility",
+        "Replenish",
       ],
       "difficulty": 2,
       "id": 58,
@@ -173,15 +173,6 @@ Array [
     "email": "boothadmin@gmail.com",
     "name": "Admin Istrator",
     "role": "admin",
-  },
-  Object {
-    "email": "john.doe@gmail.com",
-    "languages": Array [
-      1,
-      2,
-    ],
-    "name": "John Doe",
-    "role": "editor",
   },
 ]
 `;

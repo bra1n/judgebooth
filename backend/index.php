@@ -204,7 +204,7 @@ function getAdminQuestions($db, $page) {
   if(isset($user['role']) && in_array($user['role'],array("admin", "editor", "translator"))){
     $start = intval($page) * $pagesize;
     $query = "SELECT SQL_CALC_FOUND_ROWS q.*,
-      GROUP_CONCAT(DISTINCT c.name ORDER BY sort ASC SEPARATOR '|') cards,
+      GROUP_CONCAT(DISTINCT c.name ORDER BY sort ASC, name ASC SEPARATOR '|') cards,
       GROUP_CONCAT(DISTINCT qt2.language_id) languages,
       GROUP_CONCAT(DISTINCT qt3.language_id) outdated
       FROM questions q
@@ -579,7 +579,7 @@ if(isset($_GET['action'])) {
       echo json_encode(deleteAdminUser($db, $_GET['email']));
       break;
     case "test-auth":
-      if(strpos($_SERVER['HTTP_HOST'], 'localhost') === 0) {
+      if(strpos($_SERVER['HTTP_HOST'], 'localhost') === 0 || strpos($_SERVER['HTTP_HOST'], 'judgebooth-webserver') === 0) {
         $_SESSION['auth'] = 'boothadmin@gmail.com';
       }
       break;

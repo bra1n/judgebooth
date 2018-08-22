@@ -1,22 +1,17 @@
-const axios = require('axios');
-const axiosCookieJarSupport = require('axios-cookiejar-support').default;
-const tough = require('tough-cookie');
-
-axiosCookieJarSupport(axios);
-const cookieJar = new tough.CookieJar();
+const instance = require('./utils/client');
+const dbUtils = require('./utils/db');
 
 const doLogin = () => instance.get('/?action=test-auth');
 const doLogout = () => instance.get('/?action=logout');
 
-const instance = axios.create({
-    baseURL: 'http://localhost:8080/backend',
-    timeout: 1000,
-    jar: cookieJar,
-    withCredentials: true,
+beforeEach(() => {
+    return Promise.all([
+        dbUtils.clearDatabase(),
+        doLogout(),
+    ]);
 });
 
 test.skip('snapshot /?action=auth without auth', async () => {
-    await doLogout();
     try {
         const response = await instance.get('/?action=auth');
         fail();
@@ -33,7 +28,6 @@ test('snapshot /?action=auth with auth', async () => {
 });
 
 test('snapshot /?action=admin-questions without auth', async () => {
-    await doLogout();
     try {
         const response = await instance.get('/?action=admin-questions');
         fail();
@@ -57,7 +51,6 @@ test('snapshot /?action=admin-questions&page=2', async () => {
 
 
 test('snapshot /?action=admin-question n.58 without auth', async () => {
-    await doLogout();
     try {
         const response = await instance.get('/?action=admin-question&id=58');
         fail();
@@ -74,7 +67,6 @@ test('snapshot /?action=admin-question n. 58 with auth', async () => {
 });
 
 test.skip('snapshot /?action=admin-suggest without auth', async () => {
-    await doLogout();
     try {
         const response = await instance.get('/?action=admin-suggest&name=Black');
         fail();
@@ -91,7 +83,6 @@ test('snapshot /?action=admin-suggest with auth', async () => {
 });
 
 test('snapshot /?action=admin-translations without auth', async () => {
-    await doLogout();
     try {
         const response = await instance.get('/?action=admin-translations&language=2');
         fail();
@@ -108,7 +99,6 @@ test('snapshot /?action=admin-translations with auth', async () => {
 });
 
 test('snapshot /?action=admin-users without auth', async () => {
-    await doLogout();
     try {
         const response = await instance.get('/?action=admin-users');
         fail();
@@ -125,9 +115,13 @@ test('snapshot /?action=admin-users with auth', async () => {
 });
 
 test('snapshot /?action=admin-saveuser without auth', async () => {
-    await doLogout();
     try {
-        const response = await instance.post('/?action=admin-saveuser');
+        const response = await instance.post('/?action=admin-saveuser', {
+            name: 'John Doe',
+            email: 'john.doe@gmail.com',
+            role: 'editor',
+            languages: ['1', '2'],
+        });
         fail();
     } catch (e) {
         expect(e.response.status).toBe(401);

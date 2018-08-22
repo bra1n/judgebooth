@@ -1,8 +1,4 @@
-const axios = require('axios');
-const instance = axios.create({
-    baseURL: 'http://localhost:8080/backend',
-    timeout: 1000,
-});
+const instance = require('./utils/client');
 
 test('snapshot /?action=sets', async () => {
     const response = await instance.get('/?action=sets');
