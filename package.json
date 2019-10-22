@@ -11,15 +11,15 @@
   "dependencies": {
     "bower": "^1.8.8",
     "gulp": "^4.0.0",
+    "gulp-clean-css": "*",
     "gulp-coffee": "^3.0.3",
     "gulp-concat": "*",
-    "gulp-clean-css": "*",
     "gulp-rename": "^1.3.0",
     "gulp-sass": "^4.0.2",
     "gulp-uglify": "^3.0.0",
     "gulp-util": "*",
     "gulp-wrap": "^0.14.0",
-    "gulp.spritesmith": "^6.10.1",
+    "gulp.spritesmith": "^6.11.0",
     "node-sass": "^4.11.0"
   }
 }
