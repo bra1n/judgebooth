@@ -20,6 +20,6 @@
     "gulp-util": "*",
     "gulp-wrap": "^0.14.0",
     "gulp.spritesmith": "^6.11.0",
-    "node-sass": "^4.11.0"
+    "node-sass": "^4.13.1"
   }
 }
