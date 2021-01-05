@@ -3,7 +3,7 @@ var gutil = require('gulp-util');
 var concat = require('gulp-concat');
 var sass = require('gulp-sass');
 var coffee = require('gulp-coffee');
-var minifyCss = require('gulp-minify-css');
+var cleanCSS = require('gulp-clean-css');
 var rename = require('gulp-rename');
 var wrap = require('gulp-wrap');
 var uglify = require('gulp-uglify');
@@ -32,7 +32,7 @@ gulp.task('sprites', function(done) {
   }));
   spriteData.img.pipe(gulp.dest('./images/'));
   spriteData.css
-    .pipe(minifyCss({keepSpecialComments: 0}))
+    .pipe(cleanCSS())
     .pipe(gulp.dest('./css/'))
     .on('end', done);
 });
@@ -40,7 +40,7 @@ gulp.task('sprites', function(done) {
 gulp.task('sass', function(done) {
   gulp.src(paths.sass)
     .pipe(sass({errLogToConsole: true}))
-    //.pipe(minifyCss({keepSpecialComments: 0}))
+    //.pipe(cleanCSS())
     .pipe(rename({extname: '.min.css'}))
     .pipe(gulp.dest('./css/'))
     .on('end', done);
